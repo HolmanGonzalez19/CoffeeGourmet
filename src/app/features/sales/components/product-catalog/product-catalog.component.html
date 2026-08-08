@@ -1,0 +1,59 @@
+<section class="product-catalog">
+  <div class="product-catalog__header">
+    <h1>Catálogo de Productos</h1>
+    <div class="product-catalog__categories">
+      <button mat-button class="product-catalog__category product-catalog__category--active">
+        Todos
+      </button>
+      <button mat-button class="product-catalog__category">
+        Panadería
+      </button>
+      <button mat-button class="product-catalog__category">
+        Pastelería
+      </button>
+      <button mat-button class="product-catalog__category">
+        Bebidas
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+  <div class="product-catalog__state">
+    Cargando productos...
+  </div>
+  }
+
+  @if (error) {
+  <div class="product-catalog__state product-catalog__state--error">
+    <span>No fue posible cargar los productos.</span>
+    <button mat-stroked-button type="button" (click)="retry()">
+      Reintentar
+    </button>
+  </div>
+  }
+
+  @if (!loading && !error && products.length === 0) {
+  <div class="product-catalog__state">
+    No hay productos disponibles.
+  </div>
+  }
+
+  @if (!loading && !error && products.length > 0) {
+  <div class="product-catalog__grid">
+    @for (product of products; track product.id) {
+    <article class="product-catalog__card" (click)="selectProduct(product)">
+      <div class="product-catalog__image">
+        <span>{{ product.nombre.charAt(0) }}</span>
+      </div>
+
+      <div class="product-catalog__information">
+        <small>{{ product.codigo }}</small>
+        <strong>{{ product.nombre }}</strong>
+        <small>{{ product.categoriaNombre }}</small>
+        <small>{{ product.tipoProducto }}</small>
+      </div>
+    </article>
+    }
+  </div>
+  }
+</section>

@@ -1,0 +1,36 @@
+@use './variables' as vars;
+
+html,
+body {
+  font-family: vars.$font-family-base;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: vars.$font-size-xl;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: vars.$font-size-lg;
+  font-weight: 700;
+}

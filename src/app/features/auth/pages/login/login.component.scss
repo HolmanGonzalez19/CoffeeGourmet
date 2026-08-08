@@ -1,0 +1,26 @@
+.login {
+  width: 100%;
+  min-height: 100%;
+
+  &__container {
+    width: min(100%, 420px);
+    margin: 0 auto;
+  }
+
+  &__header {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__error {
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Abrir caja</h2>
+
+<mat-dialog-content>
+  <p>
+    Ingrese el efectivo inicial disponible en la caja.
+  </p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Monto inicial</mat-label>
+
+    <input
+      matInput
+      type="number"
+      min="0"
+      step="100"
+      [(ngModel)]="montoInicial"
+      [disabled]="false">
+
+    <span matTextPrefix>$&nbsp;</span>
+  </mat-form-field>
+
+  @if (errorMessage) {
+    <div class="open-cash-register-dialog__error">
+      {{ errorMessage }}
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    type="button"
+    (click)="cancelar()">
+    Cancelar
+  </button>
+
+  <button
+    mat-flat-button
+    type="button"
+    (click)="confirmar()">
+    Abrir caja
+  </button>
+</mat-dialog-actions>

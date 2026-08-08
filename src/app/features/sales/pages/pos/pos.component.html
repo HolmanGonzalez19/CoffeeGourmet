@@ -1,0 +1,186 @@
+<div class="pos">
+  <aside class="pos__sidebar">
+    <div class="pos__brand">
+      <div class="pos__brand-logo">
+        <span>☕</span>
+      </div>
+      <div class="pos__brand-info">
+        <strong>CoffeeGourmet</strong>
+        <small>POS</small>
+      </div>
+    </div>
+
+    <nav class="pos__navigation">
+      <button
+        mat-button
+        type="button"
+        class="pos__navigation-item pos__navigation-item--active">
+        <span class="pos__navigation-icon">▦</span>
+        <span>Ventas</span>
+      </button>
+
+      <button
+        mat-button
+        type="button"
+        class="pos__navigation-item"
+        (click)="abrirAdministracion()">
+        <span class="pos__navigation-icon">⚙</span>
+        <span>Iniciar sesión</span>
+      </button>
+    </nav>
+
+    <div class="pos__sidebar-footer">
+      © CoffeeGourmet
+    </div>
+  </aside>
+
+  <main class="pos__content">
+    <header class="pos__header">
+      <div class="pos__connection">
+        <span class="pos__connection-dot"></span>
+        <span>Online</span>
+      </div>
+
+      <div class="pos__time">
+        10:42 AM
+      </div>
+
+      @if (operador) {
+        <div class="pos__operator-header">
+          {{ operador.nombre }}
+        </div>
+      }
+    </header>
+
+    <section class="pos__operation-bar">
+      <div class="pos__operation-info">
+        @if (cajaAbierta) {
+          <span class="pos__cash-status">
+            CAJA ABIERTA
+          </span>
+        }
+
+        @if (cajaId !== null) {
+          <span class="pos__separator">|</span>
+          <span>Caja #{{ cajaId }}</span>
+        }
+
+        @if (operador) {
+          <span class="pos__separator">|</span>
+          <span>
+            Operador:
+            <strong>{{ operador.nombre }}</strong>
+          </span>
+        }
+      </div>
+
+      @if (operador) {
+        <button
+          mat-button
+          type="button"
+          class="pos__finish-operator"
+          (click)="finalizarOperador()">
+          Finalizar operador
+        </button>
+      }
+    </section>
+
+    <section class="pos__workspace">
+      <section class="pos__catalog">
+  <div class="pos__search-row">
+    <div class="pos__search-box">
+      <span class="pos__search-icon">⌕</span>
+      <input
+        type="text"
+        placeholder="Buscar producto por nombre o código..."
+        aria-label="Buscar producto por nombre o código">
+    </div>
+    <button
+      mat-stroked-button
+      type="button"
+      class="pos__price-button"
+      (click)="consultarPrecio()">
+      <span>⌑</span>
+      Consultar precio
+    </button>
+  </div>
+
+  <app-product-catalog />
+</section>
+
+      <aside class="pos__sale-panel">
+        <header class="pos__sale-header">
+          <h2>Venta Actual</h2>
+          <span>{{ venta.items.length }} items</span>
+        </header>
+
+        @if (!ventaActiva) {
+          <div class="pos__empty-sale">
+            <div class="pos__empty-icon">+</div>
+            <strong>Carrito vacío</strong>
+            <p>
+              Selecciona productos del catálogo
+              para iniciar una venta
+            </p>
+          </div>
+        }
+
+        <footer class="pos__sale-summary">
+          <div class="pos__summary-row">
+            <span>Productos</span>
+            <strong>0</strong>
+          </div>
+
+          <div class="pos__summary-row">
+            <span>Subtotal</span>
+            <strong>$0</strong>
+          </div>
+
+          <div class="pos__summary-row">
+            <span>Descuento</span>
+            <strong>$0</strong>
+          </div>
+
+          <div class="pos__summary-total">
+            <span>TOTAL</span>
+            <strong>$0</strong>
+          </div>
+
+          <div class="pos__payment-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              disabled>
+              EFECTIVO
+            </button>
+
+            <button
+              mat-flat-button
+              type="button"
+              class="pos__charge-button"
+              [disabled]="!ventaActiva"
+              (click)="cobrar()">
+              COBRAR
+            </button>
+          </div>
+
+          <div class="pos__secondary-actions">
+            <button
+              mat-button
+              type="button">
+              CALCULADORA
+            </button>
+
+            <button
+              mat-button
+              type="button"
+              [disabled]="!ventaActiva"
+              (click)="limpiarCarrito()">
+              LIMPIAR CARRITO
+            </button>
+          </div>
+        </footer>
+      </aside>
+    </section>
+  </main>
+</div>
