@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import {
   CashRegister,
   OpenCashRegisterRequest
@@ -10,6 +11,7 @@ import {
   providedIn: 'root'
 })
 export class CashRegisterService {
+
   private readonly http = inject(HttpClient);
 
   private readonly endpoint = '/api/cash-register';
@@ -20,7 +22,10 @@ export class CashRegisterService {
     );
   }
 
-  open(request: OpenCashRegisterRequest): Observable<CashRegister> {
+  open(
+    request: OpenCashRegisterRequest
+  ): Observable<CashRegister> {
+
     return this.http.post<CashRegister>(
       `${this.endpoint}/open`,
       request

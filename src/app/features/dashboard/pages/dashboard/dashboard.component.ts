@@ -29,33 +29,6 @@ export class DashboardComponent implements OnInit {
         this.loadDashboard();
     }
 
-    /*loadDashboard(): void {
-      this.loading = true;
-      this.errorMessage = '';
-  
-      this.dashboardService.getDashboard().subscribe({
-        next: response => {
-          this.dashboard = response;
-          this.loading = false;
-        },
-        error: error => {
-          this.loading = false;
-  
-          if (error.status === 401) {
-            this.errorMessage = 'La sesión ha expirado.';
-            return;
-          }
-  
-          if (error.status === 403) {
-            this.errorMessage = 'No posee permisos para consultar el dashboard.';
-            return;
-          }
-  
-          this.errorMessage = 'No fue posible consultar el dashboard.';
-        }
-      });
-    }*/
-
     loadDashboard(): void {
         this.loading = true;
         this.errorMessage = '';

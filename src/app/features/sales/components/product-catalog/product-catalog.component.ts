@@ -1,56 +1,199 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   OnInit,
+  Output,
   inject
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+
+import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { Product } from '../../../../core/models/product.model';
-import { ProductService } from '../../../products/services/product.service';
+import { ProductService } from '../../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-catalog',
   standalone: true,
+
   imports: [
-    MatButtonModule
+    FormsModule,
+    CurrencyPipe
   ],
+
   templateUrl: './product-catalog.component.html',
+
   styleUrl: './product-catalog.component.scss',
+
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCatalogComponent implements OnInit {
-  private readonly productService = inject(ProductService);
+
+  private readonly productService =
+    inject(ProductService);
+
+  private readonly changeDetectorRef =
+    inject(ChangeDetectorRef);
+
+
+  @Output()
+  productSelected =
+    new EventEmitter<Product>();
+
 
   products: Product[] = [];
+
+  filteredProducts: Product[] = [];
+
+  searchTerm = '';
+
   loading = false;
-  error = false;
+
+  errorMessage = '';
+
+
+  // ============================================================
+  // INICIALIZACIÓN
+  // ============================================================
 
   ngOnInit(): void {
+
     this.loadProducts();
+
   }
+
+
+  // ============================================================
+  // CONSULTAR PRODUCTOS
+  // ============================================================
 
   loadProducts(): void {
+
     this.loading = true;
-    this.error = false;
 
-    this.productService.getProducts().subscribe({
-      next: products => {
-        this.products = products;
-        this.loading = false;
-      },
-      error: error => {
-        console.error('Error al consultar productos:', error);
-        this.error = true;
-        this.loading = false;
-      }
-    });
+    this.errorMessage = '';
+
+
+    this.productService
+      .getProducts()
+      .subscribe({
+
+        next: products => {
+
+          console.log(
+            '[ProductCatalog] Productos recibidos:',
+            products
+          );
+
+
+          this.products =
+            products;
+
+          this.filteredProducts =
+            [...products];
+
+          this.loading =
+            false;
+
+
+          this.changeDetectorRef
+            .markForCheck();
+
+        },
+
+
+        error: error => {
+
+          console.error(
+            '[ProductCatalog] Error:',
+            error
+          );
+
+
+          this.loading =
+            false;
+
+          this.errorMessage =
+            'No fue posible consultar los productos.';
+
+
+          this.changeDetectorRef
+            .markForCheck();
+
+        }
+
+      });
+
   }
 
-  selectProduct(product: Product): void {
-    console.log('Producto seleccionado:', product);
+
+  // ============================================================
+  // BUSCAR PRODUCTOS
+  // ============================================================
+
+  onSearch(): void {
+
+    const term =
+      this.searchTerm
+        .trim()
+        .toLowerCase();
+
+
+    if (!term) {
+
+      this.filteredProducts =
+        [...this.products];
+
+      this.changeDetectorRef
+        .markForCheck();
+
+      return;
+
+    }
+
+
+    this.filteredProducts =
+      this.products.filter(product =>
+
+        product.codigo
+          .toLowerCase()
+          .includes(term)
+
+        ||
+
+        product.nombre
+          .toLowerCase()
+          .includes(term)
+
+      );
+
+
+    this.changeDetectorRef
+      .markForCheck();
+
   }
 
-  retry(): void {
-    this.loadProducts();
+
+  // ============================================================
+  // SELECCIONAR PRODUCTO
+  // ============================================================
+
+  selectProduct(
+    product: Product
+  ): void {
+
+    console.log(
+      '[ProductCatalog] Producto seleccionado:',
+      product
+    );
+
+
+    this.productSelected.emit(
+      product
+    );
+
   }
+
 }

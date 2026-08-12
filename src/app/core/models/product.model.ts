@@ -6,8 +6,9 @@ export interface Product {
   codigoBarras: string | null;
   nombre: string;
   descripcion: string | null;
-  tipoProducto: 'FABRICADO' | 'COMPRADO';
   stockMinimo: number;
+  tipoProducto: string;
+  precioVenta: number | null;
   activo: boolean;
   fechaCreacion: string;
   fechaActualizacion: string;

@@ -1,59 +1,91 @@
 <section class="product-catalog">
-  <div class="product-catalog__header">
-    <h1>Catálogo de Productos</h1>
-    <div class="product-catalog__categories">
-      <button mat-button class="product-catalog__category product-catalog__category--active">
-        Todos
-      </button>
-      <button mat-button class="product-catalog__category">
-        Panadería
-      </button>
-      <button mat-button class="product-catalog__category">
-        Pastelería
-      </button>
-      <button mat-button class="product-catalog__category">
-        Bebidas
-      </button>
-    </div>
+  <div class="product-catalog__search">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Buscar por código o nombre"
+      autocomplete="off">
   </div>
 
   @if (loading) {
   <div class="product-catalog__state">
-    Cargando productos...
+    <p>Cargando productos...</p>
   </div>
-  }
 
-  @if (error) {
+} @else if (errorMessage) {
+
   <div class="product-catalog__state product-catalog__state--error">
-    <span>No fue posible cargar los productos.</span>
-    <button mat-stroked-button type="button" (click)="retry()">
-      Reintentar
-    </button>
+    <p>{{ errorMessage }}</p>
   </div>
-  }
 
-  @if (!loading && !error && products.length === 0) {
+} @else if (filteredProducts.length === 0) {
+
   <div class="product-catalog__state">
-    No hay productos disponibles.
+    <p>No se encontraron productos.</p>
   </div>
-  }
 
-  @if (!loading && !error && products.length > 0) {
+} @else {
+
   <div class="product-catalog__grid">
-    @for (product of products; track product.id) {
-    <article class="product-catalog__card" (click)="selectProduct(product)">
-      <div class="product-catalog__image">
-        <span>{{ product.nombre.charAt(0) }}</span>
-      </div>
 
-      <div class="product-catalog__information">
-        <small>{{ product.codigo }}</small>
-        <strong>{{ product.nombre }}</strong>
-        <small>{{ product.categoriaNombre }}</small>
-        <small>{{ product.tipoProducto }}</small>
-      </div>
-    </article>
+    @for (
+      product of filteredProducts;
+      track product.id
+    ) {
+
+      <button
+        type="button"
+        class="product-catalog__card"
+        (click)="selectProduct(product)"
+      >
+
+          <div class="product-catalog__image">
+
+            <span>
+              {{ product.nombre.charAt(0) }}
+            </span>
+
+          </div>
+
+
+          <div class="product-catalog__information">
+
+            <small>
+              {{ product.codigo }}
+            </small>
+
+
+            <strong>
+              {{ product.nombre }}
+            </strong>
+
+
+            @if (
+            product.precioVenta !== null
+            ) {
+
+            <span class="product-catalog__price">
+
+              {{
+              product.precioVenta
+              | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+
+            </span>
+
+            } @else {
+
+            <span class="product-catalog__price product-catalog__price--unavailable">
+
+              Precio no disponible
+
+            </span>
+
+            }
+
+          </div>
+
+        </button>
+
     }
+
   </div>
-  }
+    }
 </section>

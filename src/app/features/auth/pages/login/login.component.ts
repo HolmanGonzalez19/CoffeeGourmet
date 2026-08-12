@@ -46,10 +46,11 @@ export class LoginComponent {
       usuario: this.usuario.trim(),
       password: this.password
     }).subscribe({
-      next: response => {
-        this.loading = false;
-        this.router.navigate(['/dashboard']);
-      },
+     next: response => {
+      this.loading = false;
+      this.authService.saveSession(response);
+      this.router.navigate(['/dashboard']);
+    },
       error: error => {
         this.loading = false;
 

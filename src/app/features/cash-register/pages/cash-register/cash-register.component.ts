@@ -1,16 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { CashRegisterService } from '../../../../core/services/cash-register.service';
 import { CashRegister } from '../../../../core/models/cash-register.model';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OpenCashRegisterDialogComponent } from '../../components/open-cash-register-dialog/open-cash-register-dialog.component';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-cash-register',
@@ -22,8 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule
   ],
   templateUrl: './cash-register.component.html',
-  styleUrl: './cash-register.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './cash-register.component.scss'
 })
 export class CashRegisterComponent implements OnInit {
   private readonly cashRegisterService = inject(CashRegisterService);
@@ -31,7 +25,6 @@ export class CashRegisterComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   cashRegister: CashRegister | null = null;
-
   loading = true;
   errorMessage = '';
 
@@ -49,26 +42,11 @@ export class CashRegisterComponent implements OnInit {
         this.loading = false;
       },
       error: error => {
+        console.error('[CashRegister] Error:', error);
+
+        this.cashRegister = null;
+        this.errorMessage = '';
         this.loading = false;
-
-        if (error.status === 404) {
-          this.cashRegister = null;
-          return;
-        }
-
-        if (error.status === 401) {
-          this.errorMessage = 'La sesión ha expirado.';
-          return;
-        }
-
-        if (error.status === 403) {
-          this.errorMessage =
-            'No posee permisos para consultar la caja.';
-          return;
-        }
-
-        this.errorMessage =
-          'No fue posible consultar la caja.';
       }
     });
   }
@@ -99,32 +77,32 @@ export class CashRegisterComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
-    this.cashRegisterService
-      .open({ montoInicial })
-      .subscribe({
-        next: response => {
-          this.cashRegister = response;
-          this.loading = false;
-        },
-        error: error => {
-          this.loading = false;
+    this.cashRegisterService.open({ montoInicial }).subscribe({
+      next: response => {
+        this.cashRegister = response;
+        this.loading = false;
+      },
+      error: error => {
+        console.error('[CashRegister] Error al abrir caja:', error);
 
-          if (error.status === 400) {
-            this.errorMessage =
-              error.error?.message ??
-              'Los datos de apertura no son válidos.';
-            return;
-          }
+        this.loading = false;
 
-          if (error.status === 403) {
-            this.errorMessage =
-              'No posee permisos para abrir la caja.';
-            return;
-          }
-
+        if (error.status === 400) {
           this.errorMessage =
-            'No fue posible abrir la caja.';
+            error.error?.message ??
+            'Los datos de apertura no son válidos.';
+          return;
         }
-      });
+
+        if (error.status === 403) {
+          this.errorMessage =
+            'No posee permisos para abrir la caja.';
+          return;
+        }
+
+        this.errorMessage =
+          'No fue posible abrir la caja.';
+      }
+    });
   }
 }
