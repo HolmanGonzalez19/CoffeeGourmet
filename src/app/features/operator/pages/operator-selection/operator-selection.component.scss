@@ -1,0 +1,24 @@
+.operator-selection {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.operator-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.operator-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.operator-option--selected {
+  outline: 2px solid currentColor;
+}

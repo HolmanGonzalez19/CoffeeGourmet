@@ -1,0 +1,91 @@
+<section class="product-catalog">
+  <div class="product-catalog__search">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Buscar por código o nombre"
+      autocomplete="off">
+  </div>
+
+  @if (loading) {
+  <div class="product-catalog__state">
+    <p>Cargando productos...</p>
+  </div>
+
+} @else if (errorMessage) {
+
+  <div class="product-catalog__state product-catalog__state--error">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+} @else if (filteredProducts.length === 0) {
+
+  <div class="product-catalog__state">
+    <p>No se encontraron productos.</p>
+  </div>
+
+} @else {
+
+  <div class="product-catalog__grid">
+
+    @for (
+      product of filteredProducts;
+      track product.id
+    ) {
+
+      <button
+        type="button"
+        class="product-catalog__card"
+        (click)="selectProduct(product)"
+      >
+
+          <div class="product-catalog__image">
+
+            <span>
+              {{ product.nombre.charAt(0) }}
+            </span>
+
+          </div>
+
+
+          <div class="product-catalog__information">
+
+            <small>
+              {{ product.codigo }}
+            </small>
+
+
+            <strong>
+              {{ product.nombre }}
+            </strong>
+
+
+            @if (
+            product.precioVenta !== null
+            ) {
+
+            <span class="product-catalog__price">
+
+              {{
+              product.precioVenta
+              | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+
+            </span>
+
+            } @else {
+
+            <span class="product-catalog__price product-catalog__price--unavailable">
+
+              Precio no disponible
+
+            </span>
+
+            }
+
+          </div>
+
+        </button>
+
+    }
+
+  </div>
+    }
+</section>

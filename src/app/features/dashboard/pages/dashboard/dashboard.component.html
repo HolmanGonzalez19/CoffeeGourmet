@@ -1,0 +1,109 @@
+<section class="dashboard">
+  <header class="dashboard__header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Resumen general de CoffeeGourmet</p>
+    </div>
+
+    <div class="dashboard__actions">
+      <button type="button" (click)="loadDashboard()">
+        Actualizar
+      </button>
+
+      <button type="button" (click)="irAlPos()">
+        Ir al POS
+      </button>
+    </div>
+  </header>
+
+  @if (loading) {
+    <div class="dashboard__loading">
+      Cargando información...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="dashboard__error">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (dashboard && !loading) {
+    <section class="dashboard__cards">
+      <article class="dashboard__card">
+        <span>Ventas Hoy</span>
+        <strong>{{ dashboard.ventasHoy }}</strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Total Vendido Hoy</span>
+        <strong>
+          {{ dashboard.totalVentasHoy | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Productos Vendidos</span>
+        <strong>{{ dashboard.productosVendidosHoy }}</strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Caja</span>
+        <strong>
+          {{ dashboard.cajaAbiertaId !== null ? 'Abierta' : 'Cerrada' }}
+        </strong>
+
+        @if (dashboard.cajaAbiertaId === null) {
+          <button type="button" (click)="irACaja()">
+            Abrir Caja
+          </button>
+        } @else {
+          <button type="button" (click)="irACaja()">
+            Ir a Caja
+          </button>
+        }
+      </article>
+
+      <article class="dashboard__card">
+        <span>Efectivo Esperado</span>
+        <strong>
+          {{ dashboard.efectivoEsperado | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Stock Bajo</span>
+        <strong>{{ dashboard.productosStockBajo }}</strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Ventas Históricas</span>
+        <strong>{{ dashboard.totalVentas }}</strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Ingresos Totales</span>
+        <strong>
+          {{ dashboard.totalIngresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Compras</span>
+        <strong>{{ dashboard.totalCompras }}</strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Egresos</span>
+        <strong>
+          {{ dashboard.totalEgresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+        </strong>
+      </article>
+
+      <article class="dashboard__card">
+        <span>Productos</span>
+        <strong>{{ dashboard.totalProductos }}</strong>
+      </article>
+    </section>
+  }
+</section>

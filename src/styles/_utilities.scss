@@ -1,0 +1,45 @@
+@use './variables' as vars;
+
+.text-primary {
+  color: vars.$color-text-primary;
+}
+
+.text-secondary {
+  color: vars.$color-text-secondary;
+}
+
+.text-muted {
+  color: vars.$color-text-muted;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: vars.$spacing-sm;
+}
+
+.gap-md {
+  gap: vars.$spacing-md;
+}
+
+.gap-lg {
+  gap: vars.$spacing-lg;
+}

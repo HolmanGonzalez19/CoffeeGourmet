@@ -1,0 +1,153 @@
+<section class="operator-selection">
+
+  <header class="operator-selection__header">
+
+    <h1>Seleccionar operador</h1>
+
+    <p>
+      Seleccione el operador que trabajará durante la jornada.
+    </p>
+
+  </header>
+
+
+  @if (loading) {
+
+    <div class="operator-selection__state">
+
+      <p>
+        Consultando operadores...
+      </p>
+
+    </div>
+
+  }
+
+
+  @if (!loading && errorMessage) {
+
+    <div class="operator-selection__state operator-selection__state--error">
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        mat-button
+        type="button"
+        (click)="loadOperators()">
+
+        Reintentar
+
+      </button>
+
+    </div>
+
+  }
+
+
+  @if (!loading && !errorMessage && operators.length === 0) {
+
+    <div class="operator-selection__state">
+
+      <p>
+        No hay operadores disponibles.
+      </p>
+
+    </div>
+
+  }
+
+
+  @if (!loading && !errorMessage && operators.length > 0) {
+
+    <div class="operator-selection__operators">
+
+      @for (operator of operators; track operator.id) {
+
+        <button
+          type="button"
+          class="operator-option"
+          [class.operator-option--selected]="
+            selectedOperator?.id === operator.id
+          "
+          (click)="selectOperator(operator)">
+
+          <span>
+            {{ operator.nombre }}
+          </span>
+
+          <small>
+            {{ operator.usuario }}
+          </small>
+
+        </button>
+
+      }
+
+    </div>
+
+
+    @if (showPin && selectedOperator) {
+
+      <div class="operator-selection__pin">
+
+        <div class="operator-selection__pin-header">
+
+          <strong>
+            Iniciar jornada
+          </strong>
+
+          <span>
+            {{ selectedOperator.nombre }}
+          </span>
+
+        </div>
+
+
+        <label for="operator-pin">
+          PIN
+        </label>
+
+        <input
+          id="operator-pin"
+          type="password"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="10"
+          [(ngModel)]="pin"
+          placeholder="Ingrese su PIN"
+          (keyup.enter)="continue()"
+        />
+
+
+        @if (pinErrorMessage) {
+
+          <p class="operator-selection__pin-error">
+            {{ pinErrorMessage }}
+          </p>
+
+        }
+
+
+        <button
+          mat-button
+          type="button"
+          [disabled]="authenticating || !pin.trim()"
+          (click)="continue()">
+
+          @if (authenticating) {
+            Validando...
+          } @else {
+            Iniciar operador
+          }
+
+        </button>
+
+      </div>
+
+    }
+
+  }
+
+</section>

@@ -1,0 +1,540 @@
+<div class="pos">
+
+  <!-- ========================================================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================================================= -->
+
+  <aside class="pos__sidebar">
+
+    <!-- Marca -->
+    <div class="pos__brand">
+
+      <div class="pos__brand-logo">
+        CG
+      </div>
+
+      <div class="pos__brand-info">
+
+        <strong>
+          CoffeeGourmet
+        </strong>
+
+        <small>
+          Punto de venta
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <!-- Navegación -->
+    <nav class="pos__navigation">
+
+      <button mat-button type="button" class="pos__navigation-item pos__navigation-item--active">
+
+        <span class="pos__navigation-icon">
+          ▦
+        </span>
+
+        <span>
+          Ventas
+        </span>
+
+      </button>
+
+
+      <button mat-button type="button" class="pos__navigation-item" (click)="abrirAdministracion()">
+
+        <span class="pos__navigation-icon">
+          ⚙
+        </span>
+
+        <span>
+          Iniciar sesión
+        </span>
+
+      </button>
+
+    </nav>
+
+
+    <!-- Footer sidebar -->
+    <div class="pos__sidebar-footer">
+      © CoffeeGourmet
+    </div>
+
+  </aside>
+
+
+  <!-- ========================================================= -->
+  <!-- CONTENIDO PRINCIPAL -->
+  <!-- ========================================================= -->
+
+  <main class="pos__content">
+
+
+    <!-- ======================================================= -->
+    <!-- HEADER -->
+    <!-- ======================================================= -->
+
+    <header class="pos__header">
+
+      <div class="pos__connection">
+
+        <span class="pos__connection-dot"></span>
+
+        <span>
+          Conectado
+        </span>
+
+      </div>
+
+
+      <div class="pos__time">
+        {{ currentTime }}
+      </div>
+
+
+      @if (currentOperator) {
+
+      <div class="pos__operator-header">
+
+        {{ currentOperator.nombre }}
+
+      </div>
+
+      } @else {
+
+      <div class="pos__operator-header pos__operator-header--inactive">
+
+        Sin operador activo
+
+      </div>
+
+      }
+
+    </header>
+
+
+    <!-- ======================================================= -->
+    <!-- BARRA DE OPERACIÓN -->
+    <!-- ======================================================= -->
+
+    <section class="pos__operation-bar">
+
+      <div class="pos__operation-info">
+
+
+        <!-- Estado de caja -->
+
+        @if (cashRegister?.estado === 'ABIERTA') {
+
+        <span class="pos__cash-status">
+          CAJA ABIERTA
+        </span>
+
+        } @else {
+
+        <span class="pos__cash-status">
+          CAJA CERRADA
+        </span>
+
+        }
+
+
+        <!-- Número de caja -->
+
+        @if (cashRegister?.id !== null && cashRegister?.id !== undefined) {
+
+        <span class="pos__separator">
+          |
+        </span>
+
+        <span>
+          Caja #{{ cashRegister?.id }}
+        </span>
+
+        }
+
+
+        <!-- Operador -->
+
+        @if (currentOperator) {
+
+        <span class="pos__separator">
+          |
+        </span>
+
+        <span>
+
+          Operador:
+
+          <strong>
+            {{ currentOperator.nombre }}
+          </strong>
+
+        </span>
+
+        }
+
+      </div>
+
+
+      <!-- Acción operador -->
+
+      @if (currentOperator) {
+
+      <button mat-button type="button" class="pos__finish-operator" (click)="finalizarOperador()">
+
+        FINALIZAR OPERADOR
+
+      </button>
+
+      } @else {
+
+      <button mat-flat-button type="button" class="pos__start-operator" (click)="iniciarOperador()">
+
+        INICIAR OPERADOR
+
+      </button>
+
+      }
+
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- ESPACIO DE TRABAJO -->
+    <!-- ======================================================= -->
+
+    <section class="pos__workspace">
+
+
+      <!-- ===================================================== -->
+      <!-- CATÁLOGO -->
+      <!-- ===================================================== -->
+
+      <section class="pos__catalog">
+
+        <app-product-catalog (productSelected)="onProductSelected($event)">
+        </app-product-catalog>
+
+      </section>
+
+
+      <!-- ===================================================== -->
+      <!-- PANEL DE VENTA -->
+      <!-- ===================================================== -->
+
+      <aside class="pos__sale-panel">
+
+
+        <!-- =================================================== -->
+        <!-- HEADER VENTA -->
+        <!-- =================================================== -->
+
+        <header class="pos__sale-header">
+
+          <h2>
+            Venta Actual
+          </h2>
+
+          <span>
+
+            {{ venta.items.length }}
+
+            {{
+            venta.items.length === 1
+            ? 'producto'
+            : 'productos'
+            }}
+
+          </span>
+
+        </header>
+
+
+        <!-- =================================================== -->
+        <!-- CARRITO VACÍO -->
+        <!-- =================================================== -->
+
+        @if (!ventaActiva) {
+
+        <div class="pos__empty-sale">
+
+          <div class="pos__empty-icon">
+            +
+          </div>
+
+          <strong>
+            Carrito vacío
+          </strong>
+
+          <p>
+            Selecciona productos del catálogo
+            para iniciar una venta
+          </p>
+
+        </div>
+
+        }
+
+        <!-- =================================================== -->
+        <!-- PRODUCTOS DE LA VENTA -->
+        <!-- =================================================== -->
+
+        @if (ventaActiva) {
+
+        <div class="pos__sale-items">
+
+          @for (
+          item of venta.items;
+          track item.productoId
+          ) {
+
+          <article class="pos__sale-item">
+
+            <!-- Eliminar -->
+
+            <button mat-button type="button" class="pos__remove-item" title="Eliminar producto"
+              (click)="eliminarItem(item.productoId)">
+
+              🗑
+
+            </button>
+
+
+            <!-- Producto -->
+
+            <div class="pos__sale-item-info">
+
+              <strong>
+                {{ item.nombre }}
+              </strong>
+
+              <small>
+
+                {{ item.codigo }}
+
+                ·
+
+                {{
+                item.precioUnitario
+                | currency:'COP':'symbol-narrow':'1.0-0'
+                }}
+
+              </small>
+
+            </div>
+
+
+            <!-- Cantidad -->
+
+            <div class="pos__sale-item-controls">
+
+              <button mat-button type="button" (click)="disminuirCantidad(item)">
+
+                −
+
+              </button>
+
+              <input type="number" min="1" max="99999" maxlength="5" [value]="item.cantidad" (change)="
+              cambiarCantidad(
+                item,
+                $any($event.target).value
+              )
+            " />
+
+              <button mat-button type="button" (click)="aumentarCantidad(item)">
+
+                +
+
+              </button>
+
+            </div>
+
+
+            <!-- Subtotal -->
+
+            <div class="pos__sale-item-subtotal">
+
+              {{
+              item.subtotal
+              | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+
+            </div>
+
+          </article>
+
+          }
+
+        </div>
+
+        }
+
+
+        <!-- =================================================== -->
+        <!-- RESUMEN DE VENTA -->
+        <!-- =================================================== -->
+
+        <footer class="pos__sale-summary">
+
+
+          <!-- Productos -->
+
+          <div class="pos__summary-row">
+
+            <span>
+              Productos
+            </span>
+
+            <strong>
+              {{ totalProductos }}
+            </strong>
+
+          </div>
+
+
+          <!-- Subtotal -->
+
+          <div class="pos__summary-row">
+
+            <span>
+              Subtotal
+            </span>
+
+            <strong>
+
+              {{
+              subtotalVenta
+              | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+
+            </strong>
+
+          </div>
+
+
+          <!-- Descuento -->
+
+          <div class="pos__summary-row">
+
+            <span>
+              Descuento
+            </span>
+
+            <strong>
+              $0
+            </strong>
+
+          </div>
+
+
+          <!-- Total -->
+
+          <div class="pos__summary-total">
+
+            <span>
+              TOTAL
+            </span>
+
+            <strong>
+
+              {{
+              totalVenta
+              | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+
+            </strong>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- MÉTODOS DE PAGO -->
+          <!-- ================================================= -->
+
+          <div class="pos__payment-section">
+
+            <div class="pos__payment-title">
+              <span>MÉTODO DE PAGO</span>
+
+              <small>
+                Seleccione cómo paga el cliente
+              </small>
+            </div>
+
+
+            <div class="pos__payment-actions">
+
+              @for (
+              method of paymentMethods;
+              track method.id
+              ) {
+
+              <button mat-stroked-button type="button" class="pos__payment-button" [disabled]="
+          !operadorActivo ||
+          !cajaAbierta ||
+          !ventaActiva
+        " [class.pos__payment-button--selected]="
+          selectedPaymentMethod?.id === method.id
+        " (click)="selectPaymentMethod(method)">
+
+                {{ method.nombre }}
+
+              </button>
+
+              }
+
+            </div>
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- COBRAR -->
+          <!-- ================================================= -->
+
+          <button mat-flat-button type="button" class="pos__charge-button" [disabled]="
+              !operadorActivo ||
+              !cajaAbierta ||
+              !ventaActiva ||
+              !selectedPaymentMethod
+            " (click)="cobrar()">
+
+            COBRAR
+
+          </button>
+
+
+          <!-- ================================================= -->
+          <!-- ACCIONES SECUNDARIAS -->
+          <!-- ================================================= -->
+
+          <div class="pos__secondary-actions">
+
+            <button mat-button type="button" (click)="consultarPrecio()">
+
+              CALCULADORA
+
+            </button>
+
+
+            <button mat-button type="button" [disabled]="!ventaActiva" (click)="limpiarCarrito()">
+
+              LIMPIAR CARRITO
+
+            </button>
+
+          </div>
+
+        </footer>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+</div>
