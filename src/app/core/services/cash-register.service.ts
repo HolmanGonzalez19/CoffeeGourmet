@@ -1,26 +1,71 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  Injectable,
+  inject
+} from '@angular/core';
+
+import {
+  HttpClient
+} from '@angular/common/http';
+
+import {
+  Observable
+} from 'rxjs';
 
 import {
   CashRegister,
-  OpenCashRegisterRequest
+  OpenCashRegisterRequest,
+  CloseCashRegisterRequest
 } from '../models/cash-register.model';
+
+import {
+  CashRegisterStatusResponse
+} from '../models/cash-register-status.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CashRegisterService {
 
-  private readonly http = inject(HttpClient);
+  private readonly http =
+    inject(HttpClient);
 
-  private readonly endpoint = '/api/cash-register';
 
-  getCurrent(): Observable<CashRegister | null> {
-    return this.http.get<CashRegister | null>(
+  private readonly endpoint =
+    '/api/cash-register';
+
+
+  // ============================================================
+  // CONSULTAR ESTADO ACTUAL DE LA CAJA
+  // ============================================================
+
+  /**
+   * Consulta únicamente el estado de la caja actual.
+   *
+   * Este endpoint es público y no devuelve información
+   * financiera ni administrativa de la caja.
+   */
+  getCurrent():
+    Observable<CashRegisterStatusResponse> {
+
+    return this.http.get<CashRegisterStatusResponse>(
       `${this.endpoint}/current`
     );
+
   }
+
+  getOpen(): Observable<CashRegister> {
+
+  return this.http.get<CashRegister>(
+    `${this.endpoint}/open`
+  );
+
+}
+
+
+  // ============================================================
+  // ABRIR CAJA
+  // ============================================================
 
   open(
     request: OpenCashRegisterRequest
@@ -30,5 +75,24 @@ export class CashRegisterService {
       `${this.endpoint}/open`,
       request
     );
+
   }
+
+
+  // ============================================================
+  // CERRAR CAJA
+  // ============================================================
+
+  close(
+    id: number,
+    request: CloseCashRegisterRequest
+  ): Observable<CashRegister> {
+
+    return this.http.patch<CashRegister>(
+      `${this.endpoint}/${id}/close`,
+      request
+    );
+
+  }
+
 }

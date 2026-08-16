@@ -1,77 +1,95 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
+import {
+  HttpInterceptorFn
+} from '@angular/common/http';
 
-import { AuthService } from '../services/auth.service';
-import { OperatorStateService } from '../services/operator-state.service';
+import {
+  inject
+} from '@angular/core';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
+import {
+  AuthService
+} from '../services/auth.service';
 
-  const authService = inject(AuthService);
+import {
+  OperatorStateService
+} from '../services/operator-state.service';
+
+
+export const authInterceptor:
+  HttpInterceptorFn = (req, next) => {
+
+  const authService =
+    inject(AuthService);
 
   const operatorStateService =
     inject(OperatorStateService);
 
 
+  // ============================================================
+  // AUTENTICACIÓN
+  // ============================================================
+
   /*
-   * Las peticiones de autenticación no necesitan
-   * enviar un JWT existente.
+   * Login administrativo y login mediante PIN
+   * no deben enviar un JWT anterior.
    */
-  if (req.url.includes('/api/auth/')) {
+  if (
+    req.url.includes('/api/auth/')
+  ) {
+
     return next(req);
+
   }
 
 
-  /*
-   * ============================================================
-   * OPERADOR ACTIVO
-   * ============================================================
-   *
-   * Si existe un operador activo, el POS debe utilizar
-   * exclusivamente el token del operador.
-   */
+  // ============================================================
+  // OPERADOR ACTIVO
+  // ============================================================
+
   const operator =
     operatorStateService.currentOperator();
 
 
   if (operator?.token) {
 
-    const authenticatedRequest =
+    return next(
       req.clone({
         setHeaders: {
           Authorization:
             `Bearer ${operator.token}`
         }
-      });
+      })
+    );
 
-    return next(authenticatedRequest);
   }
 
 
-  /*
-   * ============================================================
-   * ADMINISTRADOR
-   * ============================================================
-   *
-   * Si no existe operador activo, utilizamos la sesión
-   * administrativa almacenada en AuthService.
-   */
-  const token =
+  // ============================================================
+  // ADMINISTRADOR ACTIVO
+  // ============================================================
+
+  const adminToken =
     authService.getToken();
 
 
-  if (!token) {
-    return next(req);
+  if (adminToken) {
+
+    return next(
+      req.clone({
+        setHeaders: {
+          Authorization:
+            `Bearer ${adminToken}`
+        }
+      })
+    );
+
   }
 
 
-  const authenticatedRequest =
-    req.clone({
-      setHeaders: {
-        Authorization:
-          `Bearer ${token}`
-      }
-    });
+  // ============================================================
+  // SIN SESIÓN
+  // ============================================================
 
+  return next(req);
 
-  return next(authenticatedRequest);
 };

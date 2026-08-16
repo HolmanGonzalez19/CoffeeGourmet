@@ -1,4 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import {
+  Injectable,
+  signal
+} from '@angular/core';
+
 
 export interface OperatorSession {
 
@@ -18,26 +22,33 @@ export interface OperatorSession {
 
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class OperatorStateService {
 
-  private readonly operatorStorageKey = 'coffeeGourmetOperator';
+  private readonly operatorStorageKey =
+    'coffeeGourmetOperator';
 
-  private readonly operator = signal<OperatorSession | null>(
-    this.loadOperator()
-  );
+
+  private readonly operator =
+    signal<OperatorSession | null>(
+      this.loadOperator()
+    );
+
 
   // ============================================================
   // OPERADOR ACTUAL
   // ============================================================
 
-  currentOperator(): OperatorSession | null {
+  currentOperator():
+    OperatorSession | null {
 
     return this.operator();
 
   }
+
 
   // ============================================================
   // VALIDAR OPERADOR ACTIVO
@@ -49,13 +60,19 @@ export class OperatorStateService {
 
   }
 
+
   // ============================================================
   // ESTABLECER OPERADOR
   // ============================================================
 
-  setOperator(session: OperatorSession): void {
+  setOperator(
+    session: OperatorSession
+  ): void {
 
-    this.operator.set(session);
+    this.operator.set(
+      session
+    );
+
 
     localStorage.setItem(
       this.operatorStorageKey,
@@ -64,13 +81,17 @@ export class OperatorStateService {
 
   }
 
+
   // ============================================================
-  // LIMPIAR OPERADOR
+  // FINALIZAR OPERADOR
   // ============================================================
 
   clearOperator(): void {
 
-    this.operator.set(null);
+    this.operator.set(
+      null
+    );
+
 
     localStorage.removeItem(
       this.operatorStorageKey
@@ -78,21 +99,26 @@ export class OperatorStateService {
 
   }
 
+
   // ============================================================
   // CARGAR OPERADOR DESDE LOCALSTORAGE
   // ============================================================
 
-  private loadOperator(): OperatorSession | null {
+  private loadOperator():
+    OperatorSession | null {
 
-    const storedOperator = localStorage.getItem(
-      this.operatorStorageKey
-    );
+    const storedOperator =
+      localStorage.getItem(
+        this.operatorStorageKey
+      );
+
 
     if (!storedOperator) {
 
       return null;
 
     }
+
 
     try {
 

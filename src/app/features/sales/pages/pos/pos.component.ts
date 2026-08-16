@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { ProductCatalogComponent } from '../../components/product-catalog/product-catalog.component';
 
 import { Product } from '../../../../core/models/product.model';
-import { CashRegister } from '../../../../core/models/cash-register.model';
 
 import { CashRegisterService } from '../../../../core/services/cash-register.service';
 
@@ -33,6 +32,7 @@ import {
 } from '../../../../core/models/sale.model';
 
 import { SaleService } from '../../../../core/services/sale.service';
+import { CashRegisterStatusResponse } from '../../../../core/models/cash-register-status.model';
 
 
 @Component({
@@ -80,12 +80,9 @@ export class PosComponent implements OnDestroy {
   // ESTADO DE CAJA
   // ============================================================
 
-  cashRegister: CashRegister | null = null;
+  cashRegisterStatus: 'ABIERTA' | 'CERRADA' = 'CERRADA';
 
   cashRegisterLoading = false;
-
-  cashRegisterError = '';
-
 
   // ============================================================
   // HORA ACTUAL
@@ -160,18 +157,31 @@ export class PosComponent implements OnDestroy {
 
   constructor() {
 
-    this.updateCurrentTime();
+  this.updateCurrentTime();
 
-    this.loadCurrentCashRegister();
+  console.log(
+    '[POS] Operador actual:',
+    this.currentOperator
+  );
 
+  /*
+   * El estado de la caja es independiente
+   * de la sesión del operador.
+   *
+   * La caja pertenece al estado global de la aplicación
+   * y su fuente de verdad es la base de datos.
+   */
+  this.loadCurrentCashRegister();
+
+  /*
+   * Los métodos de pago son información de catálogo.
+   * No requieren que exista un operador activo para
+   * poder consultarlos.
+   */
+   if (this.operadorActivo) {
     this.loadPaymentMethods();
-
-    console.log(
-      '[POS] Operador actual:',
-      this.currentOperator
-    );
-
-  }
+   }
+}
 
 
   // ============================================================
@@ -895,74 +905,73 @@ export class PosComponent implements OnDestroy {
   // CONSULTAR CAJA ACTUAL
   // ============================================================
 
-  private loadCurrentCashRegister(): void {
+ private loadCurrentCashRegister(): void {
 
-    this.cashRegisterLoading = true;
+  this.cashRegisterLoading = true;
 
-    this.cashRegisterError = '';
-
-
-    this.cashRegisterService
-      .getCurrent()
-      .subscribe({
-
-        next: cashRegister => {
-
-          this.cashRegister =
-            cashRegister;
-
-          this.cashRegisterLoading =
-            false;
+  console.log(
+    '[POS] Consultando estado actual de la caja...'
+  );
 
 
-          console.log(
-            '[POS] Caja actual:',
-            cashRegister
-          );
+  this.cashRegisterService
+    .getCurrent()
+    .subscribe({
+
+      next: response => {
+
+        console.log(
+          '[POS] Estado de caja recibido:',
+          response
+        );
 
 
-          this.changeDetectorRef.markForCheck();
-
-        },
-
-
-        error: error => {
-
-          console.error(
-            '[POS] Error consultando caja actual:',
-            error
-          );
-
-          this.cashRegister = null;
-
-          this.cashRegisterLoading =
-            false;
-
-          this.cashRegisterError =
-            'No fue posible consultar el estado de la caja.';
+        this.cashRegisterStatus =
+          response.estado;
 
 
-          this.changeDetectorRef.markForCheck();
-
-        }
-
-      });
-
-  }
+        this.cashRegisterLoading =
+          false;
 
 
-  get cajaAbierta(): boolean {
+        this.changeDetectorRef.markForCheck();
 
-    return this.cashRegister?.estado === 'ABIERTA';
-
-  }
+      },
 
 
-  get cajaId(): number | null {
+      error: error => {
 
-    return this.cashRegister?.id ?? null;
+        console.error(
+          '[POS] Error consultando estado de caja:',
+          error
+        );
 
-  }
+
+        /*
+         * Si no podemos consultar el estado,
+         * no asumimos que la caja está abierta.
+         */
+        this.cashRegisterStatus =
+          'CERRADA';
+
+
+        this.cashRegisterLoading =
+          false;
+
+
+        this.changeDetectorRef.markForCheck();
+
+      }
+
+    });
+
+}
+
+ get cajaAbierta(): boolean {
+
+  return this.cashRegisterStatus === 'ABIERTA';
+
+}
 
 
   // ============================================================

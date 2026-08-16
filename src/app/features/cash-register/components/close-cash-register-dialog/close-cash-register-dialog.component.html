@@ -1,0 +1,142 @@
+<h2 mat-dialog-title>
+  Cerrar caja
+</h2>
+
+
+<div mat-dialog-content>
+
+  <section class="cash-summary">
+
+    <div class="cash-summary__row">
+
+      <span>
+        Ventas en efectivo
+      </span>
+
+      <strong>
+        {{
+          data.ventasEfectivo
+            | currency:'COP':'symbol-narrow':'1.0-0'
+        }}
+      </strong>
+
+    </div>
+
+
+    <div class="cash-summary__row">
+
+      <span>
+        Ventas por transferencia
+      </span>
+
+      <strong>
+        {{
+          data.ventasTransferencia
+            | currency:'COP':'symbol-narrow':'1.0-0'
+        }}
+      </strong>
+
+    </div>
+
+
+    <div class="cash-summary__row">
+
+      <span>
+        Total ventas
+      </span>
+
+      <strong>
+        {{
+          data.ventasTotales
+            | currency:'COP':'symbol-narrow':'1.0-0'
+        }}
+      </strong>
+
+    </div>
+
+
+    <div class="cash-summary__row cash-summary__row--expected">
+
+      <span>
+        Efectivo esperado
+      </span>
+
+      <strong>
+        {{
+          data.efectivoEsperado
+            | currency:'COP':'symbol-narrow':'1.0-0'
+        }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="cash-count">
+
+    <label for="efectivoContado">
+      Efectivo contado
+    </label>
+
+
+    <input
+      id="efectivoContado"
+      type="number"
+      min="0"
+      step="100"
+      [(ngModel)]="efectivoContado"
+      placeholder="Ingrese el efectivo contado"
+    />
+
+  </section>
+
+
+  @if (diferencia !== null) {
+
+    <section class="cash-difference">
+
+      <span>
+        Diferencia
+      </span>
+
+      <strong>
+        {{
+          diferencia
+            | currency:'COP':'symbol-narrow':'1.0-0'
+        }}
+      </strong>
+
+    </section>
+
+  }
+
+</div>
+
+
+<div mat-dialog-actions align="end">
+
+  <button
+    type="button"
+    mat-button
+    (click)="cancelar()">
+
+    Cancelar
+
+  </button>
+
+
+  <button
+    type="button"
+    mat-flat-button
+    [disabled]="
+      efectivoContado === null ||
+      efectivoContado < 0
+    "
+    (click)="confirmar()">
+
+    Confirmar cierre
+
+  </button>
+
+</div>
