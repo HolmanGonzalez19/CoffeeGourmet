@@ -9,9 +9,9 @@ import { Operator } from '../models/operator.model';
 export class OperatorService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = '/api/users';
+  private readonly apiUrl = '/api/users/operators';
 
-  getOperators(): Observable<Operator[]> {
+ /* getOperators(): Observable<Operator[]> {
     return this.http.get<Operator[]>(this.apiUrl).pipe(
       map(users =>
         users.filter(user =>
@@ -19,5 +19,11 @@ export class OperatorService {
         )
       )
     );
-  }
+  }*/
+
+  getOperators(): Observable<Operator[]> {
+  return this.http.get<Operator[]>(
+    '/api/users/operators'
+  );
+}
 }

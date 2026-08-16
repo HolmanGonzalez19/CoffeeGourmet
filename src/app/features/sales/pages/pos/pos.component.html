@@ -128,35 +128,19 @@
 
         <!-- Estado de caja -->
 
-        @if (cashRegister?.estado === 'ABIERTA') {
+        @if (cashRegisterStatus === 'ABIERTA') {
 
-        <span class="pos__cash-status">
-          CAJA ABIERTA
-        </span>
+  <span class="pos__cash-status">
+    CAJA ABIERTA
+  </span>
 
-        } @else {
+} @else {
 
-        <span class="pos__cash-status">
-          CAJA CERRADA
-        </span>
+  <span class="pos__cash-status">
+    CAJA CERRADA
+  </span>
 
-        }
-
-
-        <!-- Número de caja -->
-
-        @if (cashRegister?.id !== null && cashRegister?.id !== undefined) {
-
-        <span class="pos__separator">
-          |
-        </span>
-
-        <span>
-          Caja #{{ cashRegister?.id }}
-        </span>
-
-        }
-
+}
 
         <!-- Operador -->
 

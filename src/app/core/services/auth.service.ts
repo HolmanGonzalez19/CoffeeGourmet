@@ -30,8 +30,17 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private readonly endpoint = '/api/auth';
-  private readonly tokenKey = 'coffeeGourmetToken';
-  private readonly userKey = 'coffeeGourmetUser';
+
+  private readonly tokenKey =
+    'coffeeGourmetToken';
+
+  private readonly userKey =
+    'coffeeGourmetUser';
+
+
+  // ============================================================
+  // LOGIN ADMINISTRADOR
+  // ============================================================
 
   login(
     request: LoginRequest
@@ -41,7 +50,13 @@ export class AuthService {
       `${this.endpoint}/login`,
       request
     );
+
   }
+
+
+  // ============================================================
+  // LOGIN OPERADOR MEDIANTE PIN
+  // ============================================================
 
   loginWithPin(
     request: PinLoginRequest
@@ -51,7 +66,13 @@ export class AuthService {
       `${this.endpoint}/pin`,
       request
     );
+
   }
+
+
+  // ============================================================
+  // GUARDAR SESIÓN ADMINISTRATIVA
+  // ============================================================
 
   saveSession(
     response: AuthenticationResponse
@@ -66,35 +87,95 @@ export class AuthService {
       this.userKey,
       JSON.stringify(response)
     );
+
   }
+
+
+  // ============================================================
+  // TOKEN ADMINISTRADOR
+  // ============================================================
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+
+    return localStorage.getItem(
+      this.tokenKey
+    );
+
   }
 
-  getCurrentUser(): AuthenticationResponse | null {
 
-    const user = localStorage.getItem(this.userKey);
+  // ============================================================
+  // USUARIO ADMINISTRADOR ACTUAL
+  // ============================================================
+
+  getCurrentUser():
+    AuthenticationResponse | null {
+
+    const user =
+      localStorage.getItem(
+        this.userKey
+      );
 
     if (!user) {
+
       return null;
+
     }
 
     try {
-      return JSON.parse(user) as AuthenticationResponse;
+
+      return JSON.parse(
+        user
+      ) as AuthenticationResponse;
+
     } catch {
+
       this.clearSession();
+
       return null;
+
     }
+
   }
 
-  logout(): void {
-    this.clearSession();
+
+  // ============================================================
+  // VALIDAR SESIÓN ADMINISTRATIVA
+  // ============================================================
+
+  isAdminSessionActive(): boolean {
+
+    return this.getToken() !== null &&
+           this.getCurrentUser() !== null;
+
   }
+
+
+  // ============================================================
+  // CERRAR SESIÓN ADMINISTRATIVA
+  // ============================================================
+
+  logout(): void {
+
+    this.clearSession();
+
+  }
+
+
+  // ============================================================
+  // LIMPIAR SESIÓN ADMINISTRATIVA
+  // ============================================================
 
   private clearSession(): void {
 
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userKey);
+    localStorage.removeItem(
+      this.tokenKey
+    );
+
+    localStorage.removeItem(
+      this.userKey
+    );
+
   }
+
 }

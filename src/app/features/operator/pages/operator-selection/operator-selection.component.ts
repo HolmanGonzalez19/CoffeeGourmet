@@ -4,12 +4,25 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Router } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import {
+  Router
+} from '@angular/router';
 
-import { OperatorService } from '../../../../core/services/operator.service';
-import { Operator } from '../../../../core/models/operator.model';
+import {
+  MatButtonModule
+} from '@angular/material/button';
+
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  OperatorService
+} from '../../../../core/services/operator.service';
+
+import {
+  Operator
+} from '../../../../core/models/operator.model';
 
 import {
   OperatorStateService
@@ -20,17 +33,25 @@ import {
   AuthenticationResponse
 } from '../../../../core/services/auth.service';
 
+
 @Component({
   selector: 'app-operator-selection',
   standalone: true,
+
   imports: [
     MatButtonModule,
     FormsModule
   ],
-  templateUrl: './operator-selection.component.html',
-  styleUrl: './operator-selection.component.scss'
+
+  templateUrl:
+    './operator-selection.component.html',
+
+  styleUrl:
+    './operator-selection.component.scss'
 })
-export class OperatorSelectionComponent implements OnInit {
+export class OperatorSelectionComponent
+  implements OnInit {
+
 
   private readonly operatorService =
     inject(OperatorService);
@@ -44,13 +65,16 @@ export class OperatorSelectionComponent implements OnInit {
   private readonly router =
     inject(Router);
 
+
   // ============================================================
   // OPERADORES
   // ============================================================
 
   operators: Operator[] = [];
 
-  selectedOperator: Operator | null = null;
+  selectedOperator:
+    Operator | null = null;
+
 
   // ============================================================
   // PIN
@@ -59,6 +83,7 @@ export class OperatorSelectionComponent implements OnInit {
   pin = '';
 
   showPin = false;
+
 
   // ============================================================
   // ESTADO
@@ -72,13 +97,53 @@ export class OperatorSelectionComponent implements OnInit {
 
   pinErrorMessage = '';
 
+
   // ============================================================
   // INICIALIZACIÓN
   // ============================================================
 
   ngOnInit(): void {
+
+    /*
+     * Si existe una sesión administrativa,
+     * no permitimos iniciar una jornada de operador.
+     */
+    if (
+      this.authService.isAdminSessionActive()
+    ) {
+
+      this.loading = false;
+
+      this.errorMessage =
+        'Debe cerrar la sesión administrativa antes de iniciar una jornada como operador.';
+
+      return;
+
+    }
+
+
+    /*
+     * Si ya existe un operador activo,
+     * no necesitamos iniciar otra jornada.
+     */
+    if (
+      this.operatorStateService.isOperatorActive()
+    ) {
+
+      this.loading = false;
+
+      this.errorMessage =
+        'Ya existe un operador activo.';
+
+      return;
+
+    }
+
+
     this.loadOperators();
+
   }
+
 
   // ============================================================
   // CONSULTAR OPERADORES
@@ -87,46 +152,55 @@ export class OperatorSelectionComponent implements OnInit {
   loadOperators(): void {
 
     this.loading = true;
+
     this.errorMessage = '';
 
-    this.operatorService.getOperators().subscribe({
 
-      next: operators => {
+    this.operatorService
+      .getOperators()
+      .subscribe({
 
-        this.operators = operators;
+        next: operators => {
 
-        this.loading = false;
+          this.operators =
+            operators;
 
-        console.log(
-          '[OperatorSelection] Operadores:',
-          operators
-        );
-      },
+          this.loading = false;
 
-      error: error => {
+        },
 
-        console.error(
-          '[OperatorSelection] Error al consultar operadores:',
-          error
-        );
 
-        this.operators = [];
+        error: error => {
 
-        this.loading = false;
+          console.error(
+            '[OperatorSelection] Error al consultar operadores:',
+            error
+          );
 
-        this.errorMessage =
-          'No fue posible consultar los operadores.';
-      }
-    });
+          this.operators = [];
+
+          this.loading = false;
+
+          this.errorMessage =
+            'No fue posible consultar los operadores.';
+
+        }
+
+      });
+
   }
+
 
   // ============================================================
   // SELECCIONAR OPERADOR
   // ============================================================
 
-  selectOperator(operator: Operator): void {
+  selectOperator(
+    operator: Operator
+  ): void {
 
-    this.selectedOperator = operator;
+    this.selectedOperator =
+      operator;
 
     this.pin = '';
 
@@ -134,11 +208,8 @@ export class OperatorSelectionComponent implements OnInit {
 
     this.showPin = true;
 
-    console.log(
-      '[OperatorSelection] Operador seleccionado:',
-      operator
-    );
   }
+
 
   // ============================================================
   // AUTENTICAR OPERADOR
@@ -146,96 +217,153 @@ export class OperatorSelectionComponent implements OnInit {
 
   continue(): void {
 
-    if (!this.selectedOperator) {
+    if (
+      !this.selectedOperator
+    ) {
+
       return;
+
     }
 
-    if (!this.pin.trim()) {
+
+    /*
+     * Validación exacta:
+     * PIN de cuatro dígitos numéricos.
+     */
+    if (
+      !/^\d{4}$/.test(this.pin)
+    ) {
 
       this.pinErrorMessage =
-        'Ingrese el PIN del operador.';
+        'El PIN debe contener exactamente 4 dígitos numéricos.';
 
       return;
+
     }
 
-    if (this.authenticating) {
+
+    if (
+      this.authenticating
+    ) {
+
       return;
+
     }
+
+
+    /*
+     * Segunda protección:
+     * no permitir operador si apareció una
+     * sesión administrativa durante el proceso.
+     */
+    if (
+      this.authService.isAdminSessionActive()
+    ) {
+
+      this.pinErrorMessage =
+        'Debe cerrar la sesión administrativa antes de iniciar una jornada como operador.';
+
+      return;
+
+    }
+
 
     this.authenticating = true;
 
     this.pinErrorMessage = '';
 
+
     const request = {
-      usuario: this.selectedOperator.usuario,
-      pin: this.pin
+
+      usuario:
+        this.selectedOperator.usuario,
+
+      pin:
+        this.pin
+
     };
 
-    console.log(
-      '[OperatorSelection] Autenticando operador:',
-      this.selectedOperator.usuario
-    );
 
-    this.authService.loginWithPin(request).subscribe({
+    this.authService
+      .loginWithPin(request)
+      .subscribe({
 
-      next: (response: AuthenticationResponse) => {
+        next:
+          (
+            response:
+              AuthenticationResponse
+          ) => {
 
-        console.log(
-          '[OperatorSelection] Autenticación exitosa:',
-          response
-        );
+            this.createOperatorSession(
+              response
+            );
 
-        this.createOperatorSession(response);
+            this.authenticating =
+              false;
 
-        this.authenticating = false;
+            this.router.navigate([
+              '/'
+            ]);
 
-        this.router.navigate(['/']);
-      },
+          },
 
-      error: error => {
 
-        console.error(
-          '[OperatorSelection] Error de autenticación:',
-          error
-        );
+        error: error => {
 
-        this.authenticating = false;
+          console.error(
+            '[OperatorSelection] Error de autenticación:',
+            error
+          );
 
-        this.pinErrorMessage =
-          error?.error?.message ??
-          'PIN incorrecto o usuario sin permiso para operar caja.';
-      }
-    });
+          this.authenticating =
+            false;
+
+          this.pinErrorMessage =
+            error?.error?.message ??
+            'PIN incorrecto o usuario sin permiso para operar.';
+
+        }
+
+      });
+
   }
+
 
   // ============================================================
   // CREAR SESIÓN DEL OPERADOR
   // ============================================================
 
   private createOperatorSession(
-    response: AuthenticationResponse
+    response:
+      AuthenticationResponse
   ): void {
 
-    this.operatorStateService.setOperator({
+    this.operatorStateService
+      .setOperator({
 
-      usuarioId: response.usuarioId,
+        usuarioId:
+          response.usuarioId,
 
-      nombre: response.nombre,
+        nombre:
+          response.nombre,
 
-      usuario: response.usuario,
+        usuario:
+          response.usuario,
 
-      rolId: response.rolId,
+        rolId:
+          response.rolId,
 
-      rolNombre: response.rolNombre,
+        rolNombre:
+          response.rolNombre,
 
-      token: response.token,
+        token:
+          response.token,
 
-      permisos: response.permisos
-    });
+        permisos:
+          response.permisos
 
-    console.log(
-      '[OperatorSelection] Sesión de operador creada:',
-      this.operatorStateService.currentOperator()
-    );
+      });
+
   }
+
 }

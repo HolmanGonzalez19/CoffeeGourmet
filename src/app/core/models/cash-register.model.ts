@@ -26,3 +26,7 @@ export interface CashRegister {
 export interface OpenCashRegisterRequest {
   montoInicial: number;
 }
+
+export interface CloseCashRegisterRequest {
+  efectivoContado: number;
+}

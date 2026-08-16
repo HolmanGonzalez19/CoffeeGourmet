@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>
+  Movimiento de caja
+</h2>
+
+
+<mat-dialog-content>
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>
+      Tipo de movimiento
+    </mat-label>
+
+    <mat-select
+      [(ngModel)]="tipoMovimiento">
+
+      <mat-option value="INGRESO">
+        Ingreso de efectivo
+      </mat-option>
+
+      <mat-option value="RETIRO">
+        Retiro de efectivo
+      </mat-option>
+
+    </mat-select>
+
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>
+      Monto
+    </mat-label>
+
+    <input
+      matInput
+      type="number"
+      min="1"
+      [(ngModel)]="monto">
+
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+
+    <mat-label>
+      Descripción
+    </mat-label>
+
+    <textarea
+      matInput
+      rows="3"
+      maxlength="500"
+      [(ngModel)]="descripcion">
+    </textarea>
+
+  </mat-form-field>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+
+  <button
+    mat-button
+    type="button"
+    (click)="cancelar()">
+
+    Cancelar
+
+  </button>
+
+
+  <button
+    mat-raised-button
+    type="button"
+    [disabled]="monto <= 0"
+    (click)="guardar()">
+
+    Registrar
+
+  </button>
+
+</mat-dialog-actions>
