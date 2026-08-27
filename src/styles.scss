@@ -16,3 +16,14 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.coffee-gourmet-login-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+  }
+}
+
+
+.cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}

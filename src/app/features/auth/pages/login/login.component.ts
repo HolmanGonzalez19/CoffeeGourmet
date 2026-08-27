@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+   ChangeDetectorRef,
   Component,
   inject
 } from '@angular/core';
@@ -23,6 +24,10 @@ import {
 import {
   MatInputModule
 } from '@angular/material/input';
+
+import {
+  MatDialogRef
+} from '@angular/material/dialog';
 
 import {
   AuthService
@@ -64,11 +69,18 @@ export class LoginComponent {
   private readonly router =
     inject(Router);
 
+  private readonly dialogRef =
+    inject(MatDialogRef<LoginComponent>);
+
+  private readonly cdr =
+  inject(ChangeDetectorRef);
+
+
+
 
   usuario = '';
 
   password = '';
-
 
   loading = false;
 
@@ -81,34 +93,122 @@ export class LoginComponent {
 
   login(): void {
 
-    /*
-     * Un operador activo debe finalizar su jornada
-     * antes de permitir el acceso administrativo.
-     */
-    if (
-      this.operatorStateService.isOperatorActive()
-    ) {
+  /*
+   * Un operador activo debe finalizar su jornada
+   * antes de permitir el acceso administrativo.
+   */
+  if (
+    this.operatorStateService.isOperatorActive()
+  ) {
 
+    this.errorMessage =
+      'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.';
+
+    return;
+  }
+
+  if (
+    !this.usuario.trim() ||
+    !this.password
+  ) {
+
+    this.errorMessage =
+      'Ingrese usuario y contraseña.';
+
+    return;
+  }
+
+  if (this.loading) {
+
+    return;
+  }
+
+  this.loading = true;
+
+  this.errorMessage = '';
+
+  this.authService.login({
+
+    usuario:
+      this.usuario.trim(),
+
+    password:
+      this.password
+
+  }).subscribe({
+
+    next: response => {
+
+      try {
+
+        this.authService.saveSession(
+          response
+        );
+
+        this.loading = false;
+
+        /*
+         * Cerramos el modal antes de ir
+         * al dashboard administrativo.
+         */
+        this.dialogRef.close(true);
+
+        this.router.navigate([
+          '/dashboard'
+        ]);
+
+      } catch (error) {
+
+        console.error(
+          '[Login] Error al guardar sesión:',
+          error
+        );
+
+        this.loading = false;
+
+        this.errorMessage =
+          'No se pudo iniciar la sesión administrativa.';
+      }
+
+    },
+
+    error: error => {
+
+      this.loading = false;
+
+      console.error(
+        '[Login] Error:',
+        error
+      );
+
+      /*
+       * Mostrar el mensaje enviado por el backend.
+       */
+      if (error?.error?.message) {
+
+        this.errorMessage =
+          error.error.message;
+
+        return;
+      }
+
+      /*
+       * Mensaje genérico como respaldo.
+       */
       this.errorMessage =
-        'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.';
-
-      return;
-
+        'No fue posible iniciar sesión.';
     }
 
+  });
+}
 
-    if (
-      !this.usuario.trim() ||
-      !this.password
-    ) {
 
-      this.errorMessage =
-        'Ingrese usuario y contraseña.';
 
-      return;
+  // ============================================================
+  // CANCELAR
+  // ============================================================
 
-    }
-
+  cancelar(): void {
 
     if (this.loading) {
 
@@ -116,97 +216,18 @@ export class LoginComponent {
 
     }
 
-
-    this.loading = true;
-
-    this.errorMessage = '';
-
-
-    this.authService.login({
-
-      usuario:
-        this.usuario.trim(),
-
-      password:
-        this.password
-
-    }).subscribe({
-
-      next: response => {
-
-        try {
-
-          this.authService.saveSession(
-            response
-          );
-
-          this.loading = false;
-
-          this.router.navigate([
-            '/dashboard'
-          ]);
-
-        } catch (error) {
-
-          console.error(
-            '[Login] Error al guardar sesión:',
-            error
-          );
-
-          this.loading = false;
-
-          this.errorMessage =
-            'No se puede iniciar sesión administrativa mientras existe un operador activo.';
-
-        }
-
-      },
-
-
-      error: error => {
-
-        this.loading = false;
-
-
-        if (error.status === 401) {
-
-          this.errorMessage =
-            'Usuario o contraseña incorrectos.';
-
-          return;
-
-        }
-
-
-        if (error.status === 403) {
-
-          this.errorMessage =
-            'El usuario no tiene permisos para acceder.';
-
-          return;
-
-        }
-
-
-        this.errorMessage =
-          'No fue posible iniciar sesión.';
-
-      }
-
-    });
+    this.dialogRef.close(false);
 
   }
 
 
   // ============================================================
-  // VOLVER AL POS
+  // CERRAR MODAL
   // ============================================================
 
-  volverAlPos(): void {
+  cerrar(): void {
 
-    this.router.navigate([
-      '/'
-    ]);
+    this.cancelar();
 
   }
 

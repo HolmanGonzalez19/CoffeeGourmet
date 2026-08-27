@@ -33,8 +33,12 @@
     display: grid;
     place-items: center;
     border-radius: vars.$radius-lg;
-    background: vars.$color-primary;
-    font-size: 20px;
+
+    img {
+      width: 160%;
+      object-fit: contain; // mantiene proporción sin deformar
+      border-radius: inherit; // opcional, si quieres que siga el borde redondeado
+    }
   }
 
   &__brand-info {

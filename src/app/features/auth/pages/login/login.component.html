@@ -1,24 +1,79 @@
 <section class="login">
-  <div class="login__container">
-    <div class="login__header">
-      <h1>Iniciar sesión</h1>
-      <p>Acceso administrativo</p>
+
+  <div class="login__card">
+
+    <button
+      class="login__close"
+      type="button"
+      aria-label="Cerrar"
+      [disabled]="loading"
+      (click)="cerrar()">
+
+      ×
+
+    </button>
+
+
+    <div class="login__brand">
+
+      <div class="login__brand-icon">
+        <img src="/assets/images/LogoCoffeeGourmet.png"/>
+      </div>
+
+      <span>
+        COFFEE GOURMET
+      </span>
+
     </div>
 
-    <form class="login__form" (ngSubmit)="login()">
-      <mat-form-field appearance="outline">
-        <mat-label>Usuario</mat-label>
+
+    <header class="login__header">
+
+      <h1>
+        Acceso administrativo
+      </h1>
+
+      <p>
+        Por seguridad, ingresa tus credenciales
+        para acceder al panel administrativo.
+      </p>
+
+    </header>
+
+
+    <form
+      class="login__form"
+      (ngSubmit)="login()">
+
+
+      <mat-form-field
+        class="login__field"
+        appearance="outline">
+
+        <mat-label>
+          Usuario
+        </mat-label>
+
         <input
           matInput
           type="text"
           name="usuario"
           [(ngModel)]="usuario"
           autocomplete="username"
-          [disabled]="loading">
+          [disabled]="loading"
+          autofocus>
+
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Contraseña</mat-label>
+
+      <mat-form-field
+        class="login__field"
+        appearance="outline">
+
+        <mat-label>
+          Contraseña
+        </mat-label>
+
         <input
           matInput
           type="password"
@@ -26,28 +81,58 @@
           [(ngModel)]="password"
           autocomplete="current-password"
           [disabled]="loading">
+
       </mat-form-field>
 
+
       @if (errorMessage) {
+
         <div class="login__error">
+
           {{ errorMessage }}
+
         </div>
+
       }
 
+
       <button
+        class="login__submit"
         mat-flat-button
         type="submit"
         [disabled]="loading">
-        {{ loading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+
+        {{ loading
+          ? 'Iniciando sesión...'
+          : 'Iniciar sesión'
+        }}
+
       </button>
 
+
       <button
+        class="login__cancel"
         mat-button
         type="button"
         [disabled]="loading"
-        (click)="volverAlPos()">
-        Volver al POS
+        (click)="cancelar()">
+
+        Cancelar
+
       </button>
+
+
     </form>
+
+
+    <footer class="login__footer">
+
+      <span>
+        Coffee Gourmet · Acceso seguro
+      </span>
+
+    </footer>
+
   </div>
+
 </section>

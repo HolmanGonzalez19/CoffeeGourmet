@@ -3,16 +3,18 @@ import {
     inject,
     OnInit
 } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../../../core/services/dashboard.service';
 import { Dashboard } from '../../../../core/models/dashboard.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [
-        CurrencyPipe
+        CurrencyPipe,
+        DatePipe
     ],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss'
@@ -20,8 +22,9 @@ import { Dashboard } from '../../../../core/models/dashboard.model';
 export class DashboardComponent implements OnInit {
     private readonly dashboardService = inject(DashboardService);
     private readonly router = inject(Router);
+    private readonly authService = inject(AuthService);
 
-    dashboard: Dashboard | null = null;
+    dashboard!: Dashboard;
     loading = true;
     errorMessage = '';
 
@@ -74,11 +77,43 @@ export class DashboardComponent implements OnInit {
         this.router.navigate(['/cash-register']);
     }
 
-    irAlPos(): void {
+    logout(): void {
+        this.authService.logout();
         this.router.navigate(['/']);
     }
 
-    logout(): void {
-        this.router.navigate(['/']);
+    getMaxVentaMensual(): number {
+
+        if (
+            !this.dashboard ||
+            this.dashboard.ventasPorMes.length === 0
+        ) {
+            return 1;
+        }
+
+        return Math.max(
+            ...this.dashboard.ventasPorMes.map(
+                venta => venta.total
+            )
+        );
+    }
+
+
+    formatearMes(mes: string): string {
+
+        const [anio, numeroMes] = mes.split('-');
+
+        const fecha = new Date(
+            Number(anio),
+            Number(numeroMes) - 1,
+            1
+        );
+
+        return fecha.toLocaleDateString(
+            'es-CO',
+            {
+                month: 'short'
+            }
+        ).replace('.', '');
     }
 }

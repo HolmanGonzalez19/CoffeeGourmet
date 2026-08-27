@@ -24,25 +24,39 @@ export const noActiveSessionGuard:
     inject(Router);
 
 
-  const adminActive =
-    authService.isAdminSessionActive();
-
-  const operatorActive =
-    operatorStateService.isOperatorActive();
-
-
+  /*
+   * Administrador activo:
+   * debe permanecer en administración
+   * hasta cerrar sesión.
+   */
   if (
-    adminActive ||
-    operatorActive
+    authService.isAdminSessionActive()
   ) {
 
     return router.createUrlTree([
-      '/'
+      '/dashboard'
     ]);
 
   }
 
 
+  /*
+   * Operador activo:
+   * puede utilizar el POS normalmente.
+   */
+  if (
+    operatorStateService.isOperatorActive()
+  ) {
+
+    return true;
+
+  }
+
+
+  /*
+   * Sin ninguna sesión:
+   * POS público permitido.
+   */
   return true;
 
 };

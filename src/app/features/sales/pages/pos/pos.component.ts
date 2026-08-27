@@ -32,7 +32,13 @@ import {
 } from '../../../../core/models/sale.model';
 
 import { SaleService } from '../../../../core/services/sale.service';
-import { CashRegisterStatusResponse } from '../../../../core/models/cash-register-status.model';
+
+import {
+  MatDialog
+} from '@angular/material/dialog';
+import {
+  LoginComponent
+} from '../../../auth/pages/login/login.component';
 
 
 @Component({
@@ -71,6 +77,9 @@ export class PosComponent implements OnDestroy {
 
   private readonly changeDetectorRef =
     inject(ChangeDetectorRef);
+
+  private readonly dialog =
+    inject(MatDialog);
 
 
   readonly currencyCode = 'COP';
@@ -157,31 +166,31 @@ export class PosComponent implements OnDestroy {
 
   constructor() {
 
-  this.updateCurrentTime();
+    this.updateCurrentTime();
 
-  console.log(
-    '[POS] Operador actual:',
-    this.currentOperator
-  );
+    console.log(
+      '[POS] Operador actual:',
+      this.currentOperator
+    );
 
-  /*
-   * El estado de la caja es independiente
-   * de la sesión del operador.
-   *
-   * La caja pertenece al estado global de la aplicación
-   * y su fuente de verdad es la base de datos.
-   */
-  this.loadCurrentCashRegister();
+    /*
+     * El estado de la caja es independiente
+     * de la sesión del operador.
+     *
+     * La caja pertenece al estado global de la aplicación
+     * y su fuente de verdad es la base de datos.
+     */
+    this.loadCurrentCashRegister();
 
-  /*
-   * Los métodos de pago son información de catálogo.
-   * No requieren que exista un operador activo para
-   * poder consultarlos.
-   */
-   if (this.operadorActivo) {
-    this.loadPaymentMethods();
-   }
-}
+    /*
+     * Los métodos de pago son información de catálogo.
+     * No requieren que exista un operador activo para
+     * poder consultarlos.
+     */
+    if (this.operadorActivo) {
+      this.loadPaymentMethods();
+    }
+  }
 
 
   // ============================================================
@@ -292,21 +301,21 @@ export class PosComponent implements OnDestroy {
       this.priceError =
         'El producto no tiene un precio de venta vigente.';
 
-            this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.markForCheck();
 
-            return;
+      return;
 
-          }
+    }
 
 
     const precioVenta =
       Number(product.precioVenta);
 
 
-          if (
-            !Number.isFinite(precioVenta) ||
-            precioVenta < 0
-          ) {
+    if (
+      !Number.isFinite(precioVenta) ||
+      precioVenta < 0
+    ) {
 
       console.error(
         '[POS] Precio de venta inválido:',
@@ -321,11 +330,11 @@ export class PosComponent implements OnDestroy {
       this.priceError =
         'El producto tiene un precio de venta inválido.';
 
-            this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.markForCheck();
 
-            return;
+      return;
 
-          }
+    }
 
 
     // ----------------------------------------------------------
@@ -369,11 +378,11 @@ export class PosComponent implements OnDestroy {
 
     if (existingItem) {
 
-            existingItem.cantidad += 1;
+      existingItem.cantidad += 1;
 
-            existingItem.subtotal =
-              existingItem.cantidad *
-              existingItem.precioUnitario;
+      existingItem.subtotal =
+        existingItem.cantidad *
+        existingItem.precioUnitario;
 
     }
 
@@ -384,29 +393,29 @@ export class PosComponent implements OnDestroy {
 
     else {
 
-            this.venta.items.push({
+      this.venta.items.push({
 
-              productoId:
-                product.id,
+        productoId:
+          product.id,
 
-              codigo:
-                product.codigo,
+        codigo:
+          product.codigo,
 
-              nombre:
-                product.nombre,
+        nombre:
+          product.nombre,
 
-              cantidad:
-                1,
+        cantidad:
+          1,
 
-              precioUnitario:
-                precioVenta,
+        precioUnitario:
+          precioVenta,
 
-              subtotal:
-                precioVenta
+        subtotal:
+          precioVenta
 
-            });
+      });
 
-          }
+    }
 
 
     // ----------------------------------------------------------
@@ -490,9 +499,36 @@ export class PosComponent implements OnDestroy {
     }
 
 
-    this.router.navigate([
-      '/login'
-    ]);
+    const dialogRef =
+      this.dialog.open(
+        LoginComponent,
+        {
+          width: '390px',
+          maxWidth: 'calc(100vw - 32px)',
+
+          disableClose: true,
+
+          autoFocus: false,
+
+          panelClass:
+            'coffee-gourmet-login-dialog'
+        }
+      );
+
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+
+        if (result === true) {
+
+          console.log(
+            '[POS] Acceso administrativo iniciado.'
+          );
+
+        }
+
+      }
+    );
 
   }
 
@@ -905,73 +941,73 @@ export class PosComponent implements OnDestroy {
   // CONSULTAR CAJA ACTUAL
   // ============================================================
 
- private loadCurrentCashRegister(): void {
+  private loadCurrentCashRegister(): void {
 
-  this.cashRegisterLoading = true;
+    this.cashRegisterLoading = true;
 
-  console.log(
-    '[POS] Consultando estado actual de la caja...'
-  );
-
-
-  this.cashRegisterService
-    .getCurrent()
-    .subscribe({
-
-      next: response => {
-
-        console.log(
-          '[POS] Estado de caja recibido:',
-          response
-        );
+    console.log(
+      '[POS] Consultando estado actual de la caja...'
+    );
 
 
-        this.cashRegisterStatus =
-          response.estado;
+    this.cashRegisterService
+      .getCurrent()
+      .subscribe({
+
+        next: response => {
+
+          console.log(
+            '[POS] Estado de caja recibido:',
+            response
+          );
 
 
-        this.cashRegisterLoading =
-          false;
+          this.cashRegisterStatus =
+            response.estado;
 
 
-        this.changeDetectorRef.markForCheck();
-
-      },
-
-
-      error: error => {
-
-        console.error(
-          '[POS] Error consultando estado de caja:',
-          error
-        );
+          this.cashRegisterLoading =
+            false;
 
 
-        /*
-         * Si no podemos consultar el estado,
-         * no asumimos que la caja está abierta.
-         */
-        this.cashRegisterStatus =
-          'CERRADA';
+          this.changeDetectorRef.markForCheck();
+
+        },
 
 
-        this.cashRegisterLoading =
-          false;
+        error: error => {
+
+          console.error(
+            '[POS] Error consultando estado de caja:',
+            error
+          );
 
 
-        this.changeDetectorRef.markForCheck();
+          /*
+           * Si no podemos consultar el estado,
+           * no asumimos que la caja está abierta.
+           */
+          this.cashRegisterStatus =
+            'CERRADA';
 
-      }
 
-    });
+          this.cashRegisterLoading =
+            false;
 
-}
 
- get cajaAbierta(): boolean {
+          this.changeDetectorRef.markForCheck();
 
-  return this.cashRegisterStatus === 'ABIERTA';
+        }
 
-}
+      });
+
+  }
+
+  get cajaAbierta(): boolean {
+
+    return this.cashRegisterStatus === 'ABIERTA';
+
+  }
 
 
   // ============================================================
