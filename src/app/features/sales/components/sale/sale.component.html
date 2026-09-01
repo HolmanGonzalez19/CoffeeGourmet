@@ -1,0 +1,697 @@
+<section class="sales">
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+
+  <header class="sales__header">
+
+    <div>
+
+      <span class="sales__eyebrow">
+        ADMINISTRACIÓN
+      </span>
+
+      <h1>
+        Ventas
+      </h1>
+
+      <p>
+        Consulta y administra las ventas registradas.
+      </p>
+
+    </div>
+
+
+    <div class="sales__actions">
+
+      <button
+        type="button"
+        class="sales__button"
+        (click)="volverAlDashboard()">
+
+        Dashboard
+
+      </button>
+
+
+      <button
+        type="button"
+        class="sales__button"
+        (click)="cargarVentas()"
+        [disabled]="loading">
+
+        <span>
+          ↻
+        </span>
+
+        Actualizar
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ============================================================
+       CONTENIDO
+       ============================================================ -->
+
+  <div class="sales__content">
+
+
+    <!-- ==========================================================
+         ERROR
+         ========================================================== -->
+
+    @if (errorMessage) {
+
+      <section class="sales__error">
+
+        <span class="sales__error-icon">
+          !
+        </span>
+
+        <div>
+
+          <strong>
+            No fue posible cargar las ventas
+          </strong>
+
+          <p>
+            {{ errorMessage }}
+          </p>
+
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- ==========================================================
+         FILTROS
+         ========================================================== -->
+
+    <section class="sales__filters">
+
+      <div class="sales__filters-header">
+
+        <div>
+
+          <span class="sales__section-eyebrow">
+            CONSULTA
+          </span>
+
+          <h2>
+            Filtros de búsqueda
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="sales__filters-grid">
+
+
+        <!-- CAJA -->
+
+        <div class="sales__field">
+
+          <label for="filtroCajaId">
+            Caja
+          </label>
+
+          <select
+    [(ngModel)]="filtroCajaId">
+
+    <option [ngValue]="null">
+        Todas las cajas
+    </option>
+
+    @for (caja of cajas; track caja.id) {
+
+        <option [ngValue]="caja.id">
+            Caja #{{ caja.id }}
+        </option>
+
+    }
+
+</select>
+
+        </div>
+
+
+        <!-- USUARIO -->
+
+        <div class="sales__field">
+
+          <label for="filtroUsuarioId">
+            Usuario
+          </label>
+
+          <select
+    [(ngModel)]="filtroUsuarioId">
+
+    <option [ngValue]="null">
+        Todos los usuarios
+    </option>
+
+    @for (usuario of usuarios; track usuario.id) {
+
+        <option [ngValue]="usuario.id">
+            {{ usuario.nombre }}
+        </option>
+
+    }
+
+</select>
+
+        </div>
+
+
+        <!-- MÉTODO DE PAGO -->
+
+        <div class="sales__field">
+
+          <label for="filtroMetodoPagoId">
+            Método de pago
+          </label>
+
+          <select
+    [(ngModel)]="filtroMetodoPagoId">
+
+    <option [ngValue]="null">
+        Todos los métodos
+    </option>
+
+    @for (metodo of metodosPago; track metodo.id) {
+
+        <option [ngValue]="metodo.id">
+            {{ metodo.nombre }}
+        </option>
+
+    }
+
+</select>
+
+        </div>
+
+
+        <!-- ESTADO -->
+
+        <div class="sales__field">
+
+          <label for="filtroEstado">
+            Estado
+          </label>
+
+          <select
+    [(ngModel)]="filtroEstado">
+
+    <option [ngValue]="null">
+        Todos los estados
+    </option>
+
+    <option value="REGISTRADA">
+        Registrada
+    </option>
+
+    <option value="ANULADA">
+        Anulada
+    </option>
+
+</select>
+        </div>
+
+
+        <!-- FECHA INICIO -->
+
+        <div class="sales__field">
+
+          <label for="filtroFechaInicio">
+            Fecha inicial
+          </label>
+
+          <input
+            id="filtroFechaInicio"
+            type="datetime-local"
+            [(ngModel)]="filtroFechaInicio">
+
+        </div>
+
+
+        <!-- FECHA FIN -->
+
+        <div class="sales__field">
+
+          <label for="filtroFechaFin">
+            Fecha final
+          </label>
+
+          <input
+            id="filtroFechaFin"
+            type="datetime-local"
+            [(ngModel)]="filtroFechaFin">
+
+        </div>
+
+      </div>
+
+
+      <!-- ACCIONES DE FILTROS -->
+
+      <div class="sales__filters-actions">
+
+        <button
+          type="button"
+          class="sales__button sales__button--primary"
+          (click)="aplicarFiltros()"
+          [disabled]="loading">
+
+          Buscar ventas
+
+        </button>
+
+
+        <button
+          type="button"
+          class="sales__button"
+          (click)="limpiarFiltros()"
+          [disabled]="loading">
+
+          Limpiar filtros
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================================
+         CARGANDO
+         ========================================================== -->
+
+    @if (loading) {
+
+      <section class="sales__loading">
+
+        <div class="sales__spinner"></div>
+
+        <span>
+          Cargando ventas...
+        </span>
+
+      </section>
+
+    }
+
+
+    <!-- ==========================================================
+         LISTADO
+         ========================================================== -->
+
+    @if (!loading) {
+
+      <section class="sales__panel">
+
+
+        <!-- ======================================================
+             HEADER DEL PANEL
+             ====================================================== -->
+
+        <div class="sales__panel-header">
+
+          <div>
+
+            <span class="sales__section-eyebrow">
+              REGISTRO
+            </span>
+
+            <h2>
+              Ventas registradas
+            </h2>
+
+          </div>
+
+
+          <span class="sales__count">
+
+            {{ totalRegistros }}
+
+            {{ totalRegistros === 1 ? 'venta' : 'ventas' }}
+
+          </span>
+
+        </div>
+
+
+        <!-- ======================================================
+             PAGINADOR SUPERIOR
+             ====================================================== -->
+
+        @if (totalRegistros > 0) {
+
+          <div class="sales__pagination">
+
+            <div class="sales__pagination-info">
+
+              Mostrando
+
+              <strong>
+                {{ paginaActual * registrosPorPagina + 1 }}
+              </strong>
+
+              -
+
+              <strong>
+                {{
+                  paginaActual * registrosPorPagina + ventas.length
+                }}
+              </strong>
+
+              de
+
+              <strong>
+                {{ totalRegistros }}
+              </strong>
+
+            </div>
+
+
+            <div class="sales__pagination-controls">
+
+              <button
+                type="button"
+                class="sales__pagination-button"
+                (click)="paginaAnterior()"
+                [disabled]="paginaActual === 0 || loading">
+
+                ← Anterior
+
+              </button>
+
+
+              <span class="sales__pagination-page">
+
+                Página
+
+                <strong>
+                  {{ paginaActual + 1 }}
+                </strong>
+
+                de
+
+                <strong>
+                  {{ totalPaginas }}
+                </strong>
+
+              </span>
+
+
+              <button
+                type="button"
+                class="sales__pagination-button"
+                (click)="paginaSiguiente()"
+                [disabled]="paginaActual >= totalPaginas - 1 || loading">
+
+                Siguiente →
+
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ======================================================
+             TABLA
+             ====================================================== -->
+
+        @if (ventas.length > 0) {
+
+          <div class="sales__table-wrapper">
+
+            <table class="sales__table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    ID
+                  </th>
+
+                  <th>
+                    Fecha
+                  </th>
+
+                  <th>
+                    Usuario
+                  </th>
+
+                  <th>
+                    Método de pago
+                  </th>
+
+                  <th>
+                    Productos
+                  </th>
+
+                  <th>
+                    Total
+                  </th>
+
+                  <th>
+                    Estado
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for (
+                  venta of ventas;
+                  track venta.id
+                ) {
+
+                  <tr>
+
+                    <!-- ID -->
+
+                    <td>
+
+                      <strong class="sales__id">
+                        #{{ venta.id }}
+                      </strong>
+
+                    </td>
+
+
+                    <!-- FECHA -->
+
+                    <td>
+
+                      <div class="sales__date">
+
+                        <strong>
+                          {{ venta.fechaHora | date:'dd/MM/yyyy' }}
+                        </strong>
+
+                        <span>
+                          {{ venta.fechaHora | date:'HH:mm' }}
+                        </span>
+
+                      </div>
+
+                    </td>
+
+
+                    <!-- USUARIO -->
+
+                    <td>
+
+                      <span class="sales__user">
+                        {{ venta.usuarioNombre }}
+                      </span>
+
+                    </td>
+
+
+                    <!-- MÉTODO DE PAGO -->
+
+                    <td>
+
+                      <span class="sales__payment">
+                        {{ venta.metodoPagoNombre }}
+                      </span>
+
+                    </td>
+
+
+                    <!-- PRODUCTOS -->
+
+                    <td>
+
+                      <span class="sales__products">
+
+                        {{ obtenerCantidadProductos(venta) }}
+
+                      </span>
+
+                    </td>
+
+
+                    <!-- TOTAL -->
+
+                    <td>
+
+                      <strong class="sales__total">
+
+                        {{
+                          venta.total
+                          | currency:'COP':'symbol-narrow':'1.0-0'
+                        }}
+
+                      </strong>
+
+                    </td>
+
+
+                    <!-- ESTADO -->
+
+                    <td>
+
+                      @if (venta.estado === 'REGISTRADA') {
+
+                        <span
+                          class="sales__status sales__status--registered">
+
+                          REGISTRADA
+
+                        </span>
+
+                      } @else {
+
+                        <span
+                          class="sales__status sales__status--cancelled">
+
+                          ANULADA
+
+                        </span>
+
+                      }
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+
+          <!-- ====================================================
+               PAGINADOR INFERIOR
+               ==================================================== -->
+
+          <div class="sales__pagination sales__pagination--bottom">
+
+            <div class="sales__pagination-info">
+
+              {{ registrosPorPagina }}
+
+              registros por página
+
+            </div>
+
+
+            <div class="sales__pagination-controls">
+
+              <button
+                type="button"
+                class="sales__pagination-button"
+                (click)="paginaAnterior()"
+                [disabled]="paginaActual === 0 || loading">
+
+                ← Anterior
+
+              </button>
+
+
+              <span class="sales__pagination-page">
+
+                Página
+
+                <strong>
+                  {{ paginaActual + 1 }}
+                </strong>
+
+                de
+
+                <strong>
+                  {{ totalPaginas }}
+                </strong>
+
+              </span>
+
+
+              <button
+                type="button"
+                class="sales__pagination-button"
+                (click)="paginaSiguiente()"
+                [disabled]="paginaActual >= totalPaginas - 1 || loading">
+
+                Siguiente →
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+        } @else {
+
+
+          <!-- ====================================================
+               SIN VENTAS
+               ==================================================== -->
+
+          <div class="sales__empty">
+
+            <div class="sales__empty-icon">
+              $
+            </div>
+
+            <h3>
+              No existen ventas que coincidan con la búsqueda
+            </h3>
+
+            <p>
+              Prueba modificando o limpiando los filtros.
+            </p>
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+  </div>
+
+</section>

@@ -23,6 +23,13 @@ import { adminGuard }
 
 import { noActiveSessionGuard }
   from './core/guards/no-active-session.guard';
+import { SalesComponent } from './features/sales/components/sale/sale.component';
+import { ProductComponent } from './features/product/components/product.component';
+import { InventoryComponent } from './features/inventory/components/inventory/inventory.component';
+import { PurchasesComponent } from './features/purchases/pages/purchases/purchases.component';
+import { PurchaseFormComponent } from './features/purchases/pages/purchase-form/purchase-form.component';
+import { PurchaseDetailComponent } from './features/purchases/pages/purchase-detail/purchase-detail.component';
+import { StatisticsComponent } from './features/statistics/statistics.component';
 
 
 export const routes: Routes = [
@@ -105,6 +112,32 @@ export const routes: Routes = [
     ]
   },
 
+  /*
+ * ============================================================
+ * VENTAS
+ * ============================================================
+ */
+{
+  path: 'sales',
+  component: SalesComponent,
+  canActivate: [
+    adminGuard
+  ]
+},
+
+  /*
+ * ============================================================
+ * PRODUCTOS
+ * ============================================================
+ */
+{
+  path: 'products',
+  component: ProductComponent,
+  canActivate: [
+    adminGuard
+  ]
+},
+
 
   /*
    * ============================================================
@@ -121,6 +154,61 @@ export const routes: Routes = [
       noActiveSessionGuard
     ]
   },
+
+  /*
+   * ============================================================
+   * INVENTARIO
+   * ============================================================
+   */
+
+  {
+    path: 'inventory',
+    component: InventoryComponent,
+    canActivate: [
+      adminGuard
+    ]
+  },
+
+   /*
+   * ============================================================
+   * COMPRAS
+   * ============================================================
+   */
+
+  {
+    path: 'purchases',
+    component: PurchasesComponent,
+    canActivate: [
+      adminGuard
+    ]
+  },
+  {
+    path: 'purchases/new',
+    component: PurchaseFormComponent,
+    canActivate: [
+      adminGuard
+    ]
+  },
+  {
+    path: 'purchases/:id',
+    component: PurchaseDetailComponent,
+    canActivate: [
+      adminGuard
+    ]
+  },
+
+  /*
+ * ============================================================
+ * ESTADÍSTICAS
+ * ============================================================
+ */
+{
+  path: 'statistics',
+  component: StatisticsComponent,
+  canActivate: [
+    adminGuard
+  ]
+},
 
 
   /*

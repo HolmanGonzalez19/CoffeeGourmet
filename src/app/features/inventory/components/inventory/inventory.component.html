@@ -1,0 +1,699 @@
+<section class="inventory">
+
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+
+  <header class="inventory__header">
+
+    <div>
+
+      <h1>
+        Inventario
+      </h1>
+
+      <p>
+        Consulta y gestión de existencias de productos
+      </p>
+
+    </div>
+
+
+    <div class="inventory__actions">
+
+      <button
+        type="button"
+        (click)="volverAlDashboard()">
+
+        Dashboard
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ==========================================================
+       FILTROS
+       ========================================================== -->
+
+  <section class="inventory__filters">
+
+    <div class="inventory__filter">
+
+      <label for="busqueda">
+        Buscar producto
+      </label>
+
+      <input
+        id="busqueda"
+        type="text"
+        placeholder="Nombre del producto..."
+        [(ngModel)]="filtroBusqueda"
+        (input)="aplicarFiltros()">
+
+    </div>
+
+
+    <div class="inventory__filter">
+
+      <label for="estado">
+        Estado del inventario
+      </label>
+
+      <select
+        id="estado"
+        [(ngModel)]="filtroEstado"
+        (change)="aplicarFiltros()">
+
+        <option value="TODOS">
+          Todos
+        </option>
+
+        <option value="DISPONIBLE">
+          Disponibles
+        </option>
+
+        <option value="BAJO">
+          Existencias bajas
+        </option>
+
+        <option value="AGOTADO">
+          Agotados
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="inventory__button-clear"
+      (click)="limpiarFiltros()">
+
+      Limpiar filtros
+
+    </button>
+
+  </section>
+
+
+  <!-- ==========================================================
+       RESUMEN
+       ========================================================== -->
+
+  <div class="inventory__summary">
+
+    <span>
+
+      Productos encontrados:
+
+      <strong>
+        {{ inventarioFiltrado.length }}
+      </strong>
+
+    </span>
+
+  </div>
+
+
+  <!-- ==========================================================
+       LOADING
+       ========================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="inventory__message">
+
+    Cargando inventario...
+
+  </div>
+
+
+  <!-- ==========================================================
+       ERROR
+       ========================================================== -->
+
+  <div
+    *ngIf="!loading && errorMessage"
+    class="inventory__message inventory__message--error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- ==========================================================
+       TABLA
+       ========================================================== -->
+
+  <section
+    *ngIf="!loading && !errorMessage"
+    class="inventory__table-container">
+
+    <table class="inventory__table">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Producto
+          </th>
+
+          <th>
+            Existencias actuales
+          </th>
+
+          <th>
+            Existencias mínimas
+          </th>
+
+          <th>
+            Estado
+          </th>
+
+          <th>
+            Última actualización
+          </th>
+
+          <th>
+            Acciones
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr
+          *ngFor="let item of inventarioFiltrado">
+
+          <!-- PRODUCTO -->
+
+          <td>
+
+            <div class="inventory__name">
+
+              <strong>
+                {{ item.productoNombre }}
+              </strong>
+
+              <small>
+                ID: {{ item.productoId }}
+              </small>
+
+            </div>
+
+          </td>
+
+
+          <!-- EXISTENCIAS ACTUALES -->
+
+          <td>
+
+            <strong class="inventory__quantity">
+
+              {{ item.cantidadActual }}
+
+            </strong>
+
+          </td>
+
+
+          <!-- EXISTENCIAS MÍNIMAS -->
+
+          <td>
+
+            {{ item.stockMinimo }}
+
+          </td>
+
+
+          <!-- ESTADO -->
+
+          <td>
+
+            <span
+              class="inventory__status"
+              [class.inventory__status--low]="
+                obtenerEstado(item) === 'BAJO'
+              "
+              [class.inventory__status--empty]="
+                obtenerEstado(item) === 'AGOTADO'
+              ">
+
+              {{ obtenerTextoEstado(item) }}
+
+            </span>
+
+          </td>
+
+
+          <!-- FECHA -->
+
+          <td>
+
+            {{ item.fechaActualizacion
+              | date:'dd/MM/yyyy HH:mm' }}
+
+          </td>
+
+
+          <!-- ACCIONES -->
+
+          <td>
+
+            <div class="inventory__row-actions">
+
+              <button
+                type="button"
+                (click)="verMovimientos(item)">
+
+                Movimientos
+
+              </button>
+
+
+              <button
+                type="button"
+                (click)="registrarMovimiento(item)">
+
+                Registrar movimiento
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+
+        <!-- ======================================================
+             SIN RESULTADOS
+             ====================================================== -->
+
+        <tr
+          *ngIf="inventarioFiltrado.length === 0">
+
+          <td
+            colspan="6"
+            class="inventory__empty">
+
+            No se encontraron productos
+            con los filtros seleccionados.
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+
+  <!-- ==========================================================
+       FORMULARIO MOVIMIENTO
+       ========================================================== -->
+
+  <section
+    *ngIf="mostrarMovimiento"
+    class="inventory__movement-form">
+
+    <div class="inventory__movement-header">
+
+      <div>
+
+        <h2>
+          Registrar movimiento
+        </h2>
+
+        <p *ngIf="productoSeleccionado">
+
+          Producto:
+
+          <strong>
+            {{ productoSeleccionado.productoNombre }}
+          </strong>
+
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         ERROR
+         ======================================================== -->
+
+    <div
+      *ngIf="movimientoError"
+      class="inventory__message inventory__message--error">
+
+      {{ movimientoError }}
+
+    </div>
+
+
+    <!-- ========================================================
+         TIPO DE MOVIMIENTO
+         ======================================================== -->
+
+    <div class="inventory__form-group">
+
+      <label for="tipoMovimiento">
+        Tipo de movimiento
+      </label>
+
+      <select
+        id="tipoMovimiento"
+        [(ngModel)]="movimientoForm.tipoMovimiento">
+
+        <option value="">
+          Seleccione un movimiento
+        </option>
+
+        <option value="ENTRADA">
+          Entrada
+        </option>
+
+        <option value="SALIDA">
+          Salida
+        </option>
+
+        <option value="AJUSTE">
+          Ajuste
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- ========================================================
+         CANTIDAD
+         ======================================================== -->
+
+    <div class="inventory__form-group">
+
+      <label for="cantidadMovimiento">
+        Cantidad
+      </label>
+
+      <input
+        id="cantidadMovimiento"
+        type="number"
+        min="1"
+        [(ngModel)]="movimientoForm.cantidad"
+        placeholder="Ingrese la cantidad">
+
+    </div>
+
+
+    <!-- ========================================================
+         MOTIVO
+         ======================================================== -->
+
+    <div class="inventory__form-group">
+
+      <label for="motivoMovimiento">
+        Motivo
+      </label>
+
+      <input
+        id="motivoMovimiento"
+        type="text"
+        maxlength="255"
+        [(ngModel)]="movimientoForm.motivo"
+        placeholder="Motivo del movimiento">
+
+    </div>
+
+
+    <!-- ========================================================
+         REFERENCIA
+         ======================================================== -->
+
+    <div
+  class="inventory__form-group"
+  *ngIf="movimientoForm.tipoMovimiento === 'ENTRADA'">
+
+  <label for="compraMovimiento">
+    Compra de referencia
+  </label>
+
+  <select
+    id="compraMovimiento"
+    [(ngModel)]="movimientoForm.compraId">
+
+    <option [ngValue]="null">
+      Seleccione una compra
+    </option>
+
+    <option
+      *ngFor="let referencia of referencias"
+      [ngValue]="referencia.id">
+
+      {{ referencia.descripcion }}
+
+    </option>
+
+  </select>
+
+</div>
+
+
+    <!-- ========================================================
+         ACCIONES
+         ======================================================== -->
+
+    <div class="inventory__form-actions">
+
+      <button
+        type="button"
+        (click)="cerrarMovimiento()"
+        [disabled]="guardandoMovimiento">
+
+        Cancelar
+
+      </button>
+
+
+      <button
+        type="button"
+        class="inventory__button-primary"
+        (click)="guardarMovimiento()"
+        [disabled]="guardandoMovimiento">
+
+        {{
+          guardandoMovimiento
+            ? 'Guardando...'
+            : 'Registrar movimiento'
+        }}
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================
+       HISTORIAL DE MOVIMIENTOS
+       ========================================================== -->
+
+  <section
+    *ngIf="mostrarMovimientos"
+    class="inventory__movements">
+
+    <div class="inventory__movements-header">
+
+      <div>
+
+        <h2>
+          Historial de movimientos
+        </h2>
+
+        <p *ngIf="productoMovimientos">
+
+          Producto:
+
+          <strong>
+            {{ productoMovimientos.productoNombre }}
+          </strong>
+
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        (click)="cerrarMovimientos()">
+
+        Cerrar
+
+      </button>
+
+    </div>
+
+
+    <!-- ========================================================
+         LOADING MOVIMIENTOS
+         ======================================================== -->
+
+    <div
+      *ngIf="cargandoMovimientos"
+      class="inventory__message">
+
+      Cargando movimientos...
+
+    </div>
+
+
+    <!-- ========================================================
+         ERROR MOVIMIENTOS
+         ======================================================== -->
+
+    <div
+      *ngIf="
+        !cargandoMovimientos &&
+        movimientosError
+      "
+      class="inventory__message inventory__message--error">
+
+      {{ movimientosError }}
+
+    </div>
+
+
+    <!-- ========================================================
+         TABLA MOVIMIENTOS
+         ======================================================== -->
+
+    <div
+      *ngIf="
+        !cargandoMovimientos &&
+        !movimientosError
+      "
+      class="inventory__movements-table-container">
+
+      <table class="inventory__movements-table">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Fecha
+            </th>
+
+            <th>
+              Tipo
+            </th>
+
+            <th>
+              Cantidad
+            </th>
+
+            <th>
+              Motivo
+            </th>
+
+            <th>
+              Referencia
+            </th>
+
+            <th>
+              Usuario
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let movimiento of movimientos">
+
+            <td>
+
+              {{ movimiento.fecha
+                | date:'dd/MM/yyyy HH:mm' }}
+
+            </td>
+
+
+            <td>
+
+              {{ movimiento.tipoMovimiento }}
+
+            </td>
+
+
+            <td>
+
+              {{ movimiento.cantidad }}
+
+            </td>
+
+
+            <td>
+
+              {{ movimiento.motivo || '—' }}
+
+            </td>
+
+
+            <td>
+
+              {{ movimiento.referencia }}
+
+            </td>
+
+
+            <td>
+
+              {{ movimiento.usuarioNombre }}
+
+            </td>
+
+          </tr>
+
+
+          <!-- ==================================================
+               SIN MOVIMIENTOS
+               ================================================== -->
+
+          <tr
+            *ngIf="movimientos.length === 0">
+
+            <td
+              colspan="6"
+              class="inventory__empty">
+
+              No existen movimientos registrados.
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</section>

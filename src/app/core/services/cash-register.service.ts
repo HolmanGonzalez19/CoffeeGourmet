@@ -63,6 +63,15 @@ export class CashRegisterService {
 }
 
 
+getAll(): Observable<CashRegister[]> {
+
+  return this.http.get<CashRegister[]>(
+    this.endpoint
+  );
+
+}
+
+
   // ============================================================
   // ABRIR CAJA
   // ============================================================

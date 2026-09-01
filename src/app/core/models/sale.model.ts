@@ -37,3 +37,16 @@ export interface SaleResponse {
   fechaActualizacion: string;
   detalles: SaleDetailResponse[];
 }
+
+export interface SalePageResponse {
+  content: SaleResponse[];
+
+  pageNumber: number;
+  pageSize: number;
+
+  totalElements: number;
+  totalPages: number;
+
+  first: boolean;
+  last: boolean;
+}

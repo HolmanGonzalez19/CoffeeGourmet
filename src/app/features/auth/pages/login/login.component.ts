@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-   ChangeDetectorRef,
+  ChangeDetectorRef,
   Component,
   inject
 } from '@angular/core';
@@ -37,6 +37,9 @@ import {
   OperatorStateService
 } from '../../../../core/services/operator-state.service';
 
+import {
+  NotificationService
+} from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -73,9 +76,10 @@ export class LoginComponent {
     inject(MatDialogRef<LoginComponent>);
 
   private readonly cdr =
-  inject(ChangeDetectorRef);
+    inject(ChangeDetectorRef);
 
-
+  private readonly notificationService =
+    inject(NotificationService);
 
 
   usuario = '';
@@ -93,116 +97,119 @@ export class LoginComponent {
 
   login(): void {
 
-  /*
-   * Un operador activo debe finalizar su jornada
-   * antes de permitir el acceso administrativo.
-   */
-  if (
-    this.operatorStateService.isOperatorActive()
-  ) {
+    /*
+     * Un operador activo debe finalizar su jornada
+     * antes de permitir el acceso administrativo.
+     */
+    if (
+      this.operatorStateService.isOperatorActive()
+    ) {
 
-    this.errorMessage =
-      'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.';
+      this.errorMessage =
+        'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.';
 
-    return;
-  }
+      return;
+    }
 
-  if (
-    !this.usuario.trim() ||
-    !this.password
-  ) {
+    if (
+      !this.usuario.trim() ||
+      !this.password
+    ) {
 
-    this.errorMessage =
-      'Ingrese usuario y contraseña.';
+      /*this.errorMessage =
+        'Ingrese usuario y contraseña.';*/
 
-    return;
-  }
+      this.notificationService.warning(
+        'Ingrese usuario y contraseña.'
+      );
 
-  if (this.loading) {
+      return;
+    }
 
-    return;
-  }
+    if (this.loading) {
 
-  this.loading = true;
+      return;
+    }
 
-  this.errorMessage = '';
+    this.loading = true;
 
-  this.authService.login({
+    this.errorMessage = '';
 
-    usuario:
-      this.usuario.trim(),
+    this.authService.login({
 
-    password:
-      this.password
+      usuario:
+        this.usuario.trim(),
 
-  }).subscribe({
+      password:
+        this.password
 
-    next: response => {
+    }).subscribe({
 
-      try {
+      next: response => {
 
-        this.authService.saveSession(
-          response
-        );
+        try {
+
+          this.authService.saveSession(
+            response
+          );
+
+          this.loading = false;
+
+          this.dialogRef.close(true);
+
+          this.notificationService.success(
+            'Sesión iniciada correctamente.'
+          );
+
+          this.router.navigate([
+            '/dashboard'
+          ]);
+
+        } catch (error) {
+
+          console.error(
+            '[Login] Error al guardar sesión:',
+            error
+          );
+
+          this.loading = false;
+          this.notificationService.error(
+            'No se pudo iniciar la sesión administrativa.'
+          );
+
+          this.cdr.markForCheck();
+        }
+
+      },
+
+      error: error => {
 
         this.loading = false;
 
-        /*
-         * Cerramos el modal antes de ir
-         * al dashboard administrativo.
-         */
-        this.dialogRef.close(true);
-
-        this.router.navigate([
-          '/dashboard'
-        ]);
-
-      } catch (error) {
-
         console.error(
-          '[Login] Error al guardar sesión:',
+          '[Login] Error:',
           error
         );
 
-        this.loading = false;
+        if (error?.error?.message) {
 
-        this.errorMessage =
-          'No se pudo iniciar la sesión administrativa.';
+          this.notificationService.error(
+            error.error.message
+          );
+
+        } else {
+
+          this.notificationService.error(
+            'No fue posible iniciar sesión.'
+          );
+
+        }
+
+        this.cdr.markForCheck();
       }
 
-    },
-
-    error: error => {
-
-      this.loading = false;
-
-      console.error(
-        '[Login] Error:',
-        error
-      );
-
-      /*
-       * Mostrar el mensaje enviado por el backend.
-       */
-      if (error?.error?.message) {
-
-        this.errorMessage =
-          error.error.message;
-
-        return;
-      }
-
-      /*
-       * Mensaje genérico como respaldo.
-       */
-      this.errorMessage =
-        'No fue posible iniciar sesión.';
-    }
-
-  });
-}
-
-
+    });
+  }
 
   // ============================================================
   // CANCELAR

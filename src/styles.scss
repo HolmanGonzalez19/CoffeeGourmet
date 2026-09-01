@@ -27,3 +27,78 @@ body {
 .cdk-overlay-backdrop {
   background: rgba(0, 0, 0, 0.62);
 }
+
+/* =========================================================
+   NOTIFICACIONES GLOBALES PERSONALIZADAS
+   ========================================================= */
+
+.snackbar-success > div {
+  background-color: #2e7d32 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.snackbar-error > div {
+  background-color: #c62828 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.snackbar-warning > div {
+  background-color: #ff9800 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.snackbar-info > div {
+  background-color: #1565c0 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.mat-mdc-snackbar-surface{
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  padding: 7px;
+  margin-top: 8px;
+}
+
+/* Animación de entrada */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación de salida */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  padding-right: 15px !important; // espacio para la X
+}
+
+.mat-mdc-snack-bar-action {
+  position: absolute !important;
+  top: 4px !important;
+  right: 0px !important;
+  font-size: 13px !important; // más pequeña
+  font-weight: 600 !important;
+  color: #b71c1c; // rojo discreto
+  cursor: pointer !important;
+  transition: color 0.2s ease !important;
+
+  &:hover {
+    --mat-button-text-state-layer-color: none !important; // desactiva el efecto de capa de estado
+  }
+}

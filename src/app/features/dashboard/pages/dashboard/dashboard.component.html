@@ -44,13 +44,16 @@
 
         <span class="sidebar__icon">$</span>
 
-        <span>Caja</span>
+        <span>Gestion de Caja</span>
 
       </button>
 
 
       <!-- VENTAS -->
-      <button type="button" class="sidebar__item sidebar__item--disabled" disabled>
+      <button
+        type="button"
+        class="sidebar__item"
+        (click)="irAVentas()">
 
         <span class="sidebar__icon">▤</span>
 
@@ -60,7 +63,11 @@
 
 
       <!-- PRODUCTOS -->
-      <button type="button" class="sidebar__item sidebar__item--disabled" disabled>
+      <button
+        type="button"
+        class="sidebar__item"
+        (click)="irAProductos()">
+
 
         <span class="sidebar__icon">▦</span>
 
@@ -70,7 +77,10 @@
 
 
       <!-- INVENTARIO -->
-      <button type="button" class="sidebar__item sidebar__item--disabled" disabled>
+       <button
+        type="button"
+        class="sidebar__item"
+        (click)="irAInventario()">
 
         <span class="sidebar__icon">▥</span>
 
@@ -80,7 +90,11 @@
 
 
       <!-- COMPRAS -->
-      <button type="button" class="sidebar__item sidebar__item--disabled" disabled>
+      <button
+        type="button"
+        class="sidebar__item"
+        (click)="irACompras()">
+
 
         <span class="sidebar__icon">▧</span>
 
@@ -90,7 +104,10 @@
 
 
       <!-- ESTADÍSTICAS -->
-      <button type="button" class="sidebar__item sidebar__item--disabled" disabled>
+      <button
+        type="button"
+        class="sidebar__item"
+        (click)="irAEstadisticas()">
 
         <span class="sidebar__icon">◩</span>
 
@@ -546,7 +563,7 @@
             </div>
 
             <span class="card__label">
-              Stock bajo
+              Existencias bajas
             </span>
 
             <strong class="card__value">

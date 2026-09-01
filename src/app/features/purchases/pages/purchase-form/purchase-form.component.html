@@ -1,0 +1,276 @@
+<section class="purchase-form">
+
+  <header class="purchase-form__header">
+
+    <div>
+
+      <h1>
+        Registrar compra
+      </h1>
+
+      <p>
+        Registra una nueva compra de proveedor
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn-secondary"
+      (click)="cancelar()">
+
+      Volver
+
+    </button>
+
+  </header>
+
+
+  <div
+    *ngIf="errorMessage"
+    class="message message--error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <div
+    *ngIf="loadingCatalogos"
+    class="loading">
+
+    Cargando información...
+
+  </div>
+
+
+  <form
+    *ngIf="!loadingCatalogos"
+    (ngSubmit)="guardar()">
+
+
+    <section class="card">
+
+      <h2>
+        Información de la compra
+      </h2>
+
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label for="proveedor">
+            Proveedor
+          </label>
+
+          <select
+            id="proveedor"
+            name="proveedor"
+            [(ngModel)]="proveedorId">
+
+            <option
+              [ngValue]="null">
+
+              Seleccione un proveedor
+
+            </option>
+
+            <option
+              *ngFor="let proveedor of proveedores"
+              [ngValue]="proveedor.id">
+
+              {{ proveedor.nombre }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group form-group--full">
+
+          <label for="observacion">
+            Observación
+          </label>
+
+          <textarea
+            id="observacion"
+            name="observacion"
+            rows="3"
+            [(ngModel)]="observacion"
+            placeholder="Observaciones de la compra">
+          </textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Productos
+          </h2>
+
+          <p>
+            Productos incluidos en la compra
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="agregarDetalle()">
+
+          Agregar producto
+
+        </button>
+
+      </div>
+
+
+      <div class="details">
+
+        <div
+          class="detail-row detail-row--header">
+
+          <span>
+            Producto
+          </span>
+
+          <span>
+            Cantidad
+          </span>
+
+          <span>
+            Precio compra
+          </span>
+
+          <span>
+            Subtotal
+          </span>
+
+          <span>
+            Acción
+          </span>
+
+        </div>
+
+
+        <div
+          class="detail-row"
+          *ngFor="
+            let detalle of detalles;
+            let i = index
+          ">
+
+          <select
+            [name]="'producto-' + i"
+            [(ngModel)]="detalle.productoId">
+
+            <option
+              [ngValue]="null">
+
+              Seleccione
+
+            </option>
+
+            <option
+              *ngFor="let producto of productos"
+              [ngValue]="producto.id">
+
+              {{ producto.nombre }}
+
+            </option>
+
+          </select>
+
+
+          <input
+            type="number"
+            [name]="'cantidad-' + i"
+            [(ngModel)]="detalle.cantidad"
+            min="1">
+
+
+          <input
+            type="number"
+            [name]="'precio-' + i"
+            [(ngModel)]="detalle.precioCompra"
+            min="0"
+            step="0.01">
+
+
+          <span class="subtotal">
+
+            {{ obtenerSubtotal(detalle) | currency:'COP':'symbol':'1.0-0' }}
+
+          </span>
+
+
+          <button
+            type="button"
+            class="btn-danger"
+            (click)="eliminarDetalle(i)">
+
+            Eliminar
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="total">
+
+        <span>
+          Total compra
+        </span>
+
+        <strong>
+          {{ obtenerTotal() | currency:'COP':'symbol':'1.0-0' }}
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <footer class="purchase-form__footer">
+
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="cancelar()"
+        [disabled]="loading">
+
+        Cancelar
+
+      </button>
+
+
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="loading">
+
+        {{ loading ? 'Registrando...' : 'Registrar compra' }}
+
+      </button>
+
+    </footer>
+
+  </form>
+
+</section>

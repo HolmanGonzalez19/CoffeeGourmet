@@ -1,0 +1,77 @@
+.purchases {
+  padding: 24px;
+}
+
+.purchases__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.purchases__header h1 {
+  margin: 0;
+}
+
+.purchases__header p {
+  margin: 6px 0 0;
+}
+
+.purchases__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.purchases__filters {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.purchases__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.purchases__field input,
+.purchases__field select {
+  min-width: 220px;
+  padding: 9px 12px;
+}
+
+.purchases__table-container {
+  overflow-x: auto;
+}
+
+.purchases__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.purchases__table th,
+.purchases__table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.purchases__status--registered {
+  font-weight: 600;
+}
+
+.purchases__status--cancelled {
+  font-weight: 600;
+}
+
+.purchases__empty,
+.purchases__state {
+  text-align: center;
+  padding: 40px;
+}
+
+.purchases__state--error {
+  font-weight: 600;
+}

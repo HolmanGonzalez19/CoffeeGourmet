@@ -1,0 +1,635 @@
+<section class="products">
+
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+
+  <header class="products__header">
+
+    <div>
+
+      <h1>
+        Productos
+      </h1>
+
+      <p>
+        Gestión y consulta de productos
+      </p>
+
+    </div>
+
+
+    <div class="products__actions">
+
+      <button
+        type="button"
+        (click)="volverAlDashboard()">
+
+        Dashboard
+
+      </button>
+
+
+      <button
+        type="button"
+        class="products__button-primary"
+        (click)="crearProducto()">
+
+        + Nuevo producto
+
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- ==========================================================
+     FORMULARIO NUEVO PRODUCTO
+     ========================================================== -->
+
+<section
+  *ngIf="mostrarFormulario"
+  class="products__form-container">
+
+  <div class="products__form">
+
+    <div class="products__form-header">
+
+      <div>
+
+        <h2>
+  {{ modoEdicion ? 'Editar producto' : 'Nuevo producto' }}
+</h2>
+
+<p>
+  {{
+    modoEdicion
+      ? 'Modifica la información del producto.'
+      : 'Registra un nuevo producto en el sistema.'
+  }}
+</p>
+
+      </div>
+
+      <button
+        type="button"
+        class="products__form-close"
+        (click)="cerrarFormulario()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      *ngIf="formErrorMessage"
+      class="products__form-error">
+
+      {{ formErrorMessage }}
+
+    </div>
+
+
+    <!-- DATOS GENERALES -->
+
+    <div class="products__form-grid">
+
+      <div class="products__form-field">
+
+        <label for="productoNombre">
+          Nombre *
+        </label>
+
+        <input
+          id="productoNombre"
+          type="text"
+          maxlength="150"
+          [(ngModel)]="productoForm.nombre"
+          placeholder="Nombre del producto">
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoCategoria">
+          Categoría *
+        </label>
+
+        <select
+          id="productoCategoria"
+          [(ngModel)]="productoForm.categoriaId">
+
+          <option [ngValue]="0">
+            Seleccione una categoría
+          </option>
+
+          <option
+            *ngFor="let categoria of categorias"
+            [ngValue]="categoria.id">
+
+            {{ categoria.nombre }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoTipo">
+          Tipo de producto *
+        </label>
+
+        <select
+          id="productoTipo"
+          [(ngModel)]="productoForm.tipoProducto">
+
+          <option value="">
+            Seleccione un tipo
+          </option>
+
+          <option
+            *ngFor="let tipo of tiposProducto"
+            [value]="tipo">
+
+            {{ tipo }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoCodigoBarras">
+          Código de barras
+        </label>
+
+        <input
+          id="productoCodigoBarras"
+          type="text"
+          maxlength="50"
+          [(ngModel)]="productoForm.codigoBarras"
+          placeholder="Opcional">
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoStockMinimo">
+          Existencias mínimas *
+        </label>
+
+        <input
+          id="productoStockMinimo"
+          type="number"
+          min="0"
+          [(ngModel)]="productoForm.stockMinimo">
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoPrecioCompra">
+          Precio de compra *
+        </label>
+
+        <input
+          id="productoPrecioCompra"
+          type="number"
+          min="0"
+          step="0.01"
+          [(ngModel)]="productoForm.precioCompra">
+
+      </div>
+
+
+      <div class="products__form-field">
+
+        <label for="productoPrecioVenta">
+          Precio de venta *
+        </label>
+
+        <input
+          id="productoPrecioVenta"
+          type="number"
+          min="0.01"
+          step="0.01"
+          [(ngModel)]="productoForm.precioVenta">
+
+      </div>
+
+
+      <div class="products__form-field products__form-field--full">
+
+        <label for="productoDescripcion">
+          Descripción
+        </label>
+
+        <textarea
+          id="productoDescripcion"
+          maxlength="255"
+          rows="3"
+          [(ngModel)]="productoForm.descripcion"
+          placeholder="Descripción opcional">
+        </textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- ACCIONES -->
+
+    <div class="products__form-actions">
+
+      <button
+        type="button"
+        (click)="cerrarFormulario()"
+        [disabled]="guardandoProducto">
+
+        Cancelar
+
+      </button>
+
+
+      <button
+        type="button"
+        class="products__button-primary"
+        (click)="guardarProducto()"
+        [disabled]="guardandoProducto">
+
+       {{ 
+  guardandoProducto
+    ? 'Guardando...'
+    : (modoEdicion
+        ? 'Guardar cambios'
+        : 'Guardar producto')
+}}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+  <!-- ==========================================================
+       FILTROS
+       ========================================================== -->
+
+  <section class="products__filters">
+
+    <div class="products__filter">
+
+      <label for="busqueda">
+        Buscar
+      </label>
+
+      <input
+        id="busqueda"
+        type="text"
+        placeholder="Código, código de barras o nombre..."
+        [(ngModel)]="filtroBusqueda"
+        (input)="aplicarFiltros()">
+
+    </div>
+
+
+    <div class="products__filter">
+
+      <label for="categoria">
+        Categoría
+      </label>
+
+      <select
+        id="categoria"
+        [(ngModel)]="filtroCategoria"
+        (change)="aplicarFiltros()">
+
+        <option [ngValue]="null">
+          Todas
+        </option>
+
+        <option
+          *ngFor="let categoria of categorias"
+          [ngValue]="categoria.id">
+
+          {{ categoria.nombre }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="products__filter">
+
+      <label for="tipo">
+        Tipo de producto
+      </label>
+
+      <select
+        id="tipo"
+        [(ngModel)]="filtroTipo"
+        (change)="aplicarFiltros()">
+
+        <option value="">
+          Todos
+        </option>
+
+        <option
+          *ngFor="let tipo of tiposProducto"
+          [value]="tipo">
+
+          {{ tipo }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="products__filter">
+
+      <label for="estado">
+        Estado
+      </label>
+
+      <select
+        id="estado"
+        [(ngModel)]="filtroEstado"
+        (change)="cargarProductos()">
+
+        <option value="ACTIVOS">
+          Activos
+        </option>
+
+        <option value="INACTIVOS">
+          Inactivos
+        </option>
+
+        <option value="TODOS">
+          Todos
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="products__button-clear"
+      (click)="limpiarFiltros()">
+
+      Limpiar filtros
+
+    </button>
+
+  </section>
+
+
+  <!-- ==========================================================
+       RESUMEN
+       ========================================================== -->
+
+  <div class="products__summary">
+
+    <span>
+      Productos encontrados:
+      <strong>
+        {{ productosFiltrados.length }}
+      </strong>
+    </span>
+
+  </div>
+
+
+  <!-- ==========================================================
+       LOADING
+       ========================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="products__message">
+
+    Cargando productos...
+
+  </div>
+
+
+  <!-- ==========================================================
+       ERROR
+       ========================================================== -->
+
+  <div
+    *ngIf="!loading && errorMessage"
+    class="products__message products__message--error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- ==========================================================
+       TABLA
+       ========================================================== -->
+
+  <section
+    *ngIf="!loading && !errorMessage"
+    class="products__table-container">
+
+    <table class="products__table">
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Código
+          </th>
+
+          <th>
+            Producto
+          </th>
+
+          <th>
+            Categoría
+          </th>
+
+          <th>
+            Tipo
+          </th>
+
+          <th>
+            Código de barras
+          </th>
+
+          <th>
+            Precio
+          </th>
+
+          <th>
+            Existencias mínimas
+          </th>
+
+          <th>
+            Estado
+          </th>
+
+          <th>
+            Acciones
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr
+          *ngFor="let producto of productosFiltrados">
+
+          <td>
+            {{ producto.codigo }}
+          </td>
+
+
+          <td>
+
+            <div class="products__name">
+
+              <strong>
+                {{ producto.nombre }}
+              </strong>
+
+              <small
+                *ngIf="producto.descripcion">
+
+                {{ producto.descripcion }}
+
+              </small>
+
+            </div>
+
+          </td>
+
+
+          <td>
+            {{ producto.categoriaNombre }}
+          </td>
+
+
+          <td>
+            {{ producto.tipoProducto }}
+          </td>
+
+
+          <td>
+            {{ producto.codigoBarras || '—' }}
+          </td>
+
+
+          <td class="products__price">
+
+            {{ formatearPrecio(
+              producto.precioVenta
+            ) }}
+
+          </td>
+
+
+          <td>
+            {{ producto.stockMinimo }}
+          </td>
+
+
+          <td>
+
+            <span
+              class="products__status"
+              [class.products__status--inactive]="
+                !producto.activo
+              ">
+
+              {{ obtenerTextoEstado(
+                producto.activo
+              ) }}
+
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <div class="products__row-actions">
+
+              <button
+                type="button"
+                (click)="editarProducto(producto)">
+
+                Editar
+
+              </button>
+
+
+              <button
+                type="button"
+                (click)="cambiarEstado(producto)">
+
+                {{
+                  producto.activo
+                    ? 'Desactivar'
+                    : 'Activar'
+                }}
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+
+        <!-- SIN RESULTADOS -->
+
+        <tr
+          *ngIf="productosFiltrados.length === 0">
+
+          <td
+            colspan="9"
+            class="products__empty">
+
+            No se encontraron productos
+            con los filtros seleccionados.
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+</section>

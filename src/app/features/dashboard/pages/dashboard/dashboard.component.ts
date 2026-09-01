@@ -116,4 +116,34 @@ export class DashboardComponent implements OnInit {
             }
         ).replace('.', '');
     }
+
+    irAVentas(): void {
+
+        this.router.navigate(['/sales']);
+
+    }
+
+    irAProductos(): void {
+
+    this.router.navigate(['/products']);
+
+    }
+
+    irAInventario(): void {
+
+    this.router.navigate(['/inventory']);
+
+    }
+
+    irACompras(): void {
+
+    this.router.navigate(['/purchases']);
+
+    }
+
+    irAEstadisticas(): void {
+
+    this.router.navigate(['/statistics']);
+
+    }
 }
