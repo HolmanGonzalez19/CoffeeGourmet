@@ -8,6 +8,7 @@ export interface Product {
   descripcion: string | null;
   stockMinimo: number;
   tipoProducto: string;
+  precioCompra: number | null;
   precioVenta: number | null;
   activo: boolean;
   fechaCreacion: string;

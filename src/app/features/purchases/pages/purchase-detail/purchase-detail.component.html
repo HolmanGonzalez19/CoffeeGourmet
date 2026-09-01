@@ -1,0 +1,226 @@
+<section class="purchase-detail">
+
+  <header class="purchase-detail__header">
+
+    <div>
+
+      <h1>
+        Detalle de compra
+      </h1>
+
+      <p *ngIf="compra">
+        {{ compra.codigoCompra }}
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="btn-secondary"
+      (click)="volver()">
+
+      Volver
+
+    </button>
+
+  </header>
+
+
+  <div
+    *ngIf="loading"
+    class="loading">
+
+    Cargando compra...
+
+  </div>
+
+
+  <div
+    *ngIf="errorMessage"
+    class="message message--error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <ng-container *ngIf="compra">
+
+
+    <section class="card">
+
+      <div class="purchase-info">
+
+        <div>
+          <span> Código </span>
+          <strong>
+            {{ compra.codigoCompra }}
+          </strong>
+        </div>
+
+
+        <div>
+          <span> Estado </span>
+          <strong>
+            {{ obtenerTextoEstado(compra.estado) }}
+          </strong>
+        </div>
+
+
+        <div>
+          <span> Proveedor </span>
+          <strong>
+            {{ compra.proveedorNombre }}
+          </strong>
+        </div>
+
+
+        <div>
+          <span> Usuario </span>
+          <strong>
+            {{ compra.usuarioNombre }}
+          </strong>
+        </div>
+
+        <div>
+          <span> Fecha </span>
+          <strong>
+            {{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}
+          </strong>
+        </div>
+
+      </div>
+
+
+      <div
+        *ngIf="compra.observacion"
+        class="observation">
+
+        <span>
+          Observación
+        </span>
+
+        <p>
+          {{ compra.observacion }}
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        Productos
+      </h2>
+
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Producto
+              </th>
+
+              <th>
+                Cantidad
+              </th>
+
+              <th>
+                Precio compra
+              </th>
+
+              <th>
+                Subtotal
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="let detalle of compra.detalles">
+
+              <td>
+                {{ detalle.productoNombre }}
+              </td>
+
+              <td>
+                {{ detalle.cantidad }}
+              </td>
+
+              <td>
+                {{ detalle.precioCompra | currency:'COP':'symbol':'1.0-0' }}
+              </td>
+
+              <td>
+                {{ detalle.subtotal | currency:'COP':'symbol':'1.0-0' }}
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="total">
+
+        <span>
+          Total compra
+        </span>
+
+        <strong>
+          {{ compra.total | currency:'COP':'symbol':'1.0-0' }}
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <section class="card audit">
+
+      <div>
+
+        <span>
+          Fecha de creación
+        </span>
+
+        <strong>
+          {{ compra.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Última actualización
+        </span>
+
+        <strong>
+          {{ compra.fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}
+        </strong>
+
+      </div>
+
+    </section>
+
+
+  </ng-container>
+
+</section>

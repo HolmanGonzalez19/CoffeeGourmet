@@ -50,12 +50,11 @@ export class CashMovementService {
   // ============================================================
 
   create(
-    cajaId: number,
     request: CreateCashMovementRequest
   ): Observable<CashMovement> {
 
     return this.http.post<CashMovement>(
-      `${this.endpoint}/cash-register/${cajaId}`,
+      this.endpoint,
       request
     );
 

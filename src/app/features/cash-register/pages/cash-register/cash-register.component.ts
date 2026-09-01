@@ -502,11 +502,6 @@ export class CashRegisterComponent implements OnInit {
 
     }
 
-
-    const cajaId =
-      this.cashRegister.id;
-
-
     const dialogRef =
       this.dialog.open(
         CashMovementDialogComponent,
@@ -530,7 +525,6 @@ export class CashRegisterComponent implements OnInit {
 
         this.cashMovementService
           .create(
-            cajaId,
             result
           )
           .subscribe({

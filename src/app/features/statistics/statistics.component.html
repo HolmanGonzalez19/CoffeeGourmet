@@ -1,0 +1,245 @@
+<section class="statistics">
+
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+
+  <header class="statistics__header">
+
+    <div>
+
+      <h1>
+        Estadísticas
+      </h1>
+
+      <p>
+        Resumen general del comportamiento de las ventas.
+      </p>
+
+    </div>
+
+    <div class="statistics__actions">
+
+      <button
+        type="button"
+        (click)="cargarEstadisticas()"
+        [disabled]="loading">
+
+        {{ loading ? 'Actualizando...' : 'Actualizar' }}
+
+      </button>
+
+      <button
+        type="button"
+        (click)="volverAlDashboard()">
+
+        Dashboard
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ==========================================================
+       ERROR
+       ========================================================== -->
+
+  <div
+    *ngIf="errorMessage"
+    class="statistics__error">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- ==========================================================
+       LOADING
+       ========================================================== -->
+
+  <div
+    *ngIf="loading"
+    class="statistics__loading">
+
+    Cargando estadísticas...
+
+  </div>
+
+
+  <!-- ==========================================================
+       CONTENIDO
+       ========================================================== -->
+
+  <ng-container *ngIf="!loading && statistics">
+
+    <!-- ========================================================
+         TARJETAS RESUMEN
+         ======================================================== -->
+
+    <section class="statistics__summary">
+
+      <article class="statistics-card">
+
+        <div class="statistics-card__content">
+
+          <span class="statistics-card__label">
+            Total de ventas
+          </span>
+
+          <strong class="statistics-card__value">
+            {{ statistics.totalVentas }}
+          </strong>
+
+          <span class="statistics-card__description">
+            Ventas registradas
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <article class="statistics-card">
+
+        <div class="statistics-card__content">
+
+          <span class="statistics-card__label">
+            Ingresos totales
+          </span>
+
+          <strong class="statistics-card__value">
+            {{ formatearPrecio(statistics.totalIngresos) }}
+          </strong>
+
+          <span class="statistics-card__description">
+            Ingresos por ventas
+          </span>
+
+        </div>
+
+      </article>
+
+
+      <article class="statistics-card">
+
+        <div class="statistics-card__content">
+
+          <span class="statistics-card__label">
+            Productos vendidos
+          </span>
+
+          <strong class="statistics-card__value">
+            {{ statistics.totalProductosVendidos }}
+          </strong>
+
+          <span class="statistics-card__description">
+            Unidades vendidas
+          </span>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- ========================================================
+         PRODUCTOS MÁS VENDIDOS
+         ======================================================== -->
+
+    <section class="statistics__section">
+
+      <div class="statistics__section-header">
+
+        <div>
+
+          <h2>
+            Productos más vendidos
+          </h2>
+
+          <p>
+            Productos con mayor cantidad de unidades vendidas.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        *ngIf="productosMasVendidos.length > 0"
+        class="statistics-table-wrapper">
+
+        <table class="statistics-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                #
+              </th>
+
+              <th>
+                Producto
+              </th>
+
+              <th>
+                Cantidad vendida
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="
+                let producto of productosMasVendidos;
+                let i = index
+              ">
+
+              <td>
+                {{ i + 1 }}
+              </td>
+
+              <td>
+                {{ producto.producto }}
+              </td>
+
+              <td>
+                {{ producto.cantidadVendida }}
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        *ngIf="productosMasVendidos.length === 0"
+        class="statistics__empty">
+
+        <strong>
+          No hay ventas registradas.
+        </strong>
+
+        <span>
+          Los productos más vendidos aparecerán aquí
+          cuando existan ventas.
+        </span>
+
+      </div>
+
+    </section>
+
+  </ng-container>
+
+</section>

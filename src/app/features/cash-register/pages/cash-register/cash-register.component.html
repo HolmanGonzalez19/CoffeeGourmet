@@ -1,15 +1,23 @@
 <section class="cash-register">
 
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+
   <header class="cash-register__header">
 
-    <div>
+    <div class="cash-register__title">
+
+      <span class="cash-register__eyebrow">
+        OPERACIÓN
+      </span>
 
       <h1>
-        Caja
+        Gestion de Caja
       </h1>
 
       <p>
-        Estado actual de la caja registradora
+        Gestión y control de la caja registradora
       </p>
 
     </div>
@@ -19,6 +27,7 @@
 
       <button
         type="button"
+        class="cash-register__button cash-register__button--secondary"
         (click)="volverAlDashboard()">
 
         Dashboard
@@ -28,6 +37,7 @@
 
       <button
         type="button"
+        class="cash-register__button cash-register__button--secondary"
         (click)="loadCurrentCashRegister()">
 
         Actualizar
@@ -39,23 +49,57 @@
   </header>
 
 
+  <!-- ============================================================
+       LOADING
+       ============================================================ -->
+
   @if (loading) {
 
-    <div>
-      Consultando caja...
+    <div class="cash-register__loading">
+
+      <span class="loading__spinner"></span>
+
+      <span>
+        Consultando caja...
+      </span>
+
     </div>
 
   }
 
+
+  <!-- ============================================================
+       ERROR
+       ============================================================ -->
 
   @if (!loading && errorMessage) {
 
-    <div>
-      {{ errorMessage }}
+    <div class="cash-register__error">
+
+      <div class="cash-register__error-icon">
+        !
+      </div>
+
+      <div>
+
+        <strong>
+          No fue posible completar la operación
+        </strong>
+
+        <p>
+          {{ errorMessage }}
+        </p>
+
+      </div>
+
     </div>
 
   }
 
+
+  <!-- ============================================================
+       SIN CAJA ABIERTA
+       ============================================================ -->
 
   @if (
     !loading &&
@@ -63,21 +107,28 @@
     !cashRegister
   ) {
 
-    <section>
+    <section class="cash-register__empty">
+
+      <div class="empty__icon">
+        $
+      </div>
+
+      <span class="empty__eyebrow">
+        ESTADO DE CAJA
+      </span>
 
       <h2>
         No hay una caja abierta
       </h2>
-
 
       <p>
         Debe abrir una caja antes de comenzar
         a registrar ventas.
       </p>
 
-
       <button
         type="button"
+        class="cash-register__button cash-register__button--primary"
         (click)="abrirCaja()">
 
         Abrir caja
@@ -89,189 +140,572 @@
   }
 
 
+  <!-- ============================================================
+       CAJA
+       ============================================================ -->
+
   @if (
     !loading &&
     cashRegister
   ) {
 
-    <section>
-
-      <h2>
-        Caja #{{ cashRegister.id }}
-      </h2>
+    <div class="cash-register__content">
 
 
-      <p>
-        Estado:
-        {{ cashRegister.estado }}
-      </p>
+      <!-- ========================================================
+           INFORMACIÓN PRINCIPAL
+           ======================================================== -->
+
+      <section class="cash-register__overview">
+
+        <div class="cash-register__register-info">
+
+          <div class="register-info__top">
+
+            <div>
+
+              <span class="section__eyebrow">
+                CAJA ACTUAL
+              </span>
+
+              <h2>
+                Caja #{{ cashRegister.id }}
+              </h2>
+
+            </div>
 
 
-      <p>
-        Monto inicial:
+            <span
+              class="cash-register__status"
+              [class.cash-register__status--open]="cashRegister.estado === 'ABIERTA'"
+              [class.cash-register__status--closed]="cashRegister.estado === 'CERRADA'">
 
-        {{
-          cashRegister.montoInicial
-            | currency:'COP':'symbol-narrow':'1.0-0'
-        }}
+              {{ cashRegister.estado }}
 
-      </p>
+            </span>
+
+          </div>
 
 
-      <p>
-        Fecha de apertura:
+          <div class="register-info__details">
 
-        {{
-          cashRegister.fechaApertura
-            | date:'dd/MM/yyyy HH:mm'
-        }}
+            <div class="detail">
 
-      </p>
+              <span>
+                Responsable apertura
+              </span>
 
+              <strong>
+                {{ cashRegister.usuarioAperturaNombre }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span>
+                Fecha de apertura
+              </span>
+
+              <strong>
+                {{
+                  cashRegister.fechaApertura
+                    | date:'dd/MM/yyyy HH:mm'
+                }}
+              </strong>
+
+            </div>
+
+
+            <div class="detail">
+
+              <span>
+                Monto inicial
+              </span>
+
+              <strong>
+                {{
+                  cashRegister.montoInicial
+                    | currency:'COP':'symbol-narrow':'1.0-0'
+                }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================================
+             ACCIONES
+             ====================================================== -->
+
+        @if (cashRegister.estado === 'ABIERTA') {
+
+          <div class="cash-register__main-actions">
+
+            <button
+              type="button"
+              class="cash-register__button cash-register__button--primary"
+              (click)="registrarMovimiento()">
+
+              Registrar movimiento
+
+            </button>
+
+
+            <button
+              type="button"
+              class="cash-register__button cash-register__button--danger"
+              (click)="cerrarCaja()">
+
+              Cerrar caja
+
+            </button>
+
+          </div>
+
+        }
+
+      </section>
+
+
+      <!-- ========================================================
+           RESUMEN
+           ======================================================== -->
+
+      <section class="cash-register__section">
+
+        <header class="section__header">
+
+          <div>
+
+            <span class="section__eyebrow">
+              RESUMEN FINANCIERO
+            </span>
+
+            <h2>
+              Estado de la jornada
+            </h2>
+
+          </div>
+
+        </header>
+
+
+        <div class="cash-register__cards">
+
+
+          <!-- EFECTIVO -->
+
+          <article class="cash-card">
+
+            <div class="cash-card__icon cash-card__icon--success">
+              $
+            </div>
+
+            <span class="cash-card__label">
+              Ventas en efectivo
+            </span>
+
+            <strong class="cash-card__value">
+              {{
+                cashRegister.ventasEfectivo
+                  | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+            </strong>
+
+            <small>
+              Dinero que ingresa físicamente a caja
+            </small>
+
+          </article>
+
+
+          <!-- TRANSFERENCIA -->
+
+          <article class="cash-card">
+
+            <div class="cash-card__icon">
+              ↗
+            </div>
+
+            <span class="cash-card__label">
+              Ventas por transferencia
+            </span>
+
+            <strong class="cash-card__value">
+              {{
+                cashRegister.ventasTransferencia
+                  | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+            </strong>
+
+            <small>
+              Pagos realizados mediante transferencia
+            </small>
+
+          </article>
+
+
+          <!-- TOTAL VENTAS -->
+
+          <article class="cash-card">
+
+            <div class="cash-card__icon">
+              #
+            </div>
+
+            <span class="cash-card__label">
+              Total de ventas
+            </span>
+
+            <strong class="cash-card__value">
+              {{
+                cashRegister.ventasTotales
+                  | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+            </strong>
+
+            <small>
+              Efectivo más transferencias
+            </small>
+
+          </article>
+
+
+          <!-- EFECTIVO ESPERADO -->
+
+          <article class="cash-card cash-card--highlight">
+
+            <div class="cash-card__icon cash-card__icon--warning">
+              $
+            </div>
+
+            <span class="cash-card__label">
+              Efectivo esperado
+            </span>
+
+            <strong class="cash-card__value">
+              {{
+                cashRegister.efectivoEsperado
+                  | currency:'COP':'symbol-narrow':'1.0-0'
+              }}
+            </strong>
+
+            <small>
+              Valor calculado por el sistema
+            </small>
+
+          </article>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================================
+           MOVIMIENTOS
+           ======================================================== -->
 
       @if (cashRegister.estado === 'ABIERTA') {
 
-        <section class="cash-register__summary">
+        <section class="cash-register__section">
 
-          <h3>
-            Resumen de caja
-          </h3>
+          <header class="section__header">
 
+            <div>
 
-          <p>
+              <span class="section__eyebrow">
+                CONTROL DE EFECTIVO
+              </span>
 
-            Ventas en efectivo:
+              <h2>
+                Movimientos de caja
+              </h2>
 
-            {{
-              cashRegister.ventasEfectivo
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
-
-          </p>
+            </div>
 
 
-          <p>
+            <span class="section__counter">
+              {{ movements.length }} movimientos
+            </span>
 
-            Ventas por transferencia:
-
-            {{
-              cashRegister.ventasTransferencia
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
-
-          </p>
+          </header>
 
 
-          <p>
+          @if (movements.length > 0) {
 
-            Total ventas:
+            <div class="cash-register__movements">
 
-            {{
-              cashRegister.ventasTotales
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
+              <div class="movements__header">
 
-          </p>
+                <span>
+                  Fecha
+                </span>
+
+                <span>
+                  Tipo
+                </span>
+
+                <span>
+                  Descripción
+                </span>
+
+                <span>
+                  Usuario
+                </span>
+
+                <span>
+                  Monto
+                </span>
+
+              </div>
 
 
-          <p>
+              @for (movement of movements; track movement.id) {
 
-            Efectivo esperado:
+                <div class="movement">
 
-            {{
-              cashRegister.efectivoEsperado
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
+                  <div class="movement__date">
 
-          </p>
+                    <strong>
+                      {{
+                        movement.fechaMovimiento
+                          | date:'dd/MM/yyyy'
+                      }}
+                    </strong>
+
+                    <small>
+                      {{
+                        movement.fechaMovimiento
+                          | date:'HH:mm'
+                      }}
+                    </small>
+
+                  </div>
+
+
+                  <div>
+
+                    <span
+                      class="movement__type"
+                      [class.movement__type--income]="movement.tipoMovimiento === 'INGRESO'"
+                      [class.movement__type--withdrawal]="movement.tipoMovimiento === 'RETIRO'">
+
+                      {{ movement.tipoMovimiento }}
+
+                    </span>
+
+                  </div>
+
+
+                  <div class="movement__description">
+
+                    <strong>
+                      {{ movement.descripcion || 'Sin descripción' }}
+                    </strong>
+
+                  </div>
+
+
+                  <div class="movement__user">
+
+                    {{ movement.usuarioNombre }}
+
+                  </div>
+
+
+                  <strong
+                    class="movement__amount"
+                    [class.movement__amount--income]="movement.tipoMovimiento === 'INGRESO'"
+                    [class.movement__amount--withdrawal]="movement.tipoMovimiento === 'RETIRO'">
+
+                    {{
+                      movement.tipoMovimiento === 'INGRESO'
+                        ? '+'
+                        : '-'
+                    }}
+
+                    {{
+                      movement.monto
+                        | currency:'COP':'symbol-narrow':'1.0-0'
+                    }}
+
+                  </strong>
+
+                </div>
+
+              }
+
+            </div>
+
+          } @else {
+
+            <div class="cash-register__no-movements">
+
+              <div class="no-movements__icon">
+                $
+              </div>
+
+              <strong>
+                No hay movimientos registrados
+              </strong>
+
+              <p>
+                Los ingresos y retiros realizados durante
+                esta jornada aparecerán aquí.
+              </p>
+
+            </div>
+
+          }
 
         </section>
 
-
-        <button
-          type="button"
-          (click)="cerrarCaja()">
-
-          Cerrar caja
-
-        </button>
-
-        <div class="cash-register__movement-actions">
-
-  <button
-    type="button"
-    (click)="registrarMovimiento()">
-
-    Registrar movimiento
-
-  </button>
-
-</div>
-
       }
 
+
+      <!-- ========================================================
+           CAJA CERRADA
+           ======================================================== -->
 
       @if (cashRegister.estado === 'CERRADA') {
 
-        <section class="cash-register__closed">
+        <section class="cash-register__section">
 
-          <h3>
-            Caja cerrada
-          </h3>
+          <header class="section__header">
 
+            <div>
 
-          <p>
+              <span class="section__eyebrow">
+                CIERRE DE CAJA
+              </span>
 
-            Efectivo esperado:
+              <h2>
+                Resultado de la jornada
+              </h2>
 
-            {{
-              cashRegister.efectivoEsperado
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
+            </div>
 
-          </p>
-
-
-          <p>
-
-            Efectivo contado:
-
-            {{
-              cashRegister.efectivoContado
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
-
-          </p>
+          </header>
 
 
-          <p>
-
-            Diferencia:
-
-            {{
-              cashRegister.diferencia
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
-
-          </p>
+          <div class="cash-register__closing">
 
 
-          <p>
+            <div class="closing-card">
 
-            Fecha de cierre:
+              <span>
+                Efectivo esperado
+              </span>
 
-            {{
-              cashRegister.fechaCierre
-                | date:'dd/MM/yyyy HH:mm'
-            }}
+              <strong>
+                {{
+                  cashRegister.efectivoEsperado
+                    | currency:'COP':'symbol-narrow':'1.0-0'
+                }}
+              </strong>
 
-          </p>
+            </div>
+
+
+            <div class="closing-card">
+
+              <span>
+                Efectivo contado
+              </span>
+
+              <strong>
+                {{
+                  cashRegister.efectivoContado
+                    | currency:'COP':'symbol-narrow':'1.0-0'
+                }}
+              </strong>
+
+            </div>
+
+
+            <div
+              class="closing-card closing-card--difference"
+              [class.closing-card--positive]="(cashRegister.diferencia ?? 0) > 0"
+              [class.closing-card--negative]="(cashRegister.diferencia ?? 0) < 0"
+              [class.closing-card--neutral]="(cashRegister.diferencia ?? 0) === 0">
+
+              <span>
+                Diferencia
+              </span>
+
+              <strong>
+
+                {{
+                  cashRegister.diferencia
+                    | currency:'COP':'symbol-narrow':'1.0-0'
+                }}
+
+              </strong>
+
+              <small>
+
+                @if ((cashRegister.diferencia ?? 0) > 0) {
+                  Sobrante
+                }
+
+                @if ((cashRegister.diferencia ?? 0) < 0) {
+                  Faltante
+                }
+
+                @if ((cashRegister.diferencia ?? 0) === 0) {
+                  Caja cuadrada
+                }
+
+              </small>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="cash-register__closed-info">
+
+            <div>
+
+              <span>
+                Cerrada por
+              </span>
+
+              <strong>
+                {{ cashRegister.usuarioCierreNombre }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Fecha de cierre
+              </span>
+
+              <strong>
+                {{
+                  cashRegister.fechaCierre
+                    | date:'dd/MM/yyyy HH:mm'
+                }}
+              </strong>
+
+            </div>
+
+          </div>
 
         </section>
 
       }
 
-    </section>
+    </div>
 
   }
 

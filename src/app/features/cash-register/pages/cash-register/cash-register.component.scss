@@ -1,0 +1,1460 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+
+$background: #f7f4f1;
+$surface: #ffffff;
+$surface-soft: #fbf9f7;
+
+$coffee-dark: #4a3026;
+$coffee: #6b4535;
+$coffee-light: #eadbd2;
+
+$text-primary: #2f2926;
+$text-secondary: #756c67;
+$text-muted: #9b928d;
+
+$border: #e8e2de;
+
+$success: #3f7d58;
+$success-soft: #e4f1e8;
+
+$warning: #c56b35;
+$warning-soft: #fff0e5;
+
+$danger: #b94a48;
+$danger-soft: #f9e6e5;
+
+
+// ============================================================
+// CONTENEDOR
+// ============================================================
+
+.cash-register {
+
+  min-height: 100vh;
+
+  padding: 28px 32px 45px;
+
+  background: $background;
+
+  color: $text-primary;
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+}
+
+
+// ============================================================
+// HEADER
+// ============================================================
+
+.cash-register__header {
+
+  max-width: 1500px;
+
+  margin: 0 auto 25px;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+}
+
+
+.cash-register__title {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+
+.cash-register__eyebrow {
+
+  font-size: 8px;
+
+  font-weight: 750;
+
+  letter-spacing: 1px;
+
+  color: $coffee;
+
+}
+
+
+.cash-register__title h1 {
+
+  margin: 0;
+
+  font-size: 22px;
+
+  line-height: 1.15;
+
+  font-weight: 750;
+
+  color: $text-primary;
+
+}
+
+
+.cash-register__title p {
+
+  margin: 3px 0 0;
+
+  font-size: 10px;
+
+  color: $text-muted;
+
+}
+
+
+// ============================================================
+// ACCIONES
+// ============================================================
+
+.cash-register__actions {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+
+.cash-register__button {
+
+  min-height: 34px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0 14px;
+
+  border: 1px solid transparent;
+
+  border-radius: 6px;
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease,
+    transform .1s ease;
+
+}
+
+
+.cash-register__button:active {
+
+  transform: translateY(1px);
+
+}
+
+
+.cash-register__button--secondary {
+
+  border-color: $border;
+
+  background: $surface;
+
+  color: $text-secondary;
+
+}
+
+
+.cash-register__button--secondary:hover {
+
+  border-color: $coffee-light;
+
+  background: #fffaf7;
+
+  color: $coffee-dark;
+
+}
+
+
+.cash-register__button--primary {
+
+  background: $coffee;
+
+  color: #ffffff;
+
+}
+
+
+.cash-register__button--primary:hover {
+
+  background: $coffee-dark;
+
+}
+
+
+.cash-register__button--danger {
+
+  border-color: #efd1d0;
+
+  background: $danger-soft;
+
+  color: $danger;
+
+}
+
+
+.cash-register__button--danger:hover {
+
+  background: #f4d9d8;
+
+}
+
+
+// ============================================================
+// CONTENIDO
+// ============================================================
+
+.cash-register__content {
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+
+}
+
+
+// ============================================================
+// LOADING
+// ============================================================
+
+.cash-register__loading {
+
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  color: $text-secondary;
+
+  font-size: 11px;
+
+}
+
+
+.loading__spinner {
+
+  width: 18px;
+
+  height: 18px;
+
+  border: 2px solid $coffee-light;
+
+  border-top-color: $coffee;
+
+  border-radius: 50%;
+
+  animation: cash-register-spin .8s linear infinite;
+
+}
+
+
+@keyframes cash-register-spin {
+
+  to {
+
+    transform: rotate(360deg);
+
+  }
+
+}
+
+
+// ============================================================
+// ERROR
+// ============================================================
+
+.cash-register__error {
+
+  max-width: 1500px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #efd1d0;
+
+  border-radius: 9px;
+
+  background: $danger-soft;
+
+  color: $danger;
+
+}
+
+
+.cash-register__error-icon {
+
+  width: 22px;
+
+  height: 22px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: $danger;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+}
+
+
+.cash-register__error strong {
+
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 10px;
+
+}
+
+
+.cash-register__error p {
+
+  margin: 0;
+
+  font-size: 9px;
+
+  color: #8d4a48;
+
+}
+
+
+// ============================================================
+// EMPTY
+// ============================================================
+
+.cash-register__empty {
+
+  max-width: 650px;
+
+  min-height: 280px;
+
+  margin: 45px auto;
+
+  padding: 40px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  border: 1px solid $border;
+
+  border-radius: 12px;
+
+  background: $surface;
+
+  box-shadow:
+    0 2px 8px rgba(70, 48, 38, .035);
+
+}
+
+
+.empty__icon {
+
+  width: 48px;
+
+  height: 48px;
+
+  margin-bottom: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: $coffee-light;
+
+  color: $coffee-dark;
+
+  font-size: 17px;
+
+  font-weight: 750;
+
+}
+
+
+.empty__eyebrow {
+
+  margin-bottom: 6px;
+
+  font-size: 8px;
+
+  font-weight: 750;
+
+  letter-spacing: .9px;
+
+  color: $text-muted;
+
+}
+
+
+.cash-register__empty h2 {
+
+  margin: 0 0 7px;
+
+  font-size: 17px;
+
+  font-weight: 750;
+
+  color: $text-primary;
+
+}
+
+
+.cash-register__empty p {
+
+  max-width: 380px;
+
+  margin: 0 0 18px;
+
+  font-size: 10px;
+
+  line-height: 1.55;
+
+  color: $text-muted;
+
+}
+
+
+// ============================================================
+// OVERVIEW
+// ============================================================
+
+.cash-register__overview {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  gap: 15px;
+
+  margin-bottom: 27px;
+
+}
+
+
+.cash-register__register-info {
+
+  padding: 19px;
+
+  border: 1px solid #dfd0c8;
+
+  border-radius: 10px;
+
+  background: #fffdfb;
+
+}
+
+
+.register-info__top {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+
+}
+
+
+.section__eyebrow {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 8px;
+
+  font-weight: 750;
+
+  letter-spacing: .8px;
+
+  color: $text-muted;
+
+}
+
+
+.register-info__top h2 {
+
+  margin: 0;
+
+  font-size: 17px;
+
+  font-weight: 750;
+
+  color: $coffee-dark;
+
+}
+
+
+// ============================================================
+// ESTADO
+// ============================================================
+
+.cash-register__status {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 7px;
+
+  line-height: 1;
+
+  font-weight: 750;
+
+  letter-spacing: .3px;
+
+}
+
+
+.cash-register__status--open {
+
+  background: $success-soft;
+
+  color: $success;
+
+}
+
+
+.cash-register__status--closed {
+
+  background: #eeeae7;
+
+  color: $text-secondary;
+
+}
+
+
+// ============================================================
+// DETALLES
+// ============================================================
+
+.register-info__details {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+
+}
+
+
+.detail {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+
+.detail span {
+
+  font-size: 8px;
+
+  color: $text-muted;
+
+}
+
+
+.detail strong {
+
+  font-size: 10px;
+
+  font-weight: 650;
+
+  color: $text-primary;
+
+}
+
+
+// ============================================================
+// ACCIONES PRINCIPALES
+// ============================================================
+
+.cash-register__main-actions {
+
+  min-width: 185px;
+
+  padding: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+}
+
+
+// ============================================================
+// SECCIONES
+// ============================================================
+
+.cash-register__section {
+
+  margin-bottom: 28px;
+
+}
+
+
+.section__header {
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 13px;
+
+}
+
+
+.section__header h2 {
+
+  margin: 0;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: $text-primary;
+
+}
+
+
+.section__counter {
+
+  font-size: 8px;
+
+  color: $text-muted;
+
+}
+
+
+// ============================================================
+// CARDS
+// ============================================================
+
+.cash-register__cards {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+
+}
+
+
+.cash-card {
+
+  min-height: 142px;
+
+  padding: 17px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+  box-shadow:
+    0 2px 8px rgba(70, 48, 38, .035);
+
+}
+
+
+.cash-card--highlight {
+
+  border-color: #dfd0c8;
+
+  background: #fffdfb;
+
+}
+
+
+.cash-card__icon {
+
+  width: 27px;
+
+  height: 27px;
+
+  margin-bottom: 13px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: #f1e8e3;
+
+  color: $coffee;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+}
+
+
+.cash-card__icon--success {
+
+  background: $success-soft;
+
+  color: $success;
+
+}
+
+
+.cash-card__icon--warning {
+
+  background: $warning-soft;
+
+  color: $warning;
+
+}
+
+
+.cash-card__label {
+
+  margin-bottom: 6px;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  color: $text-secondary;
+
+}
+
+
+.cash-card__value {
+
+  margin: 0;
+
+  font-size: 20px;
+
+  line-height: 1.1;
+
+  font-weight: 750;
+
+  letter-spacing: -.3px;
+
+  color: $text-primary;
+
+}
+
+
+.cash-card small {
+
+  margin-top: auto;
+
+  padding-top: 9px;
+
+  font-size: 8px;
+
+  line-height: 1.35;
+
+  color: $text-muted;
+
+}
+
+
+// ============================================================
+// MOVIMIENTOS
+// ============================================================
+
+.cash-register__movements {
+
+  overflow: hidden;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+}
+
+
+.movements__header {
+
+  display: grid;
+
+  grid-template-columns:
+    1.1fr
+    .8fr
+    2fr
+    1.2fr
+    1fr;
+
+  gap: 15px;
+
+  padding: 11px 16px;
+
+  border-bottom: 1px solid $border;
+
+  background: $surface-soft;
+
+}
+
+
+.movements__header span {
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  color: $text-muted;
+
+}
+
+
+.movement {
+
+  display: grid;
+
+  grid-template-columns:
+    1.1fr
+    .8fr
+    2fr
+    1.2fr
+    1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 13px 16px;
+
+  border-bottom: 1px solid #f0ece9;
+
+}
+
+
+.movement:last-child {
+
+  border-bottom: 0;
+
+}
+
+
+.movement:hover {
+
+  background: #fffdfb;
+
+}
+
+
+.movement__date {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+}
+
+
+.movement__date strong {
+
+  font-size: 9px;
+
+  font-weight: 650;
+
+}
+
+
+.movement__date small {
+
+  font-size: 8px;
+
+  color: $text-muted;
+
+}
+
+
+.movement__type {
+
+  display: inline-flex;
+
+  padding: 4px 7px;
+
+  border-radius: 20px;
+
+  font-size: 7px;
+
+  font-weight: 750;
+
+  letter-spacing: .2px;
+
+}
+
+
+.movement__type--income {
+
+  background: $success-soft;
+
+  color: $success;
+
+}
+
+
+.movement__type--withdrawal {
+
+  background: $warning-soft;
+
+  color: $warning;
+
+}
+
+
+.movement__description strong {
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+}
+
+
+.movement__user {
+
+  font-size: 9px;
+
+  color: $text-secondary;
+
+}
+
+
+.movement__amount {
+
+  text-align: right;
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+}
+
+
+.movement__amount--income {
+
+  color: $success;
+
+}
+
+
+.movement__amount--withdrawal {
+
+  color: $warning;
+
+}
+
+
+// ============================================================
+// SIN MOVIMIENTOS
+// ============================================================
+
+.cash-register__no-movements {
+
+  min-height: 170px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 25px;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+  text-align: center;
+
+}
+
+
+.no-movements__icon {
+
+  width: 35px;
+
+  height: 35px;
+
+  margin-bottom: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f1e8e3;
+
+  color: $coffee;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+}
+
+
+.cash-register__no-movements strong {
+
+  margin-bottom: 4px;
+
+  font-size: 10px;
+
+}
+
+
+.cash-register__no-movements p {
+
+  max-width: 400px;
+
+  margin: 0;
+
+  font-size: 8px;
+
+  line-height: 1.45;
+
+  color: $text-muted;
+
+}
+
+
+// ============================================================
+// CIERRE
+// ============================================================
+
+.cash-register__closing {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+}
+
+
+.closing-card {
+
+  min-height: 105px;
+
+  padding: 17px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+}
+
+
+.closing-card span {
+
+  font-size: 9px;
+
+  color: $text-secondary;
+
+}
+
+
+.closing-card strong {
+
+  font-size: 20px;
+
+  font-weight: 750;
+
+  color: $text-primary;
+
+}
+
+
+.closing-card small {
+
+  font-size: 8px;
+
+  color: $text-muted;
+
+}
+
+
+.closing-card--positive {
+
+  border-color: #cce3d4;
+
+  background: $success-soft;
+
+}
+
+
+.closing-card--positive strong {
+
+  color: $success;
+
+}
+
+
+.closing-card--negative {
+
+  border-color: #efd1d0;
+
+  background: $danger-soft;
+
+}
+
+
+.closing-card--negative strong {
+
+  color: $danger;
+
+}
+
+
+.closing-card--neutral {
+
+  border-color: $border;
+
+  background: $surface-soft;
+
+}
+
+
+// ============================================================
+// INFORMACIÓN DEL CIERRE
+// ============================================================
+
+.cash-register__closed-info {
+
+  margin-top: 12px;
+
+  padding: 14px 17px;
+
+  display: flex;
+
+  gap: 40px;
+
+  border: 1px solid $border;
+
+  border-radius: 10px;
+
+  background: $surface;
+
+}
+
+
+.cash-register__closed-info > div {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+
+.cash-register__closed-info span {
+
+  font-size: 8px;
+
+  color: $text-muted;
+
+}
+
+
+.cash-register__closed-info strong {
+
+  font-size: 9px;
+
+  font-weight: 650;
+
+}
+
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 1150px) {
+
+  .cash-register__cards {
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+  }
+
+
+  .cash-register__overview {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .cash-register__main-actions {
+
+    min-width: 0;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+  }
+
+}
+
+
+@media (max-width: 850px) {
+
+  .cash-register {
+
+    padding: 22px 20px 35px;
+
+  }
+
+
+  .cash-register__header {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+
+  .register-info__details {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .cash-register__closing {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .movements__header {
+
+    display: none;
+
+  }
+
+
+  .movement {
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap: 10px;
+
+  }
+
+
+  .movement__description {
+
+    grid-column: 1 / -1;
+
+  }
+
+
+  .movement__amount {
+
+    text-align: left;
+
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .cash-register {
+
+    padding: 18px;
+
+  }
+
+
+  .cash-register__actions {
+
+    width: 100%;
+
+  }
+
+
+  .cash-register__actions .cash-register__button {
+
+    flex: 1;
+
+  }
+
+
+  .cash-register__cards {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .cash-register__main-actions {
+
+    flex-direction: column;
+
+  }
+
+
+  .cash-register__button {
+
+    width: 100%;
+
+  }
+
+
+  .cash-register__closed-info {
+
+    flex-direction: column;
+
+    gap: 12px;
+
+  }
+
+
+  .movement {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+}
