@@ -1,0 +1,44 @@
+@use '../../../../styles/variables' as vars;
+
+.notification {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  font-family: vars.$font-family-base;
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__message {
+    flex: 1;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

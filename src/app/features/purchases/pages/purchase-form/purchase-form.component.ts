@@ -331,7 +331,7 @@ export class PurchaseFormComponent implements OnInit {
           this.loading = false;
 
           this.router.navigate([
-            '/purchases',
+            'admin/purchases',
             compra.id
           ]);
 
@@ -359,7 +359,7 @@ export class PurchaseFormComponent implements OnInit {
   cancelar(): void {
 
     this.router.navigate([
-      '/purchases'
+      'admin/purchases'
     ]);
 
   }

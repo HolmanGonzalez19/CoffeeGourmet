@@ -120,118 +120,6 @@ $danger-soft: #f9e6e5;
 
 }
 
-
-// ============================================================
-// ACCIONES
-// ============================================================
-
-.cash-register__actions {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-}
-
-
-.cash-register__button {
-
-  min-height: 34px;
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 0 14px;
-
-  border: 1px solid transparent;
-
-  border-radius: 6px;
-
-  font-family: inherit;
-
-  font-size: 9px;
-
-  font-weight: 650;
-
-  cursor: pointer;
-
-  transition:
-    background .15s ease,
-    border-color .15s ease,
-    color .15s ease,
-    transform .1s ease;
-
-}
-
-
-.cash-register__button:active {
-
-  transform: translateY(1px);
-
-}
-
-
-.cash-register__button--secondary {
-
-  border-color: $border;
-
-  background: $surface;
-
-  color: $text-secondary;
-
-}
-
-
-.cash-register__button--secondary:hover {
-
-  border-color: $coffee-light;
-
-  background: #fffaf7;
-
-  color: $coffee-dark;
-
-}
-
-
-.cash-register__button--primary {
-
-  background: $coffee;
-
-  color: #ffffff;
-
-}
-
-
-.cash-register__button--primary:hover {
-
-  background: $coffee-dark;
-
-}
-
-
-.cash-register__button--danger {
-
-  border-color: #efd1d0;
-
-  background: $danger-soft;
-
-  color: $danger;
-
-}
-
-
-.cash-register__button--danger:hover {
-
-  background: #f4d9d8;
-
-}
-
-
 // ============================================================
 // CONTENIDO
 // ============================================================
@@ -1404,15 +1292,7 @@ $danger-soft: #f9e6e5;
 
   }
 
-
-  .cash-register__actions {
-
-    width: 100%;
-
-  }
-
-
-  .cash-register__actions .cash-register__button {
+  .button-red-light {
 
     flex: 1;
 
@@ -1434,7 +1314,7 @@ $danger-soft: #f9e6e5;
   }
 
 
-  .cash-register__button {
+  .button-red-light {
 
     width: 100%;
 

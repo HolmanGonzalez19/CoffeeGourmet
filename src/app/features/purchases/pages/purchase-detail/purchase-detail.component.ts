@@ -138,7 +138,7 @@ export class PurchaseDetailComponent
   volver(): void {
 
     this.router.navigate([
-      '/purchases'
+      'admin/purchases'
     ]);
 
   }

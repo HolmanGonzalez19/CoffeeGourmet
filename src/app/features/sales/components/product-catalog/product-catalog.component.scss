@@ -1,7 +1,10 @@
 @use '../../../../../styles/variables' as vars;
+@use '../../../../../styles/utilities' as utils;
+
 
 .product-catalog {
   width: 100%;
+  font-family: vars.$font-family-base;
 
   &__search {
     display: flex;
@@ -41,12 +44,13 @@
   }
 
   &__category {
-    color: vars.$color-text-secondary !important;
+    color: vars.$color-text-secondary;
     font-size: vars.$font-size-xs;
 
     &--active {
-      background: vars.$color-primary !important;
-      color: #fff !important;
+      background: vars.$color-primary;
+      color: vars.$color-surface;
+      font-weight: 600;
     }
   }
 
@@ -100,6 +104,7 @@
     strong {
       color: vars.$color-text-primary;
       font-size: vars.$font-size-sm;
+      font-weight: 500;
     }
 
     span {
@@ -125,23 +130,17 @@
 
   .product-catalog__price {
     display: block;
-
     margin-top: 4px;
-
-    font-size: 13px;
-
+    font-size: vars.$font-size-sm;
     font-weight: 700;
-
-    color: #e87924;
+    color: vars.$color-primary;;
   }
 
 
   .product-catalog__price--unavailable {
-    font-size: 11px;
-
+    font-size: vars.$font-size-xs;
     font-weight: 500;
-
-    color: #9a9a9a;
+    color: vars.$color-text-muted
   }
 }
 

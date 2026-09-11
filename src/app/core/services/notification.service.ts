@@ -1,5 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  NotificationComponent,
+  NotificationData
+} from '../../shared/components/notification/notification.component';
 
 @Injectable({
   providedIn: 'root'
@@ -26,17 +30,21 @@ export class NotificationService {
 
   private show(
     message: string,
-    type: 'success' | 'error' | 'warning' | 'info',
+    type: NotificationData['type'],
     duration: number
   ): void {
 
     this.snackBar.dismiss();
 
-    this.snackBar.open(message, 'X', {
+    this.snackBar.openFromComponent(NotificationComponent, {
       duration,
-      horizontalPosition: 'right',
+      horizontalPosition: 'center',
       verticalPosition: 'top',
-      panelClass: [`snackbar-${type}`]
+      panelClass: [`snackbar-${type}`],
+      data: {
+        message,
+        type
+      }
     });
   }
 }

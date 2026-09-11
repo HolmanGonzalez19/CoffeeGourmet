@@ -1,153 +1,112 @@
 <section class="operator-selection">
 
-  <header class="operator-selection__header">
+  <!-- Vista de operadores -->
+  @if (!showPin) {
+    <button
+    type="button"
+    class="operator-selection__close"
+    (click)="cerrarModal()">
+    ✕
+  </button>
 
-    <h1>Seleccionar operador</h1>
+    <header class="operator-selection__header">
+      <h1>Seleccionar operador</h1>
+      <p>Seleccione el operador que trabajará durante la jornada.</p>
+    </header>
 
-    <p>
-      Seleccione el operador que trabajará durante la jornada.
-    </p>
-
-  </header>
-
-
-  @if (loading) {
-
-    <div class="operator-selection__state">
-
-      <p>
-        Consultando operadores...
-      </p>
-
-    </div>
-
-  }
-
-
-  @if (!loading && errorMessage) {
-
-    <div class="operator-selection__state operator-selection__state--error">
-
-      <p>
-        {{ errorMessage }}
-      </p>
-
-      <button
-        mat-button
-        type="button"
-        (click)="loadOperators()">
-
-        Reintentar
-
-      </button>
-
-    </div>
-
-  }
-
-
-  @if (!loading && !errorMessage && operators.length === 0) {
-
-    <div class="operator-selection__state">
-
-      <p>
-        No hay operadores disponibles.
-      </p>
-
-    </div>
-
-  }
-
-
-  @if (!loading && !errorMessage && operators.length > 0) {
-
-    <div class="operator-selection__operators">
-
-      @for (operator of operators; track operator.id) {
-
-        <button
-          type="button"
-          class="operator-option"
-          [class.operator-option--selected]="
-            selectedOperator?.id === operator.id
-          "
-          (click)="selectOperator(operator)">
-
-          <span>
-            {{ operator.nombre }}
-          </span>
-
-          <small>
-            {{ operator.usuario }}
-          </small>
-
-        </button>
-
-      }
-
-    </div>
-
-
-    @if (showPin && selectedOperator) {
-
-      <div class="operator-selection__pin">
-
-        <div class="operator-selection__pin-header">
-
-          <strong>
-            Iniciar jornada
-          </strong>
-
-          <span>
-            {{ selectedOperator.nombre }}
-          </span>
-
-        </div>
-
-
-        <label for="operator-pin">
-          PIN
-        </label>
-
-        <input
-          id="operator-pin"
-          type="password"
-          inputmode="numeric"
-          autocomplete="off"
-          maxlength="10"
-          [(ngModel)]="pin"
-          placeholder="Ingrese su PIN"
-          (keyup.enter)="continue()"
-        />
-
-
-        @if (pinErrorMessage) {
-
-          <p class="operator-selection__pin-error">
-            {{ pinErrorMessage }}
-          </p>
-
-        }
-
-
-        <button
-          mat-button
-          type="button"
-          [disabled]="authenticating || !pin.trim()"
-          (click)="continue()">
-
-          @if (authenticating) {
-            Validando...
-          } @else {
-            Iniciar operador
-          }
-
-        </button>
-
+    @if (loading) {
+      <div class="operator-selection__state">
+        <p>Consultando operadores...</p>
       </div>
-
     }
 
+    @if (!loading && errorMessage) {
+      <div class="operator-selection__state operator-selection__state--error">
+        <p>{{ errorMessage }}</p>
+        <button mat-button type="button" (click)="loadOperators()">Reintentar</button>
+      </div>
+    }
+
+    @if (!loading && !errorMessage && operators.length > 0) {
+      <div class="operator-selection__operators">
+        @for (operator of operators; track operator.id) {
+          <button
+            type="button"
+            class="operator-option"
+            [class.operator-option--selected]="selectedOperator?.id === operator.id"
+            (click)="selectOperator(operator)">
+           <div class="operator-option__avatar">
+            <ng-container *ngIf="operator.foto; else inicial">
+              <img [src]="operator.foto" alt="Foto operador" />
+            </ng-container>
+            <ng-template #inicial>
+              <span class="avatar-inicial">
+                {{ operator.nombre.charAt(0) }}
+              </span>
+            </ng-template>
+          </div>
+
+            <div class="operator-option__info">
+              <span class="operator-option__name">{{ operator.nombre }}</span>
+              <br>
+              <small class="operator-option__status">
+                <span class="status-dot"></span> DISPONIBLE
+              </small>
+            </div>
+          </button>
+        }
+      </div>
+    }
+  }
+
+  <!-- Vista de PIN -->
+  @if (showPin && selectedOperator) {
+    <div class="operator-pin">
+      <button type="button" class="operator-pin__close" (click)="clearSelection()">✕</button>
+
+      <div class="operator-pin__profile">
+        <ng-container *ngIf="selectedOperator.foto; else inicialPin">
+          <img [src]="selectedOperator.foto" alt="Foto operador" />
+        </ng-container>
+        <ng-template #inicialPin>
+          <span class="avatar-inicial avatar-inicial--pin">
+            {{ selectedOperator.nombre.charAt(0) }}
+          </span>
+        </ng-template>
+        <h2>{{ selectedOperator.nombre }}</h2>
+        <p class="operator-pin__role">OPERADOR</p>
+      </div>
+
+      <div class="operator-pin__inputs">
+        <div class="pin-box" *ngFor="let box of [0,1,2,3]; let i = index">
+          <span>{{ pin[i] || '' }}</span>
+        </div>
+      </div>
+
+      <div class="operator-pin__keypad">
+         @for (key of ['1','2','3','4','5','6','7','8','9','C','0','clear']; track key) {
+          <button
+            type="button"
+            class="keypad-btn"
+            (click)="handleKeyPress(key)">
+
+            @if (key === 'clear') {
+              <mat-icon>backspace</mat-icon>
+            } @else {
+              {{ key }}
+            }
+          </button>
+        }
+      </div>
+
+      <div class="operator-pin__security">
+        <mat-icon>lock</mat-icon>
+        <div>
+          <strong>SEGURIDAD DE ACCESO</strong>
+          <p>Tu PIN es personal e intransferible. Asegúrate de que nadie esté observando mientras lo ingresas.</p>
+        </div>
+      </div>
+    </div>
   }
 
 </section>

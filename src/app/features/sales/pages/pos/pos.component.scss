@@ -1,4 +1,6 @@
 @use '../../../../../styles/variables' as vars;
+@use '../../../../../styles/utilities' as utils;
+
 
 :host {
   display: block;
@@ -10,21 +12,16 @@
   height: 100%;
   overflow: hidden;
   background: vars.$color-background;
+  font-family: vars.$font-family-base;
 
-  &__sidebar {
-    width: 205px;
-    display: flex;
-    flex-direction: column;
-    padding: vars.$spacing-xl vars.$spacing-md;
-    background: vars.$color-sidebar;
-    color: #fff;
-  }
+  /* =========================================================
+   SIDEBAR
+   ========================================================= */
 
   &__brand {
     display: flex;
     align-items: center;
     gap: vars.$spacing-md;
-    padding: 0 vars.$spacing-sm 28px;
   }
 
   &__brand-logo {
@@ -36,8 +33,8 @@
 
     img {
       width: 160%;
-      object-fit: contain; // mantiene proporción sin deformar
-      border-radius: inherit; // opcional, si quieres que siga el borde redondeado
+      object-fit: contain;
+      border-radius: inherit;
     }
   }
 
@@ -51,8 +48,6 @@
 
     small {
       margin-top: 2px;
-      color: vars.$color-text-light;
-      font-size: vars.$font-size-xs;
     }
   }
 
@@ -60,20 +55,21 @@
     display: flex;
     flex-direction: column;
     gap: 7px;
+    height: 100vh;
   }
 
   &__navigation-item {
     width: 100%;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
     gap: vars.$spacing-md;
-    color: vars.$color-text-light !important;
+    color: vars.$color-text-light;
     text-align: left;
     font-size: vars.$font-size-sm;
 
     &:hover,
     &--active {
-      background: vars.$color-sidebar-active !important;
-      color: #fff !important;
+      background: vars.$color-sidebar-active;
+      color: vars.$color-surface;
     }
   }
 
@@ -82,14 +78,9 @@
     text-align: center;
   }
 
-  &__sidebar-footer {
-    margin-top: auto;
-    padding: 15px vars.$spacing-sm 5px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    color: #778195;
-    font-size: vars.$font-size-xs;
-  }
-
+  /* =========================================================
+   HEADER
+   ========================================================= */
   &__content {
     min-width: 0;
     flex: 1;
@@ -127,12 +118,15 @@
     font-size: vars.$font-size-sm;
   }
 
-  &__operator-header {
+  &__actions {
     margin-left: auto;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
   }
 
+  /* =========================================================
+   OPERATION BAR
+   ========================================================= */
   &__operation-bar {
     min-height: 43px;
     display: flex;
@@ -155,39 +149,57 @@
     padding: 5px 10px;
     border-radius: vars.$radius-sm;
     background: vars.$color-success-light;
-    color: #087957;
+    color: vars.$color-success;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  &__cash-status-closed{
+    padding: 5px 10px;
+    border-radius: vars.$radius-sm;
+    background: vars.$color-danger;
+    color: vars.$color-surface;
     font-size: 10px;
     font-weight: 700;
   }
 
   &__separator {
-    color: #d1d5db;
-  }
-
-  &__finish-operator {
-    color: #d946a8 !important;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
+    color: vars.$color-text-muted;
   }
 
   &__start-operator {
-    background: vars.$color-primary !important;
-    color: #fff !important;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
+  background: vars.$color-surface;
+  color: vars.$color-primary-dark !important;
+  font-size: vars.$font-size-sm;
+  border-radius: vars.$radius-md;
+  font-weight: 600;
+  border: 1px solid vars.$color-text-primary;
+  &:hover {
+    border: 1px solid vars.$color-primary;
+    color: vars.$color-primary !important;
   }
+}
+
 
   &__finish-operator {
-    color: #d946a8 !important;
+    background-color: vars.$color-surface;
+    color: vars.$color-danger !important;
+    border: 1px solid vars.$color-danger !important;
+    border-radius: vars.$radius-md;
     font-size: vars.$font-size-sm;
     font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: vars.$color-danger;
+      color: vars.$color-surface !important;
+    }
   }
 
-  &__operator-inactive {
-    color: vars.$color-text-muted;
-    font-size: vars.$font-size-sm;
-  }
-
+  /* =========================================================
+   WORKSPACE
+   ========================================================= */
   &__workspace {
     min-height: 0;
     flex: 1;
@@ -214,7 +226,7 @@
     gap: vars.$spacing-sm;
     height: 40px;
     padding: 0 vars.$spacing-md;
-    border: 1px solid #dfe3e8;
+    border: 1px solid vars.$color-border-light;
     border-radius: vars.$radius-md;
     background: vars.$color-surface;
 
@@ -229,36 +241,12 @@
   }
 
   &__search-icon {
-    color: #8a93a3;
+    color: vars.$color-text-muted;
   }
 
-  &__price-button {
-    height: 40px;
-  }
-
-  &__catalog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 17px 0 12px;
-  }
-
-  &__categories {
-    display: flex;
-    gap: 5px;
-  }
-
-  &__category {
-    min-width: auto !important;
-    color: vars.$color-text-secondary !important;
-    font-size: vars.$font-size-xs;
-
-    &--active {
-      background: vars.$color-primary !important;
-      color: #fff !important;
-    }
-  }
-
+  /* =========================================================
+   PRODUCTOS
+   ========================================================= */
   &__products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
@@ -271,9 +259,7 @@
     border-radius: vars.$radius-lg;
     background: vars.$color-surface;
     cursor: pointer;
-    transition:
-      transform 120ms ease,
-      box-shadow 120ms ease;
+    transition: transform 120ms ease, box-shadow 120ms ease;
 
     &:hover {
       transform: translateY(-2px);
@@ -311,7 +297,7 @@
     padding: 9px;
 
     small {
-      color: #7b8494;
+      color: vars.$color-text-muted;
       font-size: vars.$font-size-xs;
     }
 
@@ -320,11 +306,14 @@
     }
   }
 
+  /* =========================================================
+   SALE PANEL
+   ========================================================= */
   &__sale-panel {
     width: 345px;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #e1e4e8;
+    border-left: 1px solid vars.$color-border-light;
     background: vars.$color-surface;
   }
 
@@ -344,8 +333,8 @@
     span {
       padding: 4px 8px;
       border-radius: vars.$radius-xl;
-      background: #f4f5f7;
-      color: #667085;
+      background: vars.$color-surface-secondary;
+      color: vars.$color-text-secondary;
       font-size: vars.$font-size-xs;
     }
   }
@@ -378,35 +367,59 @@
     display: grid;
     place-items: center;
     margin-bottom: 15px;
-    border: 1px dashed #b8bec8;
+    border: 1px dashed vars.$color-border-light;
     border-radius: vars.$radius-round;
     color: vars.$color-text-muted;
     font-size: 26px;
   }
 
-  // Carrito de venta
-
+  /* =========================================================
+   SALE ITEMS (Carrito de venta)
+   ========================================================= */
   &__sale-items {
     flex: 1;
     overflow-y: auto;
     padding: vars.$spacing-md;
+    display: flex;
+    flex-direction: column;
   }
 
   &__sale-item {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 6px 10px;
-    padding: 12px 0;
+    grid-template-columns: 32px minmax(0, 1fr) auto auto; // 🔹 define solo una vez
+    align-items: center;
+    column-gap: 8px;
+    padding: 12px 8px;
     border-bottom: 1px solid vars.$color-border;
   }
 
+  /* =========================================================
+   ELIMINAR PRODUCTO
+   ========================================================= */
+  &__remove-item {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: vars.$color-warning;
+    font-size: 16px;
+  }
+
+  /* =========================================================
+   INFORMACIÓN DEL PRODUCTO
+   ========================================================= */
   &__sale-item-info {
     min-width: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     gap: 3px;
 
     strong {
+      display: block;
       overflow: hidden;
       color: vars.$color-text-primary;
       font-size: vars.$font-size-sm;
@@ -415,10 +428,17 @@
     }
 
     small {
+      display: block;
+      margin-top: 2px;
       color: vars.$color-text-muted;
       font-size: vars.$font-size-xs;
+      white-space: nowrap;
     }
   }
+
+  /* =========================================================
+   CONTROLES DE CANTIDAD
+   ========================================================= */
 
   &__sale-item-controls {
     display: flex;
@@ -426,11 +446,38 @@
     gap: 2px;
 
     button {
-      min-width: 28px;
-      width: 28px;
-      height: 28px;
+      min-width: 24px;
+      width: 24px;
+      height: 32px;
       padding: 0;
-      line-height: 28px;
+      line-height: 32px;
+    }
+
+    input {
+      width: 58px;
+      height: 30px;
+      padding: 0 4px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 14px;
+      border: 1px solid vars.$color-border-light;
+      border-radius: vars.$radius-sm;
+      outline: none;
+
+      &:focus {
+        border-color: vars.$color-text-muted;
+      }
+
+      /* Quitar flechas nativas del input number */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        margin: 0;
+        -webkit-appearance: none;
+      }
+
+      &[type='number'] {
+        appearance: textfield;
+      }
     }
 
     span {
@@ -441,12 +488,22 @@
     }
   }
 
+  /* =========================================================
+   SUBTOTAL
+   ========================================================= */
+
   &__sale-item-subtotal {
+    min-width: 75px;
     grid-column: 1 / -1;
     color: vars.$color-primary;
     font-size: vars.$font-size-sm;
+    font-weight: 500;
     text-align: right;
   }
+
+  /* =========================================================
+   SALE SUMMARY
+   ========================================================= */
 
   &__sale-summary {
     padding: 15px;
@@ -461,7 +518,7 @@
     font-size: vars.$font-size-sm;
 
     strong {
-      color: #374151;
+      color: vars.$color-text-primary;
     }
   }
 
@@ -484,430 +541,156 @@
     }
   }
 
-  &__payment-actions {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: vars.$spacing-sm;
-    margin-top: 15px;
-  }
-
-  &__charge-button {
-    background: vars.$color-primary !important;
-    color: #fff !important;
-
-    &:disabled {
-      opacity: 0.5;
-    }
-  }
-
-  &__secondary-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-
-    button {
-      flex: 1;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-xs;
-    }
-  }
-
-  /* ============================================================
-   PRODUCTOS DE LA VENTA
-   ============================================================ */
-
-  .pos__sale-items {
-    display: flex;
-    flex-direction: column;
-  }
-
-
-  .pos__sale-item {
-    display: grid;
-
-    /*
-   * Eliminar | Producto | Cantidad | Subtotal
-   */
-    grid-template-columns:
-      32px minmax(0, 1fr) auto auto;
-
-    align-items: center;
-
-    column-gap: 8px;
-
-    padding: 12px 8px;
-
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-
-  /* ============================================================
-   ELIMINAR PRODUCTO
-   ============================================================ */
-
-  .pos__remove-item {
-    min-width: 28px;
-    width: 28px;
-    height: 28px;
-
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /*
-   * Utiliza el mismo tono visual del botón
-   * FINALIZAR OPERADOR.
-   */
-    color: #f57c00;
-
-    font-size: 16px;
-  }
-
-
-  /* ============================================================
-   INFORMACIÓN DEL PRODUCTO
-   ============================================================ */
-
-  .pos__sale-item-info {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-  }
-
-
-  .pos__sale-item-info strong {
-    display: block;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    font-size: 14px;
-  }
-
-
-  .pos__sale-item-info small {
-    display: block;
-
-    margin-top: 2px;
-
-    color: #9ca3af;
-
-    font-size: 11px;
-
-    white-space: nowrap;
-  }
-
-
-  /* ============================================================
-   CANTIDAD
-   ============================================================ */
-
-  .pos__sale-item-controls {
-    display: flex;
-
-    align-items: center;
-
-    gap: 2px;
-  }
-
-
-  .pos__sale-item-controls button {
-    min-width: 24px;
-
-    width: 24px;
-
-    height: 32px;
-
-    padding: 0;
-
-    line-height: 32px;
-  }
-
-
-  .pos__sale-item-controls input {
-    width: 58px;
-
-    height: 30px;
-
-    padding: 0 4px;
-
-    box-sizing: border-box;
-
-    text-align: center;
-
-    font-size: 14px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 3px;
-
-    outline: none;
-  }
-
-
-  .pos__sale-item-controls input:focus {
-    border-color: #9ca3af;
-  }
-
-
-  /*
- * Quitar las flechas nativas del input number.
- */
-
-  .pos__sale-item-controls input::-webkit-outer-spin-button,
-  .pos__sale-item-controls input::-webkit-inner-spin-button {
-    margin: 0;
-    -webkit-appearance: none;
-  }
-
-
-  .pos__sale-item-controls input[type='number'] {
-    appearance: textfield;
-  }
-
-
-  /* ============================================================
-   SUBTOTAL
-   ============================================================ */
-
-  .pos__sale-item-subtotal {
-    min-width: 75px;
-
-    text-align: right;
-
-    font-size: 13px;
-
-    font-weight: 500;
-  }
-
-
   /* =========================================================
    MÉTODOS DE PAGO
    ========================================================= */
 
-  .pos__payment-section {
+  &__payment-section {
     width: 100%;
     margin-top: 18px;
   }
 
-
-  .pos__payment-title {
+  &__payment-title {
     display: flex;
     align-items: baseline;
     gap: 4px;
-
     margin-bottom: 8px;
-
-    font-size: 11px;
+    font-size: vars.$font-size-xs;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    color: vars.$color-text-secondary;
 
-    color: #6f747b;
+    small {
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: none;
+      color: vars.$color-text-muted;
+    }
   }
 
-
-  .pos__payment-title small {
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 0;
-
-    text-transform: none;
-
-    color: #858a91;
-  }
-
-
-  /* =========================================================
-   BOTONES MÉTODO DE PAGO
-   ========================================================= */
-
-  .pos__payment-actions {
+  &__payment-actions {
     display: grid;
-
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap: 6px;
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: vars.$spacing-sm;
     width: 100%;
   }
 
-
-  .pos__payment-button {
+  &__payment-button {
     width: 100%;
     min-width: 0;
-
     height: 34px;
     min-height: 34px;
-
     padding: 0 8px;
-
-    border: 1.5px solid #e1e4e8 !important;
-    border-radius: 7px !important;
-
-    background: #f8f9fa !important;
-
-    color: #707780 !important;
-
-    font-size: 10px !important;
-    font-weight: 600 !important;
-
+    border: 1.5px solid vars.$color-primary-dark;
+    border-radius: vars.$radius-md;
+    background: vars.$color-surface;
+    color: vars.$color-primary-dark;
+    font-size: vars.$font-size-xs;
+    font-weight: 600;
     line-height: 1;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    box-shadow: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
-    box-shadow: none !important;
+    &:not(:disabled) {
+      border-color: vars.$color-primary-dark;
+      background: vars.$color-surface;
+      color: vars.$color-primary-dark;
+    }
 
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease,
-      color 0.15s ease,
-      opacity 0.15s ease,
-      transform 0.15s ease;
+    &:hover:not(:disabled) {
+      border-color: vars.$color-primary;
+      background: vars.$color-surface;
+      color: vars.$color-primary;
+    }
+
+    &--selected {
+      border-color: vars.$color-success !important;
+      background: vars.$color-success-light!important;
+      color: vars.$color-success!important;
+      font-weight: 700;
+      box-shadow: inset 0 0 0 0.5px vars.$color-success;
+    }
+
+    &:disabled {
+      border-color: vars.$color-border;
+      background: vars.$color-surface-secondary;
+      color: vars.$color-text-secondary;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    &--selected:disabled {
+      border-color: vars.$color-border;
+      background: vars.$color-surface-secondary;
+      color: vars.$color-text-secondary;
+      box-shadow: none;
+    }
   }
-
-
-  /* =========================================================
-   MÉTODO SELECCIONADO
-   ========================================================= */
-
-  .pos__payment-button--selected {
-    border-color: #22b98b !important;
-
-    background: #f0fff9 !important;
-
-    color: #13a67b !important;
-
-    font-weight: 700 !important;
-
-    box-shadow: inset 0 0 0 0.5px #22b98b !important;
-  }
-
-
-  /* =========================================================
-   MÉTODOS NO SELECCIONADOS CUANDO EXISTE UNO ACTIVO
-   ========================================================= */
-
-  .pos__payment-actions:has(.pos__payment-button--selected) .pos__payment-button:not(.pos__payment-button--selected) {
-    opacity: 0.62;
-  }
-
-
-  /* =========================================================
-   HOVER
-   ========================================================= */
-
-  .pos__payment-button:not(:disabled):hover {
-    border-color: #bfc5cb !important;
-
-    background: #f2f4f6 !important;
-
-    color: #555c64 !important;
-  }
-
-
-  .pos__payment-button--selected:not(:disabled):hover {
-    border-color: #22b98b !important;
-
-    background: #e9fff6 !important;
-
-    color: #0e9670 !important;
-  }
-
 
   /* =========================================================
    BOTÓN COBRAR
    ========================================================= */
 
-  .pos__charge-button {
+  &__charge-button {
     width: 100%;
-
     height: 48px;
     min-height: 48px;
-
     margin-top: 14px;
-
-    border-radius: 7px !important;
-
-    background: #ffbf8a !important;
-
-    color: #ffffff !important;
-
-    font-size: 14px !important;
-    font-weight: 700 !important;
-
+    border-radius: vars.$radius-md;
+    background: vars.$color-primary-dark;
+    border: 1px solid vars.$color-primary-dark;
+    color: vars.$color-surface !important;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
     letter-spacing: 0.01em;
+    box-shadow: 0 2px 5px rgba(255, 159, 95, 0.25);
+    transition: background-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
 
-    box-shadow: none !important;
+    &:hover:not(:disabled) {
+      border-color: vars.$color-primary;
+      background: vars.$color-primary;
+      color: vars.$color-surface;
+    }
 
-    transition:
-      background-color 0.15s ease,
-      opacity 0.15s ease,
-      transform 0.1s ease;
-  }
+    &:active:not(:disabled) {
+      transform: translateY(1px);
+    }
 
-
-  .pos__charge-button:not(:disabled) {
-    background: #ff9f5f !important;
-
-    color: #ffffff !important;
-
-    box-shadow: 0 2px 5px rgba(255, 159, 95, 0.25) !important;
-  }
-
-
-  .pos__charge-button:not(:disabled):hover {
-    background: #ff914d !important;
-  }
-
-
-  .pos__charge-button:not(:disabled):active {
-    transform: translateY(1px);
-  }
-
-
-  .pos__charge-button:disabled {
-    background: #ffbf8a !important;
-
-    color: #ffffff !important;
-
-    opacity: 0.78;
-
-    box-shadow: none !important;
+    &:disabled {
+      border-color: vars.$color-border;
+      background: vars.$color-surface-secondary;
+      color: vars.$color-text-secondary !important;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
   }
 
   /* =========================================================
    ACCIONES SECUNDARIAS
    ========================================================= */
 
-  .pos__secondary-actions {
+  &__secondary-actions {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     width: 100%;
-
     margin-top: 10px;
-  }
 
-
-  .pos__secondary-actions button {
-    font-size: 9px !important;
-    font-weight: 500 !important;
-
-    color: #737982 !important;
+    button {
+      font-size: vars.$font-size-xs;
+      font-weight: 500;
+      color: vars.$color-text-secondary;
+    }
   }
 }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 900px) {
   .pos {
@@ -918,5 +701,28 @@
     &__categories {
       display: none;
     }
+  }
+}
+
+/* =========================================================
+   FOOTER LOGIN
+   ========================================================= */
+   
+.sidebar__footer {
+  padding: 10px;
+}
+
+.sidebar__login-btn {
+  background-color: vars.$color-primary-dark;
+  color: vars.$color-surface !important;
+  border: 1px solid vars.$color-primary-dark !important;
+  border-radius: vars.$radius-md;
+  font-size: vars.$font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: vars.$color-primary;
   }
 }

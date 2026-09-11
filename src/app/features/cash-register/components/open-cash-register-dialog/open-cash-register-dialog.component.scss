@@ -1,5 +1,164 @@
+@use '../../../../../../src/styles/variables' as vars;
+
 .open-cash-register-dialog {
-  &__error {
-    margin-top: 8px;
+  padding: 28px 32px;
+  background: vars.$color-surface;
+  border-radius: vars.$radius-lg;
+  color: vars.$color-text-primary;
+  font-family: vars.$font-family-base;
+  box-shadow: vars.$shadow-md;
+
+  // Encabezado
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    .dialog-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: vars.$radius-md;
+      background: vars.$color-surface-secondary;
+      color: vars.$color-primary-dark;
+      font-size: 18px;
+
+      // Corrige el ícono de Material
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+        font-size: 18px;
+        line-height: 1;
+      }
+    }
+
+    h2 {
+      font-size: vars.$font-size-lg;
+      font-weight: 750;
+      color: vars.$color-primary-dark;
+      margin: 0;
+    }
+  }
+
+  // Descripción
+  .dialog-description {
+    font-size: vars.$font-size-sm;
+    color: vars.$color-text-secondary;
+    margin-bottom: 20px;
+  }
+
+  // Campo de entrada
+  .dialog-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+
+    label {
+      font-size: vars.$font-size-xs;
+      font-weight: 700;
+      color: vars.$color-text-muted;
+      letter-spacing: 0.5px;
+    }
+
+    .dialog-input {
+      width: 100%;
+      border-radius: vars.$radius-md;
+
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+
+      .mat-form-field-outline {
+        color: vars.$color-border;
+      }
+
+      .mat-form-field-outline-thick {
+        color: vars.$color-border-light;
+      }
+
+      input {
+        font-size: vars.$font-size-sm;
+        color: vars.$color-text-primary;
+      }
+    }
+
+    .dialog-suggestion {
+      font-size: vars.$font-size-xs;
+      color: vars.$color-text-muted;
+      margin-top: 4px;
+
+      strong {
+        color: vars.$color-text-primary;
+        font-weight: 700;
+      }
+    }
+  }
+
+  // Botones de monto sugerido
+  .dialog-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+
+    button {
+      flex: 1;
+      border-radius: 20px;
+      font-size: vars.$font-size-sm;
+      font-weight: 650;
+      color: vars.$color-text-secondary;
+      border-color: vars.$color-border;
+      background: vars.$color-surface;
+      transition: background .15s ease, border-color .15s ease;
+
+      &:hover {
+        background: vars.$color-surface-secondary;
+        border-color: vars.$color-primary-light;
+        color: vars.$color-primary-dark;
+      }
+    }
+  }
+
+  // Acciones
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    .cancel {
+      border: 1px solid vars.$color-border;
+      background: vars.$color-surface;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-sm;
+      font-weight: 650;
+      border-radius: vars.$radius-sm;
+      padding: 6px 14px;
+
+      &:hover {
+        background: vars.$color-surface-secondary;
+        color: vars.$color-primary-dark;
+      }
+    }
+
+    .confirm {
+      background: vars.$color-primary-light;
+      color: vars.$color-surface;
+      font-size: vars.$font-size-sm;
+      font-weight: 650;
+      border-radius: vars.$radius-sm;
+      padding: 6px 14px;
+      transition: background .15s ease;
+
+      &:hover {
+        background: vars.$color-primary-dark;
+      }
+
+      &:disabled {
+        background: vars.$color-primary-light;
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
   }
 }

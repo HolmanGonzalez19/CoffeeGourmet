@@ -1,0 +1,65 @@
+// ============================================================
+// Coffee Gourmet - Estilos globales
+// ============================================================
+
+// 1. Variables
+@use './variables' as vars;
+
+// 2. Reset y estilos base
+@use './base';
+
+// 3. Tipografía global
+@use './typography';
+
+// 4. Utilidades
+@use './utilities';
+
+// 5. Tema Angular Material + Coffee Gourmet
+@use './theme';
+
+// ============================================================
+// Estilos globales adicionales
+// ============================================================
+
+// Tipografía global
+html,
+body {
+  font-family: vars.$font-family-base;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  background: vars.$color-background;
+  color: vars.$color-text-primary;
+  margin: 0;
+  padding: 0;
+}
+
+// Links
+a {
+  color: vars.$color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Scrollbar personalizado (opcional)
+* {
+  scrollbar-width: thin;
+  scrollbar-color: vars.$color-primary vars.$color-surface-secondary;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: vars.$color-surface-secondary;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: vars.$color-primary;
+  border-radius: vars.$radius-md;
+}

@@ -185,7 +185,7 @@ export class PurchasesComponent implements OnInit {
   ): void {
 
     this.router.navigate([
-      '/purchases',
+      'admin/purchases',
       compra.id
     ]);
 
@@ -195,7 +195,7 @@ export class PurchasesComponent implements OnInit {
   registrarCompra(): void {
 
     this.router.navigate([
-      '/purchases/new'
+      'admin/purchases/new'
     ]);
 
   }
@@ -204,7 +204,7 @@ export class PurchasesComponent implements OnInit {
   volverAlDashboard(): void {
 
     this.router.navigate([
-      '/dashboard'
+      'admin/dashboard'
     ]);
 
   }

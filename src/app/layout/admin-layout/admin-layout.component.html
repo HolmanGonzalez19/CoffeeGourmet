@@ -1,0 +1,145 @@
+<mat-sidenav-container class="admin-layout">
+  <mat-sidenav
+    class="admin-layout__sidebar"
+    mode="side"
+    opened>
+    <div class="admin-layout__brand">
+      <img
+        src="/assets/images/LogoCoffeeGourmet.png"
+        alt="Coffee Gourmet">
+      <div class="admin-layout__brand-text">
+        <h2>Coffee Gourmet</h2>
+        <span>Administración</span>
+      </div>
+    </div>
+    <mat-nav-list class="admin-layout__nav">
+
+     <a
+  mat-list-item
+  routerLink="dashboard"
+  routerLinkActive="admin-layout__item--active"
+  [routerLinkActiveOptions]="{ exact: true }">
+
+  <mat-icon matListItemIcon>dashboard</mat-icon>
+  <span matListItemTitle>Dashboard</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="cash-register"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>point_of_sale</mat-icon>
+  <span matListItemTitle>Gestión de Caja</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="sales"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>receipt_long</mat-icon>
+  <span matListItemTitle>Ventas</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="products"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>inventory_2</mat-icon>
+  <span matListItemTitle>Productos</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="inventory"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>warehouse</mat-icon>
+  <span matListItemTitle>Inventario</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="purchases"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>shopping_cart</mat-icon>
+  <span matListItemTitle>Compras</span>
+
+</a>
+
+<a
+  mat-list-item
+  routerLink="statistics"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>bar_chart</mat-icon>
+  <span matListItemTitle>Estadísticas</span>
+
+</a>
+
+    </mat-nav-list>
+
+    <div class="admin-layout__sidebar-footer">
+      <button
+        type="button"
+        class="button-red-light button-red-light--danger"
+        (click)="logout()">
+        Cerrar caja
+      </button>
+    </div>
+
+     
+
+  </mat-sidenav>
+
+  <mat-sidenav-content class="admin-layout__content">
+
+    <header class="admin-layout__header">
+
+      <div class="admin-layout__header-title">
+
+        <h1>
+          Administración
+        </h1>
+
+        <p>
+          Gestión general de Coffee Gourmet
+        </p>
+
+      </div>
+
+      <div class="admin-layout__header-user">
+
+        <div class="admin-layout__avatar">
+          A
+        </div>
+
+        <div>
+          <strong>{{ authService.getCurrentUser()?.nombre }}</strong>
+
+          <span>
+            Sesión administrativa
+          </span>
+        </div>
+
+      </div>
+
+    </header>
+
+    <main class="admin-layout__page">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -335,7 +335,7 @@ export class InventoryComponent implements OnInit {
   volverAlDashboard(): void {
 
     this.router.navigate([
-      '/dashboard'
+      'admin/dashboard'
     ]);
 
   }

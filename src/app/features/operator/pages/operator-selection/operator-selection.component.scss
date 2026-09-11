@@ -1,24 +1,247 @@
+@use '../../../../../styles/variables' as vars;
+
 .operator-selection {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 420px;
+  //margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px;
+  min-width: 100%;
 }
 
-.operator-list {
+/* ============================================================
+   OPERADORES
+   ============================================================ */
+.operator-selection__header {
+  text-align: center;
+  margin-bottom: 12px;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #242424;
+  }
+
+  p {
+    font-size: 13px;
+    color: #666;
+  }
+}
+
+.operator-selection__operators {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 24px 0;
 }
 
 .operator-option {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  padding: 16px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
   cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: #f5f5f5;
+    border-color: #bbb;
+  }
+
+  &--selected {
+    border-color: #c98632;
+    background: #fff8f0;
+  }
+
+  &__avatar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__info {
+    flex: 1;
+
+    .operator-option__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .operator-option__status {
+      font-size: 12px;
+      color: #777;
+
+      .status-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #4caf50;
+        border-radius: 50%;
+        margin-right: 4px;
+      }
+    }
+  }
 }
 
-.operator-option--selected {
-  outline: 2px solid currentColor;
+/* ============================================================
+   PIN VIEW
+   ============================================================ */
+.operator-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  text-align: center;
+}
+
+.operator-pin__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.operator-pin__profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #242424;
+    margin: 0;
+  }
+
+  .operator-pin__role {
+    font-size: 12px;
+    color: #777;
+  }
+}
+
+.operator-pin__inputs {
+  display: flex;
+  gap: 10px;
+
+  .pin-box {
+    width: 40px;
+    height: 50px;
+    border: 2px solid vars.$color-primary-dark;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: vars.$color-primary-dark;
+  }
+}
+
+.operator-pin__keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  .keypad-btn {
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: none;
+    background: #f5f5f5;
+    font-size: 35px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+
+    &:nth-child(10) {
+      color: #c98632;
+      font-weight: 700;
+    }
+  }
+}
+
+.operator-pin__security {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  font-size: 11px;
+  color: #777;
+
+  mat-icon {
+    font-size: 16px;
+    color: #999;
+  }
+
+  strong {
+    display: block;
+    font-size: 12px;
+    color: #333;
+  }
+}
+
+.operator-pin__error {
+  font-size: 12px;
+  color: #b71c1c;
+  margin-top: 6px;
+}
+
+.operator-selection__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: #f2f2f2;
+    color: #333;
+  }
+}
+
+.avatar-inicial {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #c98632;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
 }

@@ -3,19 +3,24 @@ import {
     inject,
     OnInit
 } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../../../core/services/dashboard.service';
 import { Dashboard } from '../../../../core/models/dashboard.model';
 import { AuthService } from '../../../../core/services/auth.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [
         CurrencyPipe,
-        DatePipe
-    ],
+        DatePipe,
+        NgClass,
+        MatCardModule,
+        MatIconModule
+],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss'
 })
@@ -27,9 +32,15 @@ export class DashboardComponent implements OnInit {
     dashboard!: Dashboard;
     loading = true;
     errorMessage = '';
+    firstName : string = '';
 
     ngOnInit(): void {
         this.loadDashboard();
+        this.GetFirstName();
+    }
+
+    GetFirstName(){
+        this.firstName = this.authService.getCurrentUser()?.nombre.trim().split(/\s+/)[0] ?? '';
     }
 
     loadDashboard(): void {
@@ -74,13 +85,13 @@ export class DashboardComponent implements OnInit {
     }
 
     irACaja(): void {
-        this.router.navigate(['/cash-register']);
+        this.router.navigate(['admin/cash-register']);
     }
 
-    logout(): void {
+    /*logout(): void {
         this.authService.logout();
         this.router.navigate(['/']);
-    }
+    }*/
 
     getMaxVentaMensual(): number {
 
@@ -117,7 +128,7 @@ export class DashboardComponent implements OnInit {
         ).replace('.', '');
     }
 
-    irAVentas(): void {
+    /*irAVentas(): void {
 
         this.router.navigate(['/sales']);
 
@@ -145,5 +156,5 @@ export class DashboardComponent implements OnInit {
 
     this.router.navigate(['/statistics']);
 
-    }
+    }*/
 }

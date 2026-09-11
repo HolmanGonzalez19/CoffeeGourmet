@@ -32,6 +32,10 @@ import {
   AuthService,
   AuthenticationResponse
 } from '../../../../core/services/auth.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 
 @Component({
@@ -40,7 +44,9 @@ import {
 
   imports: [
     MatButtonModule,
-    FormsModule
+    CommonModule,
+    FormsModule,
+    MatIconModule
   ],
 
   templateUrl:
@@ -64,6 +70,12 @@ export class OperatorSelectionComponent
 
   private readonly router =
     inject(Router);
+
+  private readonly dialogRef =
+    inject(MatDialogRef<OperatorSelectionComponent>);
+
+  private readonly notificationService =
+      inject(NotificationService);
 
 
   // ============================================================
@@ -95,7 +107,6 @@ export class OperatorSelectionComponent
 
   errorMessage = '';
 
-  pinErrorMessage = '';
 
 
   // ============================================================
@@ -204,7 +215,6 @@ export class OperatorSelectionComponent
 
     this.pin = '';
 
-    this.pinErrorMessage = '';
 
     this.showPin = true;
 
@@ -234,8 +244,9 @@ export class OperatorSelectionComponent
       !/^\d{4}$/.test(this.pin)
     ) {
 
-      this.pinErrorMessage =
-        'El PIN debe contener exactamente 4 dígitos numéricos.';
+      this.notificationService.info(
+        'El PIN debe contener exactamente 4 dígitos numéricos.'
+      );
 
       return;
 
@@ -260,8 +271,9 @@ export class OperatorSelectionComponent
       this.authService.isAdminSessionActive()
     ) {
 
-      this.pinErrorMessage =
-        'Debe cerrar la sesión administrativa antes de iniciar una jornada como operador.';
+      this.notificationService.info(
+        'Debe cerrar la sesión administrativa antes de iniciar una jornada como operador.'
+      );
 
       return;
 
@@ -270,7 +282,6 @@ export class OperatorSelectionComponent
 
     this.authenticating = true;
 
-    this.pinErrorMessage = '';
 
 
     const request = {
@@ -301,9 +312,7 @@ export class OperatorSelectionComponent
             this.authenticating =
               false;
 
-            this.router.navigate([
-              '/'
-            ]);
+            this.dialogRef.close(true);
 
           },
 
@@ -318,9 +327,10 @@ export class OperatorSelectionComponent
           this.authenticating =
             false;
 
-          this.pinErrorMessage =
+          this.notificationService.error(
             error?.error?.message ??
-            'PIN incorrecto o usuario sin permiso para operar.';
+            'PIN incorrecto o usuario sin permiso para operar.'
+          );
 
         }
 
@@ -364,6 +374,45 @@ export class OperatorSelectionComponent
 
       });
 
+  }
+
+  clearSelection(): void {
+  this.selectedOperator = null;
+  this.showPin = false;
+  this.pin = '';
+}
+
+handleKeyPress(key: string): void {
+  if (key === 'C') {
+    this.pin = '';
+    return;
+  }
+
+  if (key === 'clear') {
+    this.pin = this.pin.slice(0, -1);
+    return;
+  }
+
+  // Solo permitir números
+  if (!/^\d$/.test(key)) {
+    return;
+  }
+
+  // Limitar a 4 dígitos
+  if (this.pin.length >= 4) {
+    return;
+  }
+
+  this.pin += key;
+
+  // Validar automáticamente cuando se completan los 4 dígitos
+  if (this.pin.length === 4) {
+    this.continue();
+  }
+}
+
+cerrarModal(): void {
+    this.dialogRef.close(false); // false = usuario canceló
   }
 
 }

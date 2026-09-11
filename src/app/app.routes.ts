@@ -6,9 +6,6 @@ import { PosComponent }
 import { LoginComponent }
   from './features/auth/pages/login/login.component';
 
-import { AdminComponent }
-  from './features/auth/pages/admin/admin.component';
-
 import { DashboardComponent }
   from './features/dashboard/pages/dashboard/dashboard.component';
 
@@ -18,18 +15,35 @@ import { CashRegisterComponent }
 import { OperatorSelectionComponent }
   from './features/operator/pages/operator-selection/operator-selection.component';
 
+import { SalesComponent }
+  from './features/sales/components/sale/sale.component';
+
+import { ProductComponent }
+  from './features/product/components/product.component';
+
+import { InventoryComponent }
+  from './features/inventory/components/inventory/inventory.component';
+
+import { PurchasesComponent }
+  from './features/purchases/pages/purchases/purchases.component';
+
+import { PurchaseFormComponent }
+  from './features/purchases/pages/purchase-form/purchase-form.component';
+
+import { PurchaseDetailComponent }
+  from './features/purchases/pages/purchase-detail/purchase-detail.component';
+
+import { StatisticsComponent }
+  from './features/statistics/statistics.component';
+
+import { AdminLayoutComponent }
+  from './layout/admin-layout/admin-layout.component';
+
 import { adminGuard }
   from './core/guards/admin.guard';
 
 import { noActiveSessionGuard }
   from './core/guards/no-active-session.guard';
-import { SalesComponent } from './features/sales/components/sale/sale.component';
-import { ProductComponent } from './features/product/components/product.component';
-import { InventoryComponent } from './features/inventory/components/inventory/inventory.component';
-import { PurchasesComponent } from './features/purchases/pages/purchases/purchases.component';
-import { PurchaseFormComponent } from './features/purchases/pages/purchase-form/purchase-form.component';
-import { PurchaseDetailComponent } from './features/purchases/pages/purchase-detail/purchase-detail.component';
-import { StatisticsComponent } from './features/statistics/statistics.component';
 
 
 export const routes: Routes = [
@@ -38,12 +52,6 @@ export const routes: Routes = [
    * ============================================================
    * POS
    * ============================================================
-   *
-   * Puede entrar:
-   * - nadie
-   * - operador
-   *
-   * NO puede entrar un administrador activo.
    */
   {
     path: '',
@@ -58,9 +66,6 @@ export const routes: Routes = [
    * ============================================================
    * LOGIN ADMINISTRATIVO
    * ============================================================
-   *
-   * No permitimos abrir nuevamente el login
-   * cuando ya existe una sesión administrativa.
    */
   {
     path: 'login',
@@ -73,79 +78,123 @@ export const routes: Routes = [
 
   /*
    * ============================================================
-   * ADMIN
+   * ADMINISTRACIÓN
    * ============================================================
    */
   {
     path: 'admin',
-    component: AdminComponent,
+    component: AdminLayoutComponent,
     canActivate: [
       adminGuard
+    ],
+    children: [
+
+      /*
+       * ========================================================
+       * DASHBOARD
+       * ========================================================
+       */
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+
+
+      /*
+       * ========================================================
+       * CAJA
+       * ========================================================
+       */
+      {
+        path: 'cash-register',
+        component: CashRegisterComponent
+      },
+
+
+      /*
+       * ========================================================
+       * VENTAS
+       * ========================================================
+       */
+      {
+        path: 'sales',
+        component: SalesComponent
+      },
+
+
+      /*
+       * ========================================================
+       * PRODUCTOS
+       * ========================================================
+       */
+      {
+        path: 'products',
+        component: ProductComponent
+      },
+
+
+      /*
+       * ========================================================
+       * INVENTARIO
+       * ========================================================
+       */
+      {
+        path: 'inventory',
+        component: InventoryComponent
+      },
+
+
+      /*
+       * ========================================================
+       * COMPRAS
+       * ========================================================
+       */
+      {
+        path: 'purchases',
+        component: PurchasesComponent
+      },
+
+      {
+        path: 'purchases/new',
+        component: PurchaseFormComponent
+      },
+
+      {
+        path: 'purchases/:id',
+        component: PurchaseDetailComponent
+      },
+
+
+      /*
+       * ========================================================
+       * ESTADÍSTICAS
+       * ========================================================
+       */
+      {
+        path: 'statistics',
+        component: StatisticsComponent
+      },
+
+
+      /*
+       * ========================================================
+       * RUTA ADMIN POR DEFECTO
+       * ========================================================
+       */
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      }
+
     ]
   },
-
-
-  /*
-   * ============================================================
-   * DASHBOARD
-   * ============================================================
-   */
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-
-
-  /*
-   * ============================================================
-   * CAJA
-   * ============================================================
-   */
-  {
-    path: 'cash-register',
-    component: CashRegisterComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-
-  /*
- * ============================================================
- * VENTAS
- * ============================================================
- */
-{
-  path: 'sales',
-  component: SalesComponent,
-  canActivate: [
-    adminGuard
-  ]
-},
-
-  /*
- * ============================================================
- * PRODUCTOS
- * ============================================================
- */
-{
-  path: 'products',
-  component: ProductComponent,
-  canActivate: [
-    adminGuard
-  ]
-},
 
 
   /*
    * ============================================================
    * SELECCIÓN DE OPERADOR
    * ============================================================
-   *
-   * No se permite iniciar operador mientras
-   * exista una sesión administrativa.
    */
   {
     path: 'operator-selection',
@@ -154,61 +203,6 @@ export const routes: Routes = [
       noActiveSessionGuard
     ]
   },
-
-  /*
-   * ============================================================
-   * INVENTARIO
-   * ============================================================
-   */
-
-  {
-    path: 'inventory',
-    component: InventoryComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-
-   /*
-   * ============================================================
-   * COMPRAS
-   * ============================================================
-   */
-
-  {
-    path: 'purchases',
-    component: PurchasesComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-  {
-    path: 'purchases/new',
-    component: PurchaseFormComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-  {
-    path: 'purchases/:id',
-    component: PurchaseDetailComponent,
-    canActivate: [
-      adminGuard
-    ]
-  },
-
-  /*
- * ============================================================
- * ESTADÍSTICAS
- * ============================================================
- */
-{
-  path: 'statistics',
-  component: StatisticsComponent,
-  canActivate: [
-    adminGuard
-  ]
-},
 
 
   /*

@@ -5,4 +5,5 @@ export interface Operator {
   rolId: number;
   rolNombre: string;
   activo: boolean;
+  foto?: string;
 }

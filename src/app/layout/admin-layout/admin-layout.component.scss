@@ -1,0 +1,175 @@
+@use '../../../styles/variables' as vars;
+
+.admin-layout {
+    height: 100vh;
+    background: vars.$color-background;
+    font-family: vars.$font-family-base;
+
+    &__sidebar {
+        /*width: 250px;
+    border-right: 1px solid vars.$color-border;
+    background: vars.$color-sidebar;*/
+        width: 250px;
+        border-right: 1px solid vars.$color-border-light;
+        background: vars.$color-beige;
+        color: vars.$color-text-primary;
+    }
+
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: vars.$spacing-md;
+        height: 80px;
+        padding: 0 vars.$spacing-xl;
+        //border-bottom: 1px solid vars.$color-sidebar-active;
+        border-bottom: 1px solid vars.$color-border-light;
+        //background: vars.$color-surface-secondary;
+
+        img {
+            width: 30%;
+            height: 42px;
+            object-fit: contain;
+        }
+    }
+
+    &__brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: vars.$spacing-xs;
+
+        h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        span {
+            font-family: vars.$font-family-base;
+            font-size: vars.$font-size-sm;
+            color: vars.$color-text-gray;
+        }
+    }
+
+    &__nav {
+        padding: vars.$spacing-lg vars.$spacing-md;
+    }
+
+    &__nav a {
+        height: 46px;
+        margin-bottom: vars.$spacing-xs;
+        border-radius: vars.$radius-md;
+        color: vars.$color-text-secondary;
+        font-size: 13px;
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
+
+        mat-icon {
+            margin-right: vars.$spacing-lg;
+            color: vars.$color-text-coffee;
+            font-size: vars.$font-size-total 20px;
+            text-align: center;
+        }
+
+        &:hover {
+            background: vars.$color-beige-light;
+            color: vars.$color-text-coffee;
+
+            mat-icon {
+                color: vars.$color-text-coffee;
+            }
+        }
+    }
+
+    &__item--active {
+        background: vars.$color-beige-coffee-light !important;
+        color: vars.$color-text-coffee !important;
+        font-weight: 600;
+
+        mat-icon {
+            color: vars.$color-text-coffee !important;
+        }
+    }
+
+    &__sidebar-footer {
+        position: absolute;
+        right: vars.$spacing-md;
+        bottom: vars.$spacing-lg;
+        left: vars.$spacing-md;
+        border-top:
+        1px solid vars.$border;
+        padding-top: 10px;
+        font-size: vars.$font-size-md;
+        
+        button{
+            font-size: vars.$font-size-sm;
+        }
+    }
+
+    &__content {
+        background: vars.$color-background;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 80px;
+        padding: 0 vars.$spacing-2xl;
+        background: vars.$color-gray;
+        border-bottom: 1px solid vars.$color-border-light;
+    }
+
+    &__header-title {
+        h1 {
+            color: vars.$color-text-primary;
+        }
+
+        p {
+            line-height: 0;
+            margin: revert;
+            color: vars.$color-text-gray;
+        }
+    }
+
+    &__header-user {
+        display: flex;
+        align-items: center;
+        gap: vars.$spacing-sm;
+
+        strong,
+        span {
+            display: block;
+            font-family: vars.$font-family-base;
+        }
+
+        strong {
+            font-size: vars.$font-size-md;
+            color: vars.$color-text-primary;
+        }
+
+        span {
+            margin-top: vars.$spacing-xs;
+            font-size: vars.$font-size-xs;
+            color: vars.$color-text-secondary;
+        }
+    }
+
+    &__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: vars.$radius-round;
+        background: vars.$color-primary;
+        color: vars.$color-surface;
+        font-family: vars.$font-family-base;
+        font-size: vars.$font-size-md;
+        font-weight: 600;
+    }
+
+    &__page {
+        min-height: calc(100vh - 80px);
+        box-sizing: border-box;
+    }
+}

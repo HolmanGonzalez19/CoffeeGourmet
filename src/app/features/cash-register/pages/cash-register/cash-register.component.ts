@@ -128,9 +128,9 @@ export class CashRegisterComponent implements OnInit {
           this.cashRegister =
             response;
 
-          this.loadCashMovements();
-
           this.loading = false;
+          
+          this.loadCashMovements();
 
         },
 
@@ -275,13 +275,13 @@ export class CashRegisterComponent implements OnInit {
   // VOLVER AL DASHBOARD
   // ============================================================
 
-  volverAlDashboard(): void {
+  /*volverAlDashboard(): void {
 
     this.router.navigate([
-      '/dashboard'
+      'admin/dashboard'
     ]);
 
-  }
+  }*/
 
 
   // ============================================================

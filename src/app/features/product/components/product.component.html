@@ -1,635 +1,303 @@
 <section class="products">
-
-  <!-- ==========================================================
-       HEADER
-       ========================================================== -->
-
   <header class="products__header">
-
     <div>
-
-      <h1>
-        Productos
-      </h1>
-
-      <p>
-        Gestión y consulta de productos
-      </p>
-
+      <span class="products__eyebrow"> ADMINISTRACIÓN </span>
+      <h1> Productos </h1>
+      <p> Gestión y consulta de productos. </p>
     </div>
-
-
     <div class="products__actions">
-
-      <button
-        type="button"
-        (click)="volverAlDashboard()">
-
-        Dashboard
-
-      </button>
-
-
       <button
         type="button"
         class="products__button-primary"
         (click)="crearProducto()">
-
-        + Nuevo producto
-
+        <mat-icon>add</mat-icon>
+        Nuevo producto
       </button>
-
     </div>
-
   </header>
-
-  <!-- ==========================================================
-     FORMULARIO NUEVO PRODUCTO
-     ========================================================== -->
-
-<section
-  *ngIf="mostrarFormulario"
-  class="products__form-container">
-
-  <div class="products__form">
-
-    <div class="products__form-header">
-
-      <div>
-
-        <h2>
-  {{ modoEdicion ? 'Editar producto' : 'Nuevo producto' }}
-</h2>
-
-<p>
-  {{
-    modoEdicion
-      ? 'Modifica la información del producto.'
-      : 'Registra un nuevo producto en el sistema.'
-  }}
-</p>
-
+  <section *ngIf="mostrarFormulario" class="products__form-container">
+    <div class="products__form">
+      <div class="products__form-header">
+        <div>
+          <span class="products__eyebrow"> PRODUCTOS </span>
+          <h2> {{ modoEdicion ? 'Editar producto' : 'Nuevo producto' }} </h2>
+          <p> {{ modoEdicion
+                ? 'Modifica la información del producto.'
+                : 'Registra un nuevo producto en el sistema.'
+            }}
+          </p>
+        </div>
+        <button
+          type="button"
+          class="products__form-close"
+          (click)="cerrarFormulario()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
-
-      <button
-        type="button"
-        class="products__form-close"
-        (click)="cerrarFormulario()">
-
-        ×
-
-      </button>
-
+      <div *ngIf="formErrorMessage" class="products__form-error">
+        <mat-icon>error_outline</mat-icon>
+        <span> {{ formErrorMessage }} </span>
+      </div>
+      <div class="products__form-grid">
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Nombre </mat-label>
+          <input
+            matInput
+            id="productoNombre"
+            type="text"
+            maxlength="150"
+            [(ngModel)]="productoForm.nombre"
+            placeholder="Nombre del producto">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Categoría </mat-label>
+          <mat-select id="productoCategoria" [(ngModel)]="productoForm.categoriaId">
+            <mat-option [value]="0"> Seleccione una categoría </mat-option>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Tipo de producto </mat-label>
+          <mat-select id="productoTipo" [(ngModel)]="productoForm.tipoProducto">
+            <mat-option value=""> Seleccione un tipo </mat-option>
+            <mat-option *ngFor="let tipo of tiposProducto" [value]="tipo">
+              {{ tipo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Código de barras </mat-label>
+          <input
+            matInput
+            id="productoCodigoBarras"
+            type="text"
+            maxlength="50"
+            [(ngModel)]="productoForm.codigoBarras"
+            placeholder="Opcional">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Existencias mínimas </mat-label>
+          <input
+            matInput
+            id="productoStockMinimo"
+            type="number"
+            min="0"
+            [(ngModel)]="productoForm.stockMinimo">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field">
+          <mat-label> Precio de compra </mat-label>
+          <input
+            matInput
+            id="productoPrecioCompra"
+            type="number"
+            min="0"
+            step="0.01"
+            [(ngModel)]="productoForm.precioCompra">
+          <span matTextPrefix>$&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field appearance="outline"class="products__field">
+          <mat-label> Precio de venta </mat-label>
+          <input
+            matInput
+            id="productoPrecioVenta"
+            type="number"
+            min="0.01"
+            step="0.01"
+            [(ngModel)]="productoForm.precioVenta">
+          <span matTextPrefix>$&nbsp;</span>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="products__field products__field--full">
+          <mat-label> Descripción</mat-label>
+          <textarea
+            matInput
+            id="productoDescripcion"
+            maxlength="255"
+            rows="3"
+            [(ngModel)]="productoForm.descripcion"
+            placeholder="Descripción opcional">
+          </textarea>
+        </mat-form-field>
+      </div>
+      <div class="products__form-actions">
+        <button
+          type="button"
+          class="products__button-secondary"
+          (click)="cerrarFormulario()"
+          [disabled]="guardandoProducto">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="products__button-primary"
+          (click)="guardarProducto()"
+          [disabled]="guardandoProducto">
+          <mat-icon> {{ guardandoProducto ? 'hourglass_empty' : 'save' }} </mat-icon>
+          {{ guardandoProducto ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Guardar producto')}}
+        </button>
+      </div>
     </div>
-
-
-    <!-- ERROR -->
-
-    <div
-      *ngIf="formErrorMessage"
-      class="products__form-error">
-
-      {{ formErrorMessage }}
-
-    </div>
-
-
-    <!-- DATOS GENERALES -->
-
-    <div class="products__form-grid">
-
-      <div class="products__form-field">
-
-        <label for="productoNombre">
-          Nombre *
-        </label>
-
-        <input
-          id="productoNombre"
-          type="text"
-          maxlength="150"
-          [(ngModel)]="productoForm.nombre"
-          placeholder="Nombre del producto">
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoCategoria">
-          Categoría *
-        </label>
-
-        <select
-          id="productoCategoria"
-          [(ngModel)]="productoForm.categoriaId">
-
-          <option [ngValue]="0">
-            Seleccione una categoría
-          </option>
-
-          <option
-            *ngFor="let categoria of categorias"
-            [ngValue]="categoria.id">
-
-            {{ categoria.nombre }}
-
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoTipo">
-          Tipo de producto *
-        </label>
-
-        <select
-          id="productoTipo"
-          [(ngModel)]="productoForm.tipoProducto">
-
-          <option value="">
-            Seleccione un tipo
-          </option>
-
-          <option
-            *ngFor="let tipo of tiposProducto"
-            [value]="tipo">
-
-            {{ tipo }}
-
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoCodigoBarras">
-          Código de barras
-        </label>
-
-        <input
-          id="productoCodigoBarras"
-          type="text"
-          maxlength="50"
-          [(ngModel)]="productoForm.codigoBarras"
-          placeholder="Opcional">
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoStockMinimo">
-          Existencias mínimas *
-        </label>
-
-        <input
-          id="productoStockMinimo"
-          type="number"
-          min="0"
-          [(ngModel)]="productoForm.stockMinimo">
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoPrecioCompra">
-          Precio de compra *
-        </label>
-
-        <input
-          id="productoPrecioCompra"
-          type="number"
-          min="0"
-          step="0.01"
-          [(ngModel)]="productoForm.precioCompra">
-
-      </div>
-
-
-      <div class="products__form-field">
-
-        <label for="productoPrecioVenta">
-          Precio de venta *
-        </label>
-
-        <input
-          id="productoPrecioVenta"
-          type="number"
-          min="0.01"
-          step="0.01"
-          [(ngModel)]="productoForm.precioVenta">
-
-      </div>
-
-
-      <div class="products__form-field products__form-field--full">
-
-        <label for="productoDescripcion">
-          Descripción
-        </label>
-
-        <textarea
-          id="productoDescripcion"
-          maxlength="255"
-          rows="3"
-          [(ngModel)]="productoForm.descripcion"
-          placeholder="Descripción opcional">
-        </textarea>
-
-      </div>
-
-    </div>
-
-
-    <!-- ACCIONES -->
-
-    <div class="products__form-actions">
-
-      <button
-        type="button"
-        (click)="cerrarFormulario()"
-        [disabled]="guardandoProducto">
-
-        Cancelar
-
-      </button>
-
-
-      <button
-        type="button"
-        class="products__button-primary"
-        (click)="guardarProducto()"
-        [disabled]="guardandoProducto">
-
-       {{ 
-  guardandoProducto
-    ? 'Guardando...'
-    : (modoEdicion
-        ? 'Guardar cambios'
-        : 'Guardar producto')
-}}
-
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-  <!-- ==========================================================
-       FILTROS
-       ========================================================== -->
-
-  <section class="products__filters">
-
-    <div class="products__filter">
-
-      <label for="busqueda">
-        Buscar
-      </label>
-
-      <input
-        id="busqueda"
-        type="text"
-        placeholder="Código, código de barras o nombre..."
-        [(ngModel)]="filtroBusqueda"
-        (input)="aplicarFiltros()">
-
-    </div>
-
-
-    <div class="products__filter">
-
-      <label for="categoria">
-        Categoría
-      </label>
-
-      <select
-        id="categoria"
-        [(ngModel)]="filtroCategoria"
-        (change)="aplicarFiltros()">
-
-        <option [ngValue]="null">
-          Todas
-        </option>
-
-        <option
-          *ngFor="let categoria of categorias"
-          [ngValue]="categoria.id">
-
-          {{ categoria.nombre }}
-
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="products__filter">
-
-      <label for="tipo">
-        Tipo de producto
-      </label>
-
-      <select
-        id="tipo"
-        [(ngModel)]="filtroTipo"
-        (change)="aplicarFiltros()">
-
-        <option value="">
-          Todos
-        </option>
-
-        <option
-          *ngFor="let tipo of tiposProducto"
-          [value]="tipo">
-
-          {{ tipo }}
-
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="products__filter">
-
-      <label for="estado">
-        Estado
-      </label>
-
-      <select
-        id="estado"
-        [(ngModel)]="filtroEstado"
-        (change)="cargarProductos()">
-
-        <option value="ACTIVOS">
-          Activos
-        </option>
-
-        <option value="INACTIVOS">
-          Inactivos
-        </option>
-
-        <option value="TODOS">
-          Todos
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <button
-      type="button"
-      class="products__button-clear"
-      (click)="limpiarFiltros()">
-
-      Limpiar filtros
-
-    </button>
-
   </section>
-
-
-  <!-- ==========================================================
-       RESUMEN
-       ========================================================== -->
-
-  <div class="products__summary">
-
-    <span>
-      Productos encontrados:
-      <strong>
-        {{ productosFiltrados.length }}
-      </strong>
-    </span>
-
+  <div class="__content">
+    <section class="products__filters">
+        <mat-form-field class="products__field">
+          <mat-label disableRipple> Categoría </mat-label>
+          <mat-select id="categoria" [(ngModel)]="filtroCategoria" (selectionChange)="aplicarFiltros()">
+            <mat-option [value]="null"> Todas las Categorías</mat-option>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="products__field">
+          <mat-label> Tipo de producto </mat-label>
+          <mat-select id="tipo" [(ngModel)]="filtroTipo" (selectionChange)="aplicarFiltros()">
+            <mat-option [value]=""> Todos los Productos </mat-option>
+            <mat-option *ngFor="let tipo of tiposProducto" [value]="tipo">
+              {{ tipo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="products__field">
+          <mat-label> Estado </mat-label>
+          <mat-select id="estado" [(ngModel)]="filtroEstado" (selectionChange)="cargarProductos()">
+            <mat-option [value]=""> Todos los Estados </mat-option>
+            <mat-option [value]="'ACTIVOS'"> Activos </mat-option>
+            <mat-option [value]="'INACTIVOS'"> Inactivos </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-button matButton="outlined" class="clear_filter" (click)="limpiarFiltros()"> 
+          <mat-icon> filter_alt_off </mat-icon>
+          Limpiar filtros
+        </button>
+    </section>
+    <section *ngIf="loading" class="products__loading">
+      <div class="products__spinner"></div>
+      <span> Cargando productos... </span>
+    </section>
+    <section *ngIf="!loading && errorMessage" class="products__error">
+      <mat-icon> error_outline </mat-icon>
+      <span> {{ errorMessage }} </span>
+    </section>
+    <section *ngIf="!loading && !errorMessage" class="products__panel">
+      <div class="products__panel-header">
+        <div>
+          <h2> Productos registrados </h2>
+          <p> Consulta, edita y administra los productos del sistema. </p>
+        </div>
+        <div class="products__field-search">
+           <mat-form-field >
+            <mat-label> Buscar </mat-label>
+            <input matInput id="busqueda" type="text" placeholder="Código, código de barras o nombre..."
+              [(ngModel)]="filtroBusqueda" (input)="aplicarFiltros()">
+            <mat-icon matSuffix> search </mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="products__count">
+          {{ productosFiltrados.length }} registros
+        </div>
+      </div>
+      <div
+        class="products__table-wrapper"
+        *ngIf="productosFiltrados.length > 0">
+        <table class="products__table">
+          <thead>
+            <tr class="paginas">
+              <td>
+                <span>
+                  Página {{ paginaActual + 1 }} de {{ obtenerTotalPaginas() }}
+                </span>
+              </td>
+              <td colspan="8">
+                <div class="sales__paginator">
+                  <mat-paginator
+                    [length]="totalRegistros"
+                    [pageIndex]="paginaActual"
+                    [pageSize]="registrosPorPagina"
+                    [pageSizeOptions]="[5, 10, 25, 100, 200]"
+                    [showFirstLastButtons]="true"
+                    (page)="handlePageEvent($event)">
+                  </mat-paginator>
+                </div>
+              </td>                
+            </tr>
+            <tr>
+              <th> Código </th>
+              <th> Producto </th>
+              <th> Categoría </th>
+              <th> Tipo </th>
+              <th> Código de barras </th>
+              <th> Precio </th>
+              <th> Existencias mínimas </th>
+              <th> Estado </th>
+              <th> Acciones </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of productosPaginados">
+              <td>
+                <span class="products__code">
+                  {{ producto.codigo }}
+                </span>
+              </td>
+              <td>
+                <div class="products__name">
+                  <strong>
+                    {{ producto.nombre }}
+                  </strong>
+                  <small *ngIf="producto.descripcion">
+                    {{ producto.descripcion }}
+                  </small>
+                </div>
+              </td>
+              <td> {{ producto.categoriaNombre }} </td>
+              <td>
+                <span class="products__type">
+                  {{ producto.tipoProducto }}
+                </span>
+              </td>
+              <td> {{ producto.codigoBarras || '—' }} </td>
+              <td class="products__price">
+                {{ formatearPrecio(producto.precioVenta) }}
+              </td>
+              <td> {{ producto.stockMinimo }} </td>
+              <td>
+                <span
+                  class="products__status"
+                  [class.products__status--inactive]="!producto.activo">
+                  <span class="products__status-dot"></span>
+                  {{ obtenerTextoEstado(producto.activo) }}
+                </span>
+              </td>
+              <td>
+                <div class="products__row-actions">
+                  <button
+                    type="button"
+                    class="products__row-button"
+                    (click)="editarProducto(producto)">
+                    <mat-icon> edit </mat-icon>
+                  </button>
+                  <button
+                    mat-button matButton="outlined" 
+                    [ngClass]="{'products__des-act-boton': producto.activo,
+                      'products__des-act-boton--active': !producto.activo}"
+                    (click)="cambiarEstado(producto)">
+                    <mat-icon>{{ producto.activo ? 'block' : 'check_circle' }} </mat-icon>
+                    {{ producto.activo ? 'Desactivar' : 'Activar' }}
+                </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="productosFiltrados.length === 0"
+        class="products__empty">
+        <mat-icon> inventory_2 </mat-icon>
+        <h3> No hay productos </h3>
+        <p> No se encontraron productos con los filtros seleccionados. </p>
+      </div>
+    </section>
   </div>
-
-
-  <!-- ==========================================================
-       LOADING
-       ========================================================== -->
-
-  <div
-    *ngIf="loading"
-    class="products__message">
-
-    Cargando productos...
-
-  </div>
-
-
-  <!-- ==========================================================
-       ERROR
-       ========================================================== -->
-
-  <div
-    *ngIf="!loading && errorMessage"
-    class="products__message products__message--error">
-
-    {{ errorMessage }}
-
-  </div>
-
-
-  <!-- ==========================================================
-       TABLA
-       ========================================================== -->
-
-  <section
-    *ngIf="!loading && !errorMessage"
-    class="products__table-container">
-
-    <table class="products__table">
-
-      <thead>
-
-        <tr>
-
-          <th>
-            Código
-          </th>
-
-          <th>
-            Producto
-          </th>
-
-          <th>
-            Categoría
-          </th>
-
-          <th>
-            Tipo
-          </th>
-
-          <th>
-            Código de barras
-          </th>
-
-          <th>
-            Precio
-          </th>
-
-          <th>
-            Existencias mínimas
-          </th>
-
-          <th>
-            Estado
-          </th>
-
-          <th>
-            Acciones
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        <tr
-          *ngFor="let producto of productosFiltrados">
-
-          <td>
-            {{ producto.codigo }}
-          </td>
-
-
-          <td>
-
-            <div class="products__name">
-
-              <strong>
-                {{ producto.nombre }}
-              </strong>
-
-              <small
-                *ngIf="producto.descripcion">
-
-                {{ producto.descripcion }}
-
-              </small>
-
-            </div>
-
-          </td>
-
-
-          <td>
-            {{ producto.categoriaNombre }}
-          </td>
-
-
-          <td>
-            {{ producto.tipoProducto }}
-          </td>
-
-
-          <td>
-            {{ producto.codigoBarras || '—' }}
-          </td>
-
-
-          <td class="products__price">
-
-            {{ formatearPrecio(
-              producto.precioVenta
-            ) }}
-
-          </td>
-
-
-          <td>
-            {{ producto.stockMinimo }}
-          </td>
-
-
-          <td>
-
-            <span
-              class="products__status"
-              [class.products__status--inactive]="
-                !producto.activo
-              ">
-
-              {{ obtenerTextoEstado(
-                producto.activo
-              ) }}
-
-            </span>
-
-          </td>
-
-
-          <td>
-
-            <div class="products__row-actions">
-
-              <button
-                type="button"
-                (click)="editarProducto(producto)">
-
-                Editar
-
-              </button>
-
-
-              <button
-                type="button"
-                (click)="cambiarEstado(producto)">
-
-                {{
-                  producto.activo
-                    ? 'Desactivar'
-                    : 'Activar'
-                }}
-
-              </button>
-
-            </div>
-
-          </td>
-
-        </tr>
-
-
-        <!-- SIN RESULTADOS -->
-
-        <tr
-          *ngIf="productosFiltrados.length === 0">
-
-          <td
-            colspan="9"
-            class="products__empty">
-
-            No se encontraron productos
-            con los filtros seleccionados.
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </section>
-
 </section>

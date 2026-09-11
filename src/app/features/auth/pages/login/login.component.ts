@@ -41,6 +41,8 @@ import {
   NotificationService
 } from '../../../../core/services/notification.service';
 
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -49,7 +51,8 @@ import {
     FormsModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
 
   templateUrl:
@@ -88,7 +91,7 @@ export class LoginComponent {
 
   loading = false;
 
-  errorMessage = '';
+  hidePassword = true;
 
 
   // ============================================================
@@ -105,8 +108,9 @@ export class LoginComponent {
       this.operatorStateService.isOperatorActive()
     ) {
 
-      this.errorMessage =
-        'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.';
+      this.notificationService.info(
+        'Debe finalizar la jornada del operador antes de iniciar sesión como administrador.'
+      );
 
       return;
     }
@@ -115,9 +119,6 @@ export class LoginComponent {
       !this.usuario.trim() ||
       !this.password
     ) {
-
-      /*this.errorMessage =
-        'Ingrese usuario y contraseña.';*/
 
       this.notificationService.warning(
         'Ingrese usuario y contraseña.'
@@ -132,8 +133,6 @@ export class LoginComponent {
     }
 
     this.loading = true;
-
-    this.errorMessage = '';
 
     this.authService.login({
 
@@ -162,7 +161,7 @@ export class LoginComponent {
           );
 
           this.router.navigate([
-            '/dashboard'
+            'admin/dashboard'
           ]);
 
         } catch (error) {

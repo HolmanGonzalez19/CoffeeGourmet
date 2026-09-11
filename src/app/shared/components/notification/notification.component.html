@@ -1,0 +1,21 @@
+<div class="notification">
+  <mat-icon class="notification__icon">
+    {{ icon }}
+  </mat-icon>
+
+  <span class="notification__message">
+    {{ data.message }}
+  </span>
+
+  <button
+    class="notification__close"
+    type="button"
+    aria-label="Cerrar notificación"
+    (click)="cerrar()">
+
+    <mat-icon>
+      close_small
+    </mat-icon>
+
+  </button>
+</div>

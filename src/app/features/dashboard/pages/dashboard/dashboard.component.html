@@ -1,1155 +1,789 @@
 <div class="dashboard">
-
-  <!-- ============================================================
-       SIDEBAR
-       ============================================================ -->
-
-  <aside class="dashboard__sidebar">
-
-    <!-- LOGO -->
-    <div class="sidebar__brand">
-
-      <div class="sidebar__brand-icon">
-        <img src="/assets/images/LogoCoffeeGourmet.png" />
-      </div>
-
-      <div class="sidebar__brand-text">
-        <strong>Coffee Gourmet</strong>
-        <span>Administración</span>
-      </div>
-
-    </div>
-
-
-    <!-- MENÚ -->
-    <nav class="sidebar__nav">
-
-      <p class="sidebar__section-title">
-        ADMINISTRACIÓN
-      </p>
-
-
-      <!-- DASHBOARD -->
-      <button type="button" class="sidebar__item sidebar__item--active">
-
-        <span class="sidebar__icon">⌂</span>
-
-        <span>Dashboard</span>
-
-      </button>
-
-
-      <!-- CAJA -->
-      <button type="button" class="sidebar__item" (click)="irACaja()">
-
-        <span class="sidebar__icon">$</span>
-
-        <span>Gestion de Caja</span>
-
-      </button>
-
-
-      <!-- VENTAS -->
-      <button
-        type="button"
-        class="sidebar__item"
-        (click)="irAVentas()">
-
-        <span class="sidebar__icon">▤</span>
-
-        <span>Ventas</span>
-
-      </button>
-
-
-      <!-- PRODUCTOS -->
-      <button
-        type="button"
-        class="sidebar__item"
-        (click)="irAProductos()">
-
-
-        <span class="sidebar__icon">▦</span>
-
-        <span>Productos</span>
-
-      </button>
-
-
-      <!-- INVENTARIO -->
-       <button
-        type="button"
-        class="sidebar__item"
-        (click)="irAInventario()">
-
-        <span class="sidebar__icon">▥</span>
-
-        <span>Inventario</span>
-
-      </button>
-
-
-      <!-- COMPRAS -->
-      <button
-        type="button"
-        class="sidebar__item"
-        (click)="irACompras()">
-
-
-        <span class="sidebar__icon">▧</span>
-
-        <span>Compras</span>
-
-      </button>
-
-
-      <!-- ESTADÍSTICAS -->
-      <button
-        type="button"
-        class="sidebar__item"
-        (click)="irAEstadisticas()">
-
-        <span class="sidebar__icon">◩</span>
-
-        <span>Estadísticas</span>
-
-      </button>
-
-    </nav>
-
-
-    <!-- CERRAR SESIÓN -->
-    <div class="sidebar__footer">
-
-      <button type="button" class="sidebar__logout" (click)="logout()">
-
-        <span class="sidebar__logout-icon">
-          ↪
-        </span>
-
-        <span>
-          Cerrar sesión
-        </span>
-
-      </button>
-
-    </div>
-
-  </aside>
-
-
-  <!-- ============================================================
-       CONTENIDO PRINCIPAL
-       ============================================================ -->
-
   <main class="dashboard__main">
-
-
-    <!-- ==========================================================
-         HEADER
-         ========================================================== -->
-
-    <header class="dashboard__header">
-
-      <div class="dashboard__header-title">
-
-        <h1>
-          Dashboard
-        </h1>
-
-        <p>
-          Resumen general de Coffee Gourmet
-        </p>
-
-      </div>
-
-
-      <div class="dashboard__header-actions">
-
-        <div class="dashboard__admin">
-
-          <div class="dashboard__admin-avatar">
-            A
-          </div>
-
-          <div class="dashboard__admin-info">
-
-            <strong>
-              Administrador
-            </strong>
-
-            <span>
-              Sesión administrativa
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <button type="button" class="dashboard__refresh" (click)="loadDashboard()">
-
-          <span>
-            ↻
-          </span>
-
-          Actualizar
-
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <!-- ==========================================================
-         CONTENIDO
-         ========================================================== -->
-
     <div class="dashboard__content">
 
-
-      <!-- ========================================================
-           ESTADO DE CARGA
-           ======================================================== -->
-
       @if (loading) {
-
       <section class="dashboard__loading">
-
         <div class="loading__spinner"></div>
-
-        <span>
-          Cargando información...
-        </span>
-
+        <span>Cargando información...</span>
       </section>
-
       }
-
-
-      <!-- ========================================================
-           ERROR
-           ======================================================== -->
 
       @if (errorMessage) {
-
       <section class="dashboard__error">
-
-        <span class="dashboard__error-icon">
-          !
-        </span>
+        <span class="dashboard__error-icon">!</span>
 
         <div>
-
-          <strong>
-            No fue posible cargar el dashboard
-          </strong>
-
-          <p>
-            {{ errorMessage }}
-          </p>
-
+          <strong>No fue posible cargar el dashboard</strong>
+          <p>{{ errorMessage }}</p>
         </div>
-
       </section>
-
       }
-
-
-      <!-- ========================================================
-           DASHBOARD
-           ======================================================== -->
 
       @if (dashboard && !loading) {
 
-
-      <!-- ======================================================
-             SALUDO / RESUMEN
-             ====================================================== -->
-
       <section class="dashboard__welcome">
-
         <div class="welcome__content">
-
-          <span class="welcome__eyebrow">
-            PANEL ADMINISTRATIVO
-          </span>
-
-          <h2>
-            Bienvenido a Coffee Gourmet
-          </h2>
-
+          <span class="welcome__eyebrow">PANEL ADMINISTRATIVO</span>
+          <h2>Bienvenido {{firstName}}</h2>
           <p>
-            Consulta el estado general del negocio y
-            administra las operaciones principales.
+            Consulta el estado general del negocio y administra las operaciones principales.
           </p>
-
         </div>
-
 
         <div class="welcome__illustration">
-
-          <div class="welcome__coffee-cup">
-            ☕
+          <div class="welcome__background">
+            <img src="/assets/images/img_inicio_dashboard.png" />
           </div>
-
         </div>
-
       </section>
 
-
-      <!-- ======================================================
-             INDICADORES PRINCIPALES
-             ====================================================== -->
-
       <section class="dashboard__section">
-
         <div class="dashboard__section-header">
-
           <div>
-
-            <span class="section__eyebrow">
-              RESUMEN
-            </span>
-
-            <h2>
-              Indicadores principales
-            </h2>
-
+            <span class="section__eyebrow">RESUMEN</span>
+            <h2>Indicadores principales</h2>
+            <button type="button" class="dashboard__refresh" (click)="loadDashboard()">
+              <mat-icon>
+                refresh
+              </mat-icon>
+              Actualizar
+            </button>
           </div>
-
         </div>
-
 
         <div class="dashboard__cards dashboard__cards--main">
 
-
           <!-- VENTAS HOY -->
-          <article class="dashboard__card">
-
-            <div class="card__top">
-
-              <div class="card__icon">
-                $
+          <mat-card class="dashboard__card">
+            <mat-card-header>
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  receipt_long
+                </mat-icon>
               </div>
-
-              <span class="card__label">
+              <mat-card-title>
                 Ventas hoy
-              </span>
-
-            </div>
-
-            <strong class="card__value">
-              {{ dashboard.ventasHoy }}
-            </strong>
-
-            <span class="card__description">
-              Ventas registradas durante el día
-            </span>
-
-          </article>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <strong class="card__value">
+                {{ dashboard.ventasHoy }}
+              </strong>
+              <p class="card__description">
+                Ventas registradas durante el día
+              </p>
+            </mat-card-content>
+          </mat-card>
 
 
           <!-- TOTAL VENDIDO -->
-          <article class="dashboard__card">
+          <mat-card class="dashboard__card">
 
-            <div class="card__top">
+            <mat-card-header>
 
-              <div class="card__icon">
-                $
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  payments
+                </mat-icon>
               </div>
 
-              <span class="card__label">
+              <mat-card-title>
                 Total vendido hoy
-              </span>
+              </mat-card-title>
 
-            </div>
+            </mat-card-header>
 
-            <strong class="card__value card__value--money">
+            <mat-card-content>
 
-              {{
-              dashboard.totalVentasHoy
-              | currency:'COP':'symbol-narrow':'1.0-0'
-              }}
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalVentasHoy | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
 
-            </strong>
+              <p class="card__description">
+                Valor total de las ventas del día
+              </p>
 
-            <span class="card__description">
-              Valor total de las ventas del día
-            </span>
+            </mat-card-content>
 
-          </article>
+          </mat-card>
 
 
           <!-- PRODUCTOS VENDIDOS -->
-          <article class="dashboard__card">
+          <mat-card class="dashboard__card">
 
-            <div class="card__top">
+            <mat-card-header>
 
-              <div class="card__icon">
-                ▦
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  inventory_2
+                </mat-icon>
               </div>
 
-              <span class="card__label">
+              <mat-card-title>
                 Productos vendidos
-              </span>
+              </mat-card-title>
 
-            </div>
+            </mat-card-header>
 
-            <strong class="card__value">
-              {{ dashboard.productosVendidosHoy }}
-            </strong>
+            <mat-card-content>
 
-            <span class="card__description">
-              Unidades vendidas durante el día
-            </span>
+              <strong class="card__value">
+                {{ dashboard.productosVendidosHoy }}
+              </strong>
 
-          </article>
+              <p class="card__description">
+                Unidades vendidas durante el día
+              </p>
+
+            </mat-card-content>
+
+          </mat-card>
 
 
           <!-- CAJA -->
-          <article class="dashboard__card dashboard__card--cash">
+          <mat-card class="dashboard__card">
+            <mat-card-header>
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>point_of_sale</mat-icon>
+              </div>
+              <span class="card__status" [ngClass]="{
+                    'card__status--open': dashboard.cajaAbiertaId !== null,
+                    'card__status--closed': dashboard.cajaAbiertaId === null
+                  }">
+                {{ dashboard.cajaAbiertaId !== null ? 'ABIERTA' : 'CERRADA' }}
+              </span>
+            </mat-card-header>
+            <mat-card-content>
+              <strong class="card__cash-title">
+                {{ dashboard.cajaAbiertaId !== null ? 'Caja abierta' : 'Caja cerrada' }}
+              </strong>
+              <p class="card__description">
+                {{ dashboard.cajaAbiertaId !== null ? 'La caja se encuentra operativa' : 'No existe una caja abierta
+                actualmente' }}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button class="card__action" [class.is-open]="dashboard.cajaAbiertaId !== null"
+                (click)="irACaja()">
+                <mat-icon class="mat-icon-cash"> {{ dashboard.cajaAbiertaId !== null ? 'open_in_new' : 'lock_open' }}
+                </mat-icon>
+                {{ dashboard.cajaAbiertaId !== null ? 'Ir a Caja' : 'Abrir Caja' }}
+              </button>
+            </mat-card-actions>
+          </mat-card>
 
-            <div class="card__top">
 
-              <div class="card__icon card__icon--cash">
-                $
+          <!--article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">$</div>
+                <span class="card__label">Ventas hoy</span>
               </div>
 
-              @if (dashboard.cajaAbiertaId !== null) {
+              <strong class="card__value">{{ dashboard.ventasHoy }}</strong>
 
-              <span class="card__status card__status--open">
+              <span class="card__description">
+                Ventas registradas durante el día
+              </span>
+            </article>
 
-                ABIERTA
+            <article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">$</div>
+                <span class="card__label">Total vendido hoy</span>
+              </div>
 
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalVentasHoy | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
+
+              <span class="card__description">
+                Valor total de las ventas del día
+              </span>
+            </article>
+
+            <article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">▦</div>
+                <span class="card__label">Productos vendidos</span>
+              </div>
+
+              <strong class="card__value">{{ dashboard.productosVendidosHoy }}</strong>
+
+              <span class="card__description">
+                Unidades vendidas durante el día
+              </span>
+            </article>
+
+            <article class="dashboard__card dashboard__card--cash">
+              <div class="card__top">
+                <div class="card__icon card__icon--cash">$</div>
+
+                <span
+                  class="card__status"
+                  [ngClass]="{
+                    'card__status--open': dashboard.cajaAbiertaId !== null,
+                    'card__status--closed': dashboard.cajaAbiertaId === null
+                  }">
+                  {{ dashboard.cajaAbiertaId !== null ? 'ABIERTA' : 'CERRADA' }}
+                </span>
+              </div>
+
+              <span class="card__label">Caja</span>
+
+              <strong class="card__cash-title">
+                {{ dashboard.cajaAbiertaId !== null ? 'Caja abierta' : 'Caja cerrada' }}
+              </strong>
+
+              <span class="card__description">
+                {{
+                  dashboard.cajaAbiertaId !== null
+                    ? 'La caja se encuentra operativa'
+                    : 'No existe una caja abierta actualmente'
+                }}
               </span>
 
-              } @else {
-
-              <span class="card__status card__status--closed">
-
-                CERRADA
-
-              </span>
-
-              }
-
-            </div>
-
-
-            <span class="card__label">
-              Caja
-            </span>
-
-
-            @if (dashboard.cajaAbiertaId !== null) {
-
-            <strong class="card__cash-title">
-              Caja abierta
-            </strong>
-
-            <span class="card__description">
-              La caja se encuentra operativa
-            </span>
-
-            <button type="button" class="card__action" (click)="irACaja()">
-
-              Ir a Caja
-
-            </button>
-
-            } @else {
-
-            <strong class="card__cash-title">
-              Caja cerrada
-            </strong>
-
-            <span class="card__description">
-              No existe una caja abierta actualmente
-            </span>
-
-            <button type="button" class="card__action" (click)="irACaja()">
-
-              Abrir Caja
-
-            </button>
-
-            }
-
-          </article>
+              <button
+                type="button"
+                class="card__action"
+                (click)="irACaja()"
+                [class.is-open]="dashboard.cajaAbiertaId !== null">
+                {{ dashboard.cajaAbiertaId !== null ? 'Ir a Caja' : 'Abrir Caja' }}
+              </button>
+            </article-->
 
         </div>
-
       </section>
 
-
-      <!-- ======================================================
-             ESTADO FINANCIERO Y OPERATIVO
-             ====================================================== -->
-
       <section class="dashboard__section">
-
         <div class="dashboard__section-header">
-
           <div>
-
-            <span class="section__eyebrow">
-              OPERACIÓN
-            </span>
-
-            <h2>
-              Estado financiero y operativo
-            </h2>
-
+            <span class="section__eyebrow">OPERACIÓN</span>
+            <h2>Estado financiero y operativo</h2>
           </div>
-
         </div>
-
 
         <div class="dashboard__cards dashboard__cards--secondary">
 
-
-          <!-- EFECTIVO ESPERADO -->
-          <article class="dashboard__card">
-
-            <div class="card__top">
-
-              <div class="card__icon">
-                $
+          <!--article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">$</div>
+                <span class="card__label">Efectivo esperado</span>
               </div>
 
-              <span class="card__label">
-                Efectivo esperado
+              <strong class="card__value card__value--money">
+                {{ dashboard.efectivoEsperado | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
+
+              <span class="card__description">
+                Efectivo esperado en la caja
               </span>
+            </article>
 
-            </div>
+            <article
+              class="dashboard__card"
+              [ngClass]="{ 'dashboard__card--warning': dashboard.productosStockBajo > 0 }">
 
-            <strong class="card__value card__value--money">
+              <div class="card__top">
+                <div
+                  class="card__icon"
+                  [ngClass]="{ 'card__icon--warning': dashboard.productosStockBajo > 0 }">
+                  !
+                </div>
 
-              {{
-              dashboard.efectivoEsperado
-              | currency:'COP':'symbol-narrow':'1.0-0'
-              }}
+                @if (dashboard.productosStockBajo > 0) {
+                  <span class="card__status card__status--warning">ATENCIÓN</span>
+                }
+              </div>
 
-            </strong>
+              <span class="card__label">Existencias bajas</span>
 
-            <span class="card__description">
-              Efectivo esperado en la caja
-            </span>
+              <strong class="card__value">
+                {{ dashboard.productosStockBajo }}
+              </strong>
 
-          </article>
+              <span class="card__description">
+                Productos que requieren revisión
+              </span>
+            </article>
+
+            <article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">↑</div>
+                <span class="card__label">Ingresos totales</span>
+              </div>
+
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalIngresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
+
+              <span class="card__description">
+                Ingresos registrados
+              </span>
+            </article>
+
+            <article class="dashboard__card">
+              <div class="card__top">
+                <div class="card__icon">↓</div>
+                <span class="card__label">Egresos</span>
+              </div>
+
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalEgresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
+
+              <span class="card__description">
+                Egresos registrados
+              </span>
+            </article-->
+
+          <mat-card class="dashboard__card">
+
+            <mat-card-header>
+
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  payments
+                </mat-icon>
+              </div>
+
+              <mat-card-title>
+                Efectivo esperado
+              </mat-card-title>
+
+            </mat-card-header>
+
+            <mat-card-content>
+
+              <strong class="card__value card__value--money">
+                {{ dashboard.efectivoEsperado | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
+
+              <p class="card__description">
+                Efectivo esperado en la caja
+              </p>
+
+            </mat-card-content>
+
+          </mat-card>
 
 
-          <!-- STOCK BAJO -->
-          <article class="dashboard__card">
+          <mat-card class="dashboard__card" [ngClass]="{
+            'dashboard__card--warning': dashboard.productosStockBajo > 0
+          }">
 
-            <div class="card__top">
+            <mat-card-header>
 
-              <div class="card__icon card__icon--warning">
-                !
+              <div mat-card-avatar class="card__icon" [ngClass]="{
+                'card__icon--warning': dashboard.productosStockBajo > 0
+              }">
+
+                <mat-icon>
+                  warning
+                </mat-icon>
+
               </div>
 
               @if (dashboard.productosStockBajo > 0) {
 
               <span class="card__status card__status--warning">
-
                 ATENCIÓN
-
               </span>
 
               }
 
-            </div>
-
-            <span class="card__label">
-              Existencias bajas
-            </span>
-
-            <strong class="card__value">
-              {{ dashboard.productosStockBajo }}
-            </strong>
-
-            <span class="card__description">
-              Productos que requieren revisión
-            </span>
-
-          </article>
+            </mat-card-header>
 
 
-          <!-- INGRESOS -->
-          <article class="dashboard__card">
+            <mat-card-content>
 
-            <div class="card__top">
+              <mat-card-title class="existencias">
+                Existencias bajas
+              </mat-card-title>
 
-              <div class="card__icon">
-                ↑
+              <strong class="card__value numeroExistencias">
+                {{ dashboard.productosStockBajo }}
+              </strong>
+
+              <p class="card__description">
+                Productos que requieren revisión
+              </p>
+
+            </mat-card-content>
+
+          </mat-card>
+
+
+          <!-- INGRESOS TOTALES -->
+          <mat-card class="dashboard__card">
+
+            <mat-card-header>
+
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  trending_up
+                </mat-icon>
               </div>
 
-              <span class="card__label">
+              <mat-card-title>
                 Ingresos totales
-              </span>
+              </mat-card-title>
 
-            </div>
+            </mat-card-header>
 
-            <strong class="card__value card__value--money">
 
-              {{
-              dashboard.totalIngresos
-              | currency:'COP':'symbol-narrow':'1.0-0'
-              }}
+            <mat-card-content>
 
-            </strong>
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalIngresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
 
-            <span class="card__description">
-              Ingresos registrados
-            </span>
+              <p class="card__description">
+                Ingresos registrados
+              </p>
 
-          </article>
+            </mat-card-content>
+
+          </mat-card>
 
 
           <!-- EGRESOS -->
-          <article class="dashboard__card">
+          <mat-card class="dashboard__card">
 
-            <div class="card__top">
+            <mat-card-header>
 
-              <div class="card__icon">
-                ↓
+              <div mat-card-avatar class="card__icon">
+                <mat-icon>
+                  trending_down
+                </mat-icon>
               </div>
 
-              <span class="card__label">
+              <mat-card-title>
                 Egresos
-              </span>
+              </mat-card-title>
 
-            </div>
+            </mat-card-header>
 
-            <strong class="card__value card__value--money">
 
-              {{
-              dashboard.totalEgresos
-              | currency:'COP':'symbol-narrow':'1.0-0'
-              }}
+            <mat-card-content>
 
-            </strong>
+              <strong class="card__value card__value--money">
+                {{ dashboard.totalEgresos | currency:'COP':'symbol-narrow':'1.0-0' }}
+              </strong>
 
-            <span class="card__description">
-              Egresos registrados
-            </span>
+              <p class="card__description">
+                Egresos registrados
+              </p>
 
-          </article>
+            </mat-card-content>
+
+          </mat-card>
 
         </div>
-
       </section>
 
-
-      <!-- ======================================================
-             INFORMACIÓN GENERAL
-             ====================================================== -->
-
       <section class="dashboard__section">
-
         <div class="dashboard__section-header">
-
           <div>
-
-            <span class="section__eyebrow">
-              INFORMACIÓN
-            </span>
-
-            <h2>
-              Información general
-            </h2>
-
+            <span class="section__eyebrow">INFORMACIÓN</span>
+            <h2>Información general</h2>
           </div>
-
         </div>
-
 
         <div class="dashboard__general">
 
+      
+    <mat-card class="general__card">
 
-          <!-- VENTAS HISTÓRICAS -->
-          <article class="general__card">
+      <div class="general__icon">
 
-            <div class="general__icon">
-              $
-            </div>
+        <mat-icon>
+          receipt_long
+        </mat-icon>
 
-            <div class="general__content">
-
-              <span>
-                Ventas históricas
-              </span>
-
-              <strong>
-                {{ dashboard.totalVentas }}
-              </strong>
-
-              <small>
-                Ventas registradas en el sistema
-              </small>
-
-            </div>
-
-          </article>
+      </div>
 
 
-          <!-- COMPRAS -->
-          <article class="general__card">
+      <div class="general__content">
 
-            <div class="general__icon">
-              ▧
-            </div>
+        <span>
+          Ventas históricas
+        </span>
 
-            <div class="general__content">
+        <strong>
+          {{ dashboard.totalVentas }}
+        </strong>
 
-              <span>
-                Compras
-              </span>
+        <small>
+          Ventas registradas en el sistema
+        </small>
 
-              <strong>
-                {{ dashboard.totalCompras }}
-              </strong>
+      </div>
 
-              <small>
-                Compras registradas
-              </small>
-
-            </div>
-
-          </article>
+    </mat-card>
 
 
-          <!-- PRODUCTOS -->
-          <article class="general__card">
+    <!-- COMPRAS -->
+    <mat-card class="general__card">
 
-            <div class="general__icon">
-              ▦
-            </div>
+      <div class="general__icon">
 
-            <div class="general__content">
+        <mat-icon>
+          shopping_cart
+        </mat-icon>
 
-              <span>
-                Productos
-              </span>
+      </div>
 
-              <strong>
-                {{ dashboard.totalProductos }}
-              </strong>
 
-              <small>
-                Productos registrados
-              </small>
+      <div class="general__content">
 
-            </div>
+        <span>
+          Compras
+        </span>
 
-          </article>
+        <strong>
+          {{ dashboard.totalCompras }}
+        </strong>
+
+        <small>
+          Compras registradas
+        </small>
+
+      </div>
+
+    </mat-card>
+
+
+    <!-- PRODUCTOS -->
+    <mat-card class="general__card">
+
+      <div class="general__icon">
+
+        <mat-icon>
+          inventory_2
+        </mat-icon>
+
+      </div>
+
+
+      <div class="general__content">
+
+        <span>
+          Productos
+        </span>
+
+        <strong>
+          {{ dashboard.totalProductos }}
+        </strong>
+
+        <small>
+          Productos registrados
+        </small>
+
+      </div>
+
+    </mat-card>
 
         </div>
-
       </section>
 
-      <!-- ======================================================
-             VENTAS RECIENTES Y DISTRIBUCIÓN
-             ====================================================== -->
-
       <section class="dashboard__section">
-
         <div class="dashboard__section-header">
-
           <div>
-
-            <span class="section__eyebrow">
-              ANÁLISIS
-            </span>
-
-            <h2>
-              Actividad de ventas
-            </h2>
-
+            <span class="section__eyebrow">ANÁLISIS</span>
+            <h2>Actividad de ventas</h2>
           </div>
-
         </div>
-
 
         <div class="dashboard__analytics">
 
-
-          <!-- ==================================================
-                 VENTAS RECIENTES
-                 ================================================== -->
-
           <article class="dashboard__panel">
-
             <div class="dashboard__panel-header">
-
-              <h3>
-                Ventas recientes
-              </h3>
-
-              <span>
-                Últimas operaciones
-              </span>
-
+              <h3>Ventas recientes</h3>
+              <span>Últimas operaciones</span>
             </div>
-
 
             @if (dashboard.ventasRecientes.length > 0) {
-
             <div class="recent-sales">
-
-              <!-- ENCABEZADO -->
-
               <div class="recent-sales__header">
-
-                <span>
-                  Fecha
-                </span>
-
-                <span>
-                  Método
-                </span>
-
-                <span>
-                  Cantidad
-                </span>
-
-                <span>
-                  Total
-                </span>
-
+                <span>Fecha</span>
+                <span>Método</span>
+                <span>Cantidad</span>
+                <span>Total</span>
               </div>
 
-
-              <!-- VENTAS -->
-
-              @for (
-              venta of dashboard.ventasRecientes;
-              track venta.id
-              ) {
-
+              @for (venta of dashboard.ventasRecientes; track venta.id) {
               <div class="recent-sales__row">
-
-
-                <!-- FECHA -->
-
                 <div class="recent-sales__date">
-
-                  <strong>
-                    {{ venta.fechaHora | date:'dd/MM/yyyy' }}
-                  </strong>
-
-                  <small>
-                    {{ venta.fechaHora | date:'HH:mm' }}
-                  </small>
-
+                  <strong>{{ venta.fechaHora | date:'dd/MM/yyyy' }}</strong>
+                  <small>{{ venta.fechaHora | date:'HH:mm' }}</small>
                 </div>
 
-
-                <!-- MÉTODO DE PAGO -->
-
                 <span class="recent-sales__payment">
-
                   {{ venta.metodoPago }}
-
                 </span>
-
-
-                <!-- CANTIDAD -->
 
                 <span class="recent-sales__quantity">
-
                   {{ venta.cantidadProductos }}
-
                 </span>
-
-
-                <!-- TOTAL -->
 
                 <span class="recent-sales__total">
-
-                  {{
-                  venta.total
-                  | currency:'COP':'symbol-narrow':'1.0-0'
-                  }}
-
+                  {{ venta.total | currency:'COP':'symbol-narrow':'1.0-0' }}
                 </span>
-
               </div>
-
               }
-
             </div>
-
             } @else {
-
             <div class="recent-sales__empty">
-
               No existen ventas registradas.
-
             </div>
-
             }
-
           </article>
 
-
-          <!-- ==================================================
-                 DISTRIBUCIÓN DE VENTAS
-                 ================================================== -->
-
           <article class="dashboard__panel">
-
             <div class="dashboard__panel-header">
-
-              <h3>
-                Distribución de ventas
-              </h3>
-
-              <span>
-                Por método de pago
-              </span>
-
+              <h3>Distribución de ventas</h3>
+              <span>Por método de pago</span>
             </div>
 
-
             @if (dashboard.distribucionVentas.length > 0) {
-
             <div class="sales-distribution">
-
-              @for (
-              distribucion of dashboard.distribucionVentas;
-              track distribucion.metodoPago
-              ) {
-
+              @for (distribucion of dashboard.distribucionVentas; track distribucion.metodoPago) {
               <div class="sales-distribution__item">
-
-
                 <div class="sales-distribution__top">
-
                   <span class="sales-distribution__method">
-
                     {{ distribucion.metodoPago }}
-
                   </span>
 
                   <span class="sales-distribution__value">
-
-                    {{
-                    distribucion.total
-                    | currency:'COP':'symbol-narrow':'1.0-0'
-                    }}
-
+                    {{ distribucion.total | currency:'COP':'symbol-narrow':'1.0-0' }}
                   </span>
-
                 </div>
-
 
                 <div class="sales-distribution__bar">
-
                   <div class="sales-distribution__progress" [style.width.%]="distribucion.porcentaje">
                   </div>
-
                 </div>
-
 
                 <div class="sales-distribution__bottom">
-
                   <span class="sales-distribution__percentage">
-
                     {{ distribucion.porcentaje }}%
-
                   </span>
-
                 </div>
-
               </div>
-
               }
-
             </div>
-
             } @else {
-
             <div class="sales-distribution__empty">
-
               No existen ventas registradas.
-
             </div>
-
             }
-
           </article>
 
-
         </div>
-
       </section>
 
-      <!-- ======================================================
-     PRODUCTOS MÁS VENDIDOS
-     ====================================================== -->
-
       <section class="dashboard__section">
-
         <div class="dashboard__section-header">
-
           <div>
-
-            <span class="section__eyebrow">
-              PRODUCTOS
-            </span>
-
-            <h2>
-              Productos más vendidos
-            </h2>
-
+            <span class="section__eyebrow">PRODUCTOS</span>
+            <h2>Productos más vendidos</h2>
           </div>
-
         </div>
 
-
         <div class="dashboard__products">
-
           @if (dashboard.productosMasVendidos.length > 0) {
-
           @for (
           producto of dashboard.productosMasVendidos;
           track producto.productoId;
           let i = $index
           ) {
+           <mat-card class="product__card">
 
-          <article class="product__card">
+          <div class="product__position">
+            {{ i + 1 }}
+          </div>
 
-            <div class="product__position">
-              {{ i + 1 }}
-            </div>
 
-            <div class="product__info">
+          <div class="product__info">
 
-              <strong>
-                {{ producto.producto }}
-              </strong>
-
-              <span>
-                {{ producto.cantidadVendida }} unidades vendidas
-              </span>
-
-            </div>
-
-            <div class="product__quantity">
-
-              <strong>
-                {{ producto.cantidadVendida }}
-              </strong>
-
-              <span>
-                unidades
-              </span>
-
-            </div>
-
-          </article>
-
-          }
-
-          } @else {
-
-          <div class="products__empty">
+            <mat-card-title>
+              {{ producto.producto }}
+            </mat-card-title>
 
             <span>
-              No hay productos vendidos registrados.
+              {{ producto.cantidadVendida }} unidades vendidas
             </span>
 
           </div>
 
-          }
 
-        </div>
+          <div class="product__quantity">
 
-      </section>
-      }
+            <strong>
+              {{ producto.cantidadVendida }}
+            </strong>
 
-      <!-- ======================================================
-     EVOLUCIÓN DE VENTAS
-     ====================================================== -->
-
-<section class="dashboard__section">
-
-  <div class="dashboard__section-header">
-
-    <div>
-
-      <span class="section__eyebrow">
-        TENDENCIA
-      </span>
-
-      <h2>
-        Evolución de ventas
-      </h2>
-
-    </div>
-
-  </div>
-
-
-  <div class="sales-chart">
-
-    @if (dashboard.ventasPorMes.length > 0) {
-
-      @for (
-        venta of dashboard.ventasPorMes;
-        track venta.mes
-      ) {
-
-        <div class="sales-chart__item">
-
-          <div class="sales-chart__value">
-
-            {{
-              venta.total
-                | currency:'COP':'symbol-narrow':'1.0-0'
-            }}
+            <span>
+              unidades
+            </span>
 
           </div>
 
-          <div class="sales-chart__bar-container">
+        </mat-card>
 
-            <div
-              class="sales-chart__bar"
-              [style.height.%]="
-                (venta.total /
-                getMaxVentaMensual()) * 100
-              ">
+          }
+          } @else {
+          <mat-card class="products__empty">
+
+        <mat-icon>
+          inventory_2
+        </mat-icon>
+
+        <span>
+          No hay productos vendidos registrados.
+        </span>
+
+      </mat-card>
+          }
+        </div>
+      </section>
+
+      }
+
+      <section class="dashboard__section">
+        <div class="dashboard__section-header">
+          <div>
+            <span class="section__eyebrow">TENDENCIA</span>
+            <h2>Evolución de ventas</h2>
+          </div>
+        </div>
+
+        <div class="sales-chart">
+          @if (dashboard.ventasPorMes.length > 0) {
+          @for (venta of dashboard.ventasPorMes; track venta.mes) {
+          <div class="sales-chart__item">
+            <div class="sales-chart__value">
+              {{ venta.total | currency:'COP':'symbol-narrow':'1.0-0' }}
             </div>
 
+            <div class="sales-chart__bar-container">
+              <div class="sales-chart__bar" [style.height.%]="(venta.total / getMaxVentaMensual()) * 100">
+              </div>
+            </div>
+
+            <span class="sales-chart__month">
+              {{ formatearMes(venta.mes) }}
+            </span>
           </div>
-
-          <span class="sales-chart__month">
-            {{ formatearMes(venta.mes) }}
-          </span>
-
+          }
+          } @else {
+          <div class="sales-chart__empty">
+            No existen ventas registradas por mes.
+          </div>
+          }
         </div>
-
-      }
-
-    } @else {
-
-      <div class="sales-chart__empty">
-
-        No existen ventas registradas por mes.
-
-      </div>
-
-    }
-
-  </div>
-
-</section>
-
+      </section>
     </div>
-
   </main>
-
 </div>

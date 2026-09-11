@@ -135,7 +135,7 @@ export class StatisticsComponent implements OnInit {
     volverAlDashboard(): void {
 
         this.router.navigate([
-            '/dashboard'
+            'admin/dashboard'
         ]);
 
     }

@@ -1,43 +1,69 @@
-<h2 mat-dialog-title>Abrir caja</h2>
+<div class="open-cash-register-dialog">
+  <div class="dialog-header">
+    <div class="dialog-icon">
+      <span class="material-symbols-outlined">payments</span>
+    </div>
+    <h2>Abrir caja</h2>
+  </div>
 
-<mat-dialog-content>
-  <p>
+  <p class="dialog-description">
     Ingrese el efectivo inicial disponible en la caja.
   </p>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Monto inicial</mat-label>
+  <div class="dialog-input-group">
+    <label for="monto">MONTO INICIAL (COP)</label>
 
-    <input
-      matInput
-      type="number"
-      min="0"
-      step="100"
-      [(ngModel)]="montoInicial"
-      [disabled]="false">
+    <mat-form-field appearance="outline" class="dialog-input">
+      <span matTextPrefix>$&nbsp;</span>
+      <input
+        matInput
+        id="monto"
+        type="number"
+        min="0"
+        step="100"
+        [(ngModel)]="montoInicial"
+        placeholder="0"
+      />
+      <span matTextSuffix>NUM</span>
+    </mat-form-field>
 
-    <span matTextPrefix>$&nbsp;</span>
-  </mat-form-field>
+    <div class="dialog-suggestion">
+      <span>Valor sugerido basado en el último cierre:</span>
+      <strong>$100.000</strong> <!-- HOLMAN CORREGUIR -->
+    </div>
+  </div>
+
+  <div class="dialog-options">
+    <button mat-stroked-button type="button" (click)="montoInicial = 50000">
+      $50.000
+    </button>
+    <button mat-stroked-button type="button" (click)="montoInicial = 100000">
+      $100.000
+    </button>
+    <button mat-stroked-button type="button" (click)="montoInicial = 200000">
+      $200.000
+    </button>
+  </div>
 
   @if (errorMessage) {
-    <div class="open-cash-register-dialog__error">
+    <div class="dialog-error">
       {{ errorMessage }}
     </div>
   }
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button
-    mat-button
-    type="button"
-    (click)="cancelar()">
-    Cancelar
-  </button>
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button type="button" class="cancel" (click)="cancelar()">
+      Cancelar
+    </button>
 
-  <button
-    mat-flat-button
-    type="button"
-    (click)="confirmar()">
-    Abrir caja
-  </button>
-</mat-dialog-actions>
+    <button
+      mat-flat-button
+      type="button"
+      class="confirm"
+      [disabled]="!montoInicial || montoInicial <= 0"
+      (click)="confirmar()"
+    >
+      Abrir caja →
+    </button>
+  </mat-dialog-actions>
+</div>

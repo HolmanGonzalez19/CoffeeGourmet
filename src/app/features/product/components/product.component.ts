@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,13 +10,31 @@ import {
 import { Product } from '../../../core/models/product.model';
 
 import { Observable } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-product',
     standalone: true,
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatPaginatorModule
     ],
     templateUrl: './product.component.html',
     styleUrl: './product.component.scss'
@@ -34,6 +52,21 @@ export class ProductComponent implements OnInit {
 
     productosFiltrados: Product[] = [];
 
+    // ============================================================
+    // PAGINACIÓN
+    // ============================================================
+
+    @ViewChild(MatPaginator)
+    paginator!: MatPaginator;
+
+    productosPaginados: Product[] = [];
+
+    paginaActual = 0;
+
+    registrosPorPagina = 10;
+
+    totalRegistros = 0;
+
     loading = false;
 
     errorMessage = '';
@@ -48,7 +81,7 @@ export class ProductComponent implements OnInit {
 
     filtroTipo = '';
 
-    filtroEstado = 'ACTIVOS';
+    filtroEstado = '';
 
 
     // ============================================================
@@ -91,7 +124,7 @@ export class ProductComponent implements OnInit {
 
             break;
 
-        case 'TODOS':
+        case '':
 
             request =
                 this.productService.getAllProducts();
@@ -192,13 +225,13 @@ export class ProductComponent implements OnInit {
     // ============================================================
 
     aplicarFiltros(): void {
-
         const busqueda =
             this.filtroBusqueda
                 .trim()
                 .toLowerCase();
 
-
+        
+        
         this.productosFiltrados =
             this.productos.filter(producto => {
 
@@ -298,8 +331,58 @@ export class ProductComponent implements OnInit {
 
             });
 
+            // ============================================================
+    // ACTUALIZAR PAGINACIÓN
+    // ============================================================
+
+    this.paginaActual = 0;
+
+    this.totalRegistros =
+        this.productosFiltrados.length;
+
+    this.actualizarProductosPaginados();
     }
 
+    // ============================================================
+// ACTUALIZAR PRODUCTOS DE LA PÁGINA
+// ============================================================
+
+private actualizarProductosPaginados(): void {
+
+    const inicio =
+        this.paginaActual *
+        this.registrosPorPagina;
+
+    const fin =
+        inicio +
+        this.registrosPorPagina;
+
+    this.productosPaginados =
+        this.productosFiltrados.slice(
+            inicio,
+            fin
+        );
+
+}
+
+
+// ============================================================
+// CAMBIAR PÁGINA
+// ============================================================
+
+handlePageEvent(event: PageEvent): void {
+
+    this.paginaActual =
+        event.pageIndex;
+
+    this.registrosPorPagina =
+        event.pageSize;
+
+    this.actualizarProductosPaginados();
+
+}
+
+    
 
     // ============================================================
     // LIMPIAR FILTROS
@@ -313,9 +396,22 @@ export class ProductComponent implements OnInit {
 
         this.filtroTipo = '';
 
-        this.filtroEstado = 'ACTIVOS';
+        this.filtroEstado = '';
 
-        this.aplicarFiltros();
+        this.cargarProductos();
+
+    }
+
+    obtenerTotalPaginas(): number {
+
+        if (this.totalRegistros === 0) {
+            return 1;
+        }
+
+        return Math.ceil(
+            this.totalRegistros /
+            this.registrosPorPagina
+        );
 
     }
 
@@ -368,7 +464,7 @@ export class ProductComponent implements OnInit {
     volverAlDashboard(): void {
 
         this.router.navigate([
-            '/dashboard'
+            'admin/dashboard'
         ]);
 
     }
