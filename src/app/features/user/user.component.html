@@ -1,0 +1,144 @@
+<section class="users">
+  <header class="users__header">
+    <div>
+      <span class="users__eyebrow"> ADMINISTRACIÓN </span>
+      <h1> USUARIOS </h1>
+      <p> Gestión y consulta de usuarios. </p>
+    </div>
+    <div class="users__actions">
+      <button
+        type="button"
+        class="users__button-primary"
+        (click)="crearUsuario()">
+        <mat-icon>add</mat-icon>
+        Nuevo usuario
+      </button>
+    </div>
+  </header>
+  <div class="__content">
+    <section class="users__filters">
+        <mat-form-field class="users__field">
+          <mat-label> Estado </mat-label>
+          <mat-select id="estado" [(ngModel)]="filtroEstado" (selectionChange)="aplicarFiltros()">
+            <mat-option [value]=""> Todos los Estados </mat-option>
+            <mat-option [value]="'ACTIVOS'"> Activos </mat-option>
+            <mat-option [value]="'INACTIVOS'"> Inactivos </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="users__field">
+          <mat-label> Rol </mat-label>
+          <mat-select id="rol" [(ngModel)]="filtroRol" (selectionChange)="aplicarFiltros()">
+            <mat-option [value]=""> Todos los roles </mat-option>
+            <mat-option [value]="'ADMINISTRADOR'"> ADMINISTRADOR </mat-option>
+            <mat-option [value]="'OPERADOR'"> OPERADOR </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-button matButton="outlined" class="clear_filter" (click)="limpiarFiltros()"> 
+          <mat-icon> filter_alt_off </mat-icon>
+          Limpiar filtros
+        </button>
+    </section>
+    <section *ngIf="loading" class="users__loading">
+      <div class="users__spinner"></div>
+      <span> Cargando usuarios... </span>
+    </section>
+    <section *ngIf="!loading && errorMessage" class="users__error">
+      <mat-icon> error_outline </mat-icon>
+      <span> {{ errorMessage }} </span>
+    </section>
+    <section *ngIf="!loading && !errorMessage" class="users__panel">
+      <div class="users__panel-header">
+        <div>
+          <h2> Usuarios registrados </h2>
+          <p> Consulta, edita y administra los usuarios del sistema. </p>
+        </div>
+        <div class="users__field-search">
+           <mat-form-field >
+            <mat-label> Buscar </mat-label>
+            <input matInput id="busqueda" type="text" placeholder="usuario o nombre..."
+              [(ngModel)]="filtroBusqueda" (input)="aplicarFiltros()">
+            <mat-icon matSuffix> search </mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="users__count">
+          {{ usuariosFiltrados.length }} registros
+        </div>
+      </div>
+      <div
+        class="users__table-wrapper"
+        *ngIf="usuariosFiltrados.length > 0">
+        <table class="users__table">
+          <thead>
+            <tr class="paginas">
+              <td>
+                <span>
+                  Página {{ paginaActual + 1 }} de {{ obtenerTotalPaginas() }}
+                </span>
+              </td>
+              <td colspan="8">
+                <div class="users__paginator">
+                  <mat-paginator
+                    [length]="totalRegistros"
+                    [pageIndex]="paginaActual"
+                    [pageSize]="registrosPorPagina"
+                    [pageSizeOptions]="[5, 10, 25, 100, 200]"
+                    [showFirstLastButtons]="true"
+                    (page)="handlePageEvent($event)">
+                  </mat-paginator>
+                </div>
+              </td>                
+            </tr>
+            <tr>
+              <th> Usuario </th>
+              <th> Nombre </th>
+              <th> Estado </th>
+              <th> Fecha creación </th>
+              <th> Rol </th>
+              <th> Acciones </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuariosPaginados">
+              <td> {{ usuario.usuario }} </td>
+              <td> {{ usuario.nombre }} </td>
+              <td>
+                <span
+                  class="users__status"
+                  [class.users__status--inactive]="!usuario.activo">
+                  <span class="users__status-dot"></span>
+                  {{ obtenerTextoEstado(usuario.activo) }}
+                </span>
+              </td>
+              <td> {{ usuario.fechaCreacion | date:'dd/MM/yyyy' }} </td>
+              <td> {{ usuario.rolNombre }} </td>
+              <td>
+                <div class="user__row-actions">
+                  <button
+                    type="button"
+                    class="user__row-button"
+                    (click)="editarUsuario(usuario)">
+                    <mat-icon> edit </mat-icon>
+                  </button>
+                  <button
+                    mat-button matButton="outlined" 
+                    [ngClass]="{'user__des-act-boton': usuario.activo,
+                      'user__des-act-boton--active': !usuario.activo}"
+                    (click)="cambiarEstado(usuario)">
+                    <mat-icon>{{ usuario.activo ? 'block' : 'check_circle' }} </mat-icon>
+                    {{ usuario.activo ? 'Desactivar' : 'Activar' }}
+                </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="usuariosFiltrados.length === 0"
+        class="users__empty">
+        <mat-icon> inventory_2 </mat-icon>
+        <h3> No hay usuarios</h3>
+        <p> No se encontraron usuarios con los filtros seleccionados. </p>
+      </div>
+    </section>
+  </div>
+</section>

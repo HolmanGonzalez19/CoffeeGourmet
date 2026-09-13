@@ -143,6 +143,7 @@ export class ProductCatalogComponent implements OnInit {
 
     if (!term) {
 
+      this.errorMessage = '';
       this.filteredProducts =
         [...this.products];
 
@@ -153,7 +154,7 @@ export class ProductCatalogComponent implements OnInit {
 
     }
 
-
+this.errorMessage = '';
     this.filteredProducts =
       this.products.filter(product =>
 
@@ -195,5 +196,74 @@ export class ProductCatalogComponent implements OnInit {
     );
 
   }
+
+// ============================================================
+  // SCANEAR PRODUCTO
+  // ============================================================
+
+showScannedProduct(product: Product): void {
+  this.searchTerm = product.codigoBarras ?? '';
+  this.filteredProducts = [product];
+  this.errorMessage = '';
+
+  this.changeDetectorRef.markForCheck();
+}
+
+/*onBarcodeScan(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  const codigoBarras = input.value.trim();
+
+  if (!codigoBarras) {
+    return;
+  }
+
+  this.productService
+    .getProductByBarcode(codigoBarras)
+    .subscribe({
+      next: product => {
+
+        if (!product.activo) {
+          this.errorMessage =
+            'El producto asociado al código de barras está inactivo.';
+
+          this.changeDetectorRef.markForCheck();
+          return;
+        }
+
+        // Mantener el código escaneado en el buscador
+        this.searchTerm =
+          product.codigoBarras ?? '';
+
+        // Mostrar únicamente el producto encontrado
+        this.filteredProducts = [product];
+
+        // Limpiar cualquier mensaje anterior
+        this.errorMessage = '';
+
+        // Enviar el producto al POS
+        this.productSelected.emit(product);
+
+        this.changeDetectorRef.markForCheck();
+      },
+
+      error: error => {
+
+        console.error(
+          '[ProductCatalog] Producto no encontrado por código de barras:',
+          error
+        );
+
+        this.errorMessage =
+          'No existe un producto asociado a este código de barras.';
+
+        // No modificar filteredProducts aquí.
+        // El mensaje se mantiene hasta que el usuario
+        // borre o cambie la búsqueda.
+
+        this.changeDetectorRef.markForCheck();
+      }
+    });
+}*/
 
 }

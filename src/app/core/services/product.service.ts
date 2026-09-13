@@ -2,33 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Product } from '../models/product.model';
+import { CreateProductRequest, Product, ProductTypes, UpdateProductRequest } from '../models/product.model';
 
-export interface CreateProductRequest {
-  nombre: string;
-  categoriaId: number;
-  tipoProducto: string;
-  codigoBarras: string | null;
-  stockMinimo: number;
-  descripcion: string | null;
-  precioCompra: number;
-  precioVenta: number;
-
-}
-
-
-export interface UpdateProductRequest {
-
-  nombre: string;
-  categoriaId: number;
-  tipoProducto: string;
-  codigoBarras: string | null;
-  stockMinimo: number;
-  descripcion: string | null;
-  activo: boolean;
-  precioCompra: number;
-  precioVenta: number;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -107,9 +82,7 @@ export class ProductService {
 
   }
 
-  update(
-  id: number,
-  request: UpdateProductRequest
+  update(id: number, request: UpdateProductRequest
 ): Observable<Product> {
 
   return this.http.put<Product>(
@@ -117,6 +90,18 @@ export class ProductService {
     request
   );
 
+}
+
+getProductByBarcode(codigoBarras: string): Observable<Product> {
+  return this.http.get<Product>(
+    `${this.endpoint}/barcode/${encodeURIComponent(codigoBarras)}`
+  );
+}
+
+getProductTypes(): Observable<ProductTypes[]> {
+  return this.http.get<ProductTypes[]>(
+    `${this.endpoint}/product-types`
+  );
 }
 
 }

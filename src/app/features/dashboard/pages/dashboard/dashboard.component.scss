@@ -588,16 +588,6 @@ $sidebar-width: 220px;
 
 }
 
-.card__icon--warning {
-
-  background:
-    $warning;
-
-  color:
-    $warning-soft;
-
-}
-
 .card__value {
 
   margin:
@@ -631,10 +621,10 @@ $sidebar-width: 220px;
 .card__status--warning {
 
   background:
-    $warning-soft;
+    vars.$color-danger !important;
 
   color:
-    $warning;
+    vars.$color-danger-soft !important;
 
 }
 

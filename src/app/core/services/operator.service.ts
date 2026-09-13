@@ -11,19 +11,9 @@ export class OperatorService {
 
   private readonly apiUrl = '/api/users/operators';
 
- /* getOperators(): Observable<Operator[]> {
-    return this.http.get<Operator[]>(this.apiUrl).pipe(
-      map(users =>
-        users.filter(user =>
-          user.activo && user.rolNombre === 'OPERADOR'
-        )
-      )
-    );
-  }*/
-
   getOperators(): Observable<Operator[]> {
   return this.http.get<Operator[]>(
-    '/api/users/operators'
+    this.apiUrl
   );
 }
 }

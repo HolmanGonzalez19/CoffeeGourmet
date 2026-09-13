@@ -1,0 +1,128 @@
+<section class="product-dialog" *ngIf="!loading">
+  <header class="product-dialog__header">
+    <div class="product-dialog__heading">
+      <h2> {{ modoEdicion ? 'Editar producto' : 'Nuevo producto' }} </h2>
+      <p>
+        {{ modoEdicion
+          ? 'Modifica la información del producto.'
+          : 'Registra un nuevo producto en el sistema.'
+        }}
+      </p>
+    </div>
+    <button
+      type="button"
+      class="product-dialog__close"
+      (click)="cerrarModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <div class="product-dialog__content">
+    <section class="product-dialog__fields">
+      <mat-form-field class="product-dialog__field">
+        <mat-label> Nombre </mat-label>
+        <input matInput id="productoNombre" type="text" maxlength="150"
+          [(ngModel)]="productoForm.nombre" placeholder="Nombre del producto"
+          name="nombre" #nombre="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="nombre.invalid && nombre.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label> Categoría </mat-label>
+        <mat-select id="productoCategoria" [(ngModel)]="productoForm.categoriaId" name="cate" #cate="ngModel" required>
+          <mat-option [value]="null"> Seleccione una categoría </mat-option>
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error  class="campoObligatorio" *ngIf="cate.invalid && cate.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field">
+        <mat-label> Tipo de producto </mat-label>
+        <mat-select id="productoTipo" [(ngModel)]="productoForm.tipoProducto" name="tip" #tip="ngModel" required>
+          <mat-option [value]="null"> Seleccione un tipo </mat-option>
+          <mat-option *ngFor="let tipo of tiposProducto" [value]="tipo.codigo">
+            {{ tipo.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="campoObligatorio" *ngIf="tip.invalid && tip.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field" [class.product-dialog__field--disabled]="true"
+        [class.product-dialog__field--error]="codigoBarrasError">
+        <mat-label>Código de barras</mat-label>
+        <input matInput id="productoCodigoBarras" type="text" maxlength="50" [(ngModel)]="productoForm.codigoBarras"
+          disabled name="codigoBarr" #codigoBarr="ngModel">
+        <mat-hint class="codigo-barras-error" *ngIf="codigoBarrasError">
+          Campo Obligatorio
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field">
+        <mat-label> Existencias mínimas </mat-label>
+        <input matInput id="productoStockMinimo" type="number" min="0"
+          [(ngModel)]="productoForm.stockMinimo" name="stockMin" #stockMin="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="stockMin.invalid && stockMin.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field lass="product-dialog__field" *ngIf="modoEdicion">
+        <mat-label> Precio de compra </mat-label>
+        <span matTextPrefix> $&nbsp; </span>
+        <input matInput id="productoPrecioCompra" type="number" min="0"
+          step="0.01" [(ngModel)]="productoForm.precioCompra" name="compra" #compra="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="compra.invalid && compra.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field" *ngIf="modoEdicion">
+        <mat-label> Precio de venta </mat-label>
+        <span matTextPrefix> $&nbsp; </span>
+        <input matInput id="productoPrecioVenta" type="number" min="0.01"
+          step="0.01" [(ngModel)]="productoForm.precioVenta"  name="venta" #venta="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="venta.invalid && venta.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field product-dialog__field--wide">
+        <mat-label> Descripción </mat-label>
+        <textarea matInput id="productoDescripcion" maxlength="255" rows="3"
+          [(ngModel)]="productoForm.descripcion">
+        </textarea>
+      </mat-form-field>
+    </section>
+  </div>
+  <footer class="product-dialog__actions">
+    <div class="habilitarCodigo">
+      <mat-slide-toggle
+      [checked]="codigoBarrasHabilitado"
+      (change)="cambiarEstadoCodigoBarras($event.checked)"
+      *ngIf="mostrartoggle">
+        Código de Barras
+      </mat-slide-toggle>
+    </div>
+    <button
+      type="button"
+      class="product-dialog__button product-dialog__button--secondary"
+      (click)="cerrarModal()"
+      [disabled]="guardandoProducto">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="product-dialog__button product-dialog__button--primary"
+      (click)="validarProducto(nombre, cate, tip, stockMin, codigoBarr)"
+      [disabled]="guardandoProducto">
+      <mat-icon>
+        {{ guardandoProducto ? 'hourglass_empty' : 'save' }}
+      </mat-icon>
+      {{ guardandoProducto ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Guardar producto') }}
+    </button>
+  </footer>
+</section>
+<section *ngIf="loading" class="products__loading">
+    <div class="products__spinner"></div>
+    <span> Cargando</span>
+</section>

@@ -1,0 +1,432 @@
+@use '../../../styles/variables' as vars;
+
+.users {
+  min-height: 100%;
+  padding: vars.$spacing-2xl;
+  background: vars.$color-background;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-xl;
+  font-family: vars.$font-family-base;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-lg;
+    padding: vars.$spacing-lg vars.$spacing-xl;
+    border-radius: vars.$radius-lg;
+    background: vars.$color-surface-secondary;
+    box-shadow: vars.$shadow-sm;
+  }
+
+  &__eyebrow {
+    display: block;
+    margin-bottom: vars.$spacing-xs;
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: vars.$color-text-muted;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__header p {
+    margin-top: vars.$spacing-sm;
+    color: vars.$color-text-secondary;
+    font-size: vars.$font-size-md;
+  }
+
+   &__actions {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+  }
+
+   button {
+    font-family: inherit;
+  }
+
+  &__button-primary{
+    min-height: 40px;
+    padding: 0 vars.$spacing-lg;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-md;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-sm;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  &__field {
+    gap: 4px;
+    padding: 0px 20px;
+    width: 28% !important;
+  }
+
+  &__field-search{
+    width: 53% !important;
+  }
+
+  /* =========================================================
+     ANGULAR MATERIAL - INPUTS / SELECTS
+     ========================================================= */
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
+    padding: 10px 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: vars.$color-surface;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 44px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .mat-mdc-select-panel {
+    background-color: vars.$color-surface !important;
+    box-shadow: vars.$shadow-md !important;
+    border-radius: vars.$radius-md !important;
+  }
+
+  .mat-mdc-option:hover {
+    background-color: vars.$color-primary-light !important;
+  }
+
+  
+  /* =========================================================
+     FILTROS
+     ========================================================= */
+
+  &__filters {  
+    border: 1px solid vars.$color-border-light;
+    border-radius: vars.$radius-lg;
+    background: vars.$color-surface;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: vars.$spacing-xl;
+    margin-bottom: vars.$spacing-lg;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xl;
+  }
+
+  /* =========================================================
+     LOADING / ERROR
+     ========================================================= */
+
+  &__loading,
+  &__error {
+    min-height: 180px;
+    padding: vars.$spacing-2xl;
+    background: vars.$color-surface;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-xl;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-md;
+
+    color: vars.$color-text-secondary;
+    font-size: vars.$font-size-md;
+  }
+
+  &__error {
+    flex-direction: row;
+    color: vars.$color-danger;
+
+    mat-icon {
+      font-size: 22px;
+    }
+  }
+
+  &__spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid vars.$color-border;
+    border-top-color: vars.$color-primary;
+    border-radius: vars.$radius-round;
+    animation: products-spin 0.8s linear infinite;
+  }
+
+  /* =========================================================
+     PANEL TABLA
+     ========================================================= */
+
+  &__panel {
+    overflow: hidden;
+    background: vars.$color-surface;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-xl;
+    box-shadow: vars.$shadow-sm;
+  }
+
+  &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-lg;
+    padding: vars.$spacing-xl;
+
+    h2 {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+    }
+
+    p {
+      margin-top: vars.$spacing-xs;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-md;
+    }
+  }
+
+  &__count {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    border-radius: vars.$radius-md;
+    background: vars.$color-primary-light;
+    color: vars.$color-primary-dark;
+    font-size: vars.$font-size-sm;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* =========================================================
+     TABLA
+     ========================================================= */
+
+  &__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  &__table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    font-size: vars.$font-size-md;
+
+    thead {
+      background: vars.$color-surface-secondary;
+    }
+
+    th {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      border-bottom: 1px solid vars.$color-border;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-sm;
+      font-weight: 700;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      border-bottom: 1px solid vars.$color-border-light;
+      color: vars.$color-text-primary;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background: vars.$color-background;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__des-act-boton{
+    background-color: vars.$color-surface;
+    color: vars.$color-danger !important;
+    border: 1px solid vars.$color-danger !important;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: vars.$color-danger;
+      color: vars.$color-surface !important;
+    }
+  }
+
+  &__des-act-boton--active{
+    background-color: vars.$color-surface;
+    color: vars.$color-success !important;
+    border: 1px solid vars.$color-success !important;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: vars.$color-success;
+      color: vars.$color-surface !important;
+    }
+  }
+
+  /* =========================================================
+     ESTADO
+     ========================================================= */
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: vars.$radius-md;
+    background: vars.$color-success-light;
+    color: vars.$color-success;
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: vars.$radius-round;
+    background: currentColor;
+  }
+
+  &__status--inactive {
+    background: vars.$color-danger-light;
+    color: vars.$color-danger;
+  }
+
+  /* =========================================================
+     ACCIONES DE FILA
+     ========================================================= */
+
+  &__row-actions {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    white-space: nowrap;
+  }
+
+  &__row-button {
+    min-height: 32px;
+    padding: 0 vars.$spacing-sm;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-sm;
+    background: vars.$color-surface;
+    color: vars.$color-text-primary;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    &:hover {
+      background: vars.$color-primary-light;
+      border-color: vars.$color-primary;
+      color: vars.$color-primary-dark;
+    }
+
+    mat-icon {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+    }
+  }
+
+  /* =========================================================
+     EMPTY
+     ========================================================= */
+
+  &__empty {
+    min-height: 260px;
+    padding: vars.$spacing-2xl;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    mat-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: vars.$spacing-md;
+      color: vars.$color-text-muted;
+      font-size: 44px;
+    }
+
+    h3 {
+      font-size: vars.$font-size-lg;
+      font-weight: 700;
+    }
+
+    p {
+      margin-top: vars.$spacing-xs;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-md;
+    }
+  }
+}
+
+.clear_filter{
+  background: vars.$color-surface !important;
+  color: vars.$color-primary-dark !important;
+  font-size: vars.$font-size-sm !important;
+  border-radius: vars.$radius-md !important;
+  font-weight: 600 !important;
+  border: 1px solid vars.$color-text-primary;
+  &:hover {
+    border: 1px solid vars.$color-primary !important;
+    color: vars.$color-primary !important;
+  }
+}

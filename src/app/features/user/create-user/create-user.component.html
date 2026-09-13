@@ -1,0 +1,112 @@
+<section class="users-dialog" *ngIf="!loading">
+  <header class="users-dialog__header">
+    <div class="users-dialog__heading">
+      <h2> {{ modoEdicion ? 'Editar Usuario' : 'Nuevo Usuario' }} </h2>
+      <p>
+        {{ modoEdicion
+          ? 'Modifica la información del usuario.'
+          : 'Registra un nuevo usuario en el sistema.'
+        }}
+      </p>
+    </div>
+    <button
+      type="button"
+      class="users-dialog__close"
+      (click)="cerrarModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <div class="users-dialog__content">
+    <section class="users-dialog__fields">
+      <mat-form-field class="users-dialog__field">
+        <mat-label> Nombre </mat-label>
+        <input matInput id="usuarioNombre" type="text" maxlength="150"
+          [(ngModel)]="userForm.nombre" placeholder="Nombre del usuario"
+          name="nombre" #nombre="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="nombre.invalid && nombre.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="users-dialog__field">
+        <mat-label> Usuario </mat-label>
+        <input matInput id="usuarioNombreUsuario" type="text" maxlength="150"
+          [(ngModel)]="userForm.usuario" placeholder="usuario"
+          name="usuario" #usuario="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="usuario.invalid && usuario.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="product-dialog__field">
+        <mat-label> Rol </mat-label>
+        <mat-select id="rol" [(ngModel)]="userForm.rol" name="rol" #rol="ngModel" required>
+          <mat-option [value]="null"> Seleccione un rol </mat-option>
+          <mat-option *ngFor="let rol of roles" [value]="rol.id">
+            {{ rol.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="campoObligatorio" *ngIf="rol.invalid && rol.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="users-dialog__field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'"
+          [(ngModel)]="userForm.password" autocomplete="new-password"
+          [disabled]="loading" name="password" #password="ngModel" 
+          maxlength="20" minlength="8">
+        <button mat-icon-button matSuffix type="button"
+          [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          (click)="hidePassword = !hidePassword" [disabled]="loading">
+          <mat-icon>{{ hidePassword ? 'lock' : 'lock_open_right' }}</mat-icon>
+        </button>
+        <mat-hint *ngIf="modoEdicion">
+            Déjala vacía para conservar la contraseña actual.
+        </mat-hint>
+        <mat-error class="campoObligatorio" *ngIf="password.invalid && password.touched">
+          La contraseña debe tener entre 8 y 20 caracteres.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="users-dialog__field">
+        <mat-label> Pin </mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'"
+          [(ngModel)]="userForm.pin" autocomplete="off"
+          [disabled]="loading" name="pin" #pin="ngModel"
+          maxlength="4" minlength="4">
+        <button mat-icon-button matSuffix type="button"
+          [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          (click)="hidePassword = !hidePassword" [disabled]="loading">
+          <mat-icon>{{ hidePassword ? 'lock' : 'lock_open_right' }}</mat-icon>
+        </button>
+        <mat-hint *ngIf="modoEdicion">
+            Déjalo vacío para conservar el PIN actual.
+        </mat-hint>
+        <mat-error class="campoObligatorio" *ngIf="pin.invalid && pin.touched">
+          El PIN debe tener exactamente 4 dígitos.
+        </mat-error>
+      </mat-form-field> 
+    </section>
+  </div>
+  <footer class="users-dialog__actions">
+    <button
+      type="button"
+      class="users-dialog__button users-dialog__button--secondary"
+      (click)="cerrarModal()"
+      [disabled]="guardandoUsuario">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="users-dialog__button users-dialog__button--primary"
+      (click)="validarUsuario(nombre, usuario, rol)"
+      [disabled]="guardandoUsuario">
+      <mat-icon>
+        {{ guardandoUsuario ? 'hourglass_empty' : 'save' }}
+      </mat-icon>
+      {{ guardandoUsuario ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Guardar Usuario') }}
+    </button>
+  </footer>
+</section>
+<section *ngIf="loading" class="users__loading">
+    <div class="users__spinner"></div>
+    <span> Cargando</span>
+</section>

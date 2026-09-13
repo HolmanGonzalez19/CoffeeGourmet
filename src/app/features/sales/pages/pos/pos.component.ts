@@ -4,7 +4,9 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit
+  OnInit,
+  HostListener,
+  ViewChild
 } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -25,15 +27,20 @@ import { PaymentMethodService } from '../../../../core/services/payment-method.s
 import { SaleService } from '../../../../core/services/sale.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { SaleItemPos, VentaPos } from '../../../../core/models/pos.model';
+import { ProductService } from '../../../../core/services/product.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pos',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     CurrencyPipe,
     MatButtonModule,
-    ProductCatalogComponent
+    ProductCatalogComponent,
+    MatSlideToggleModule
   ],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.scss',
@@ -48,9 +55,12 @@ export class PosComponent implements OnDestroy, OnInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly dialog = inject(MatDialog);
   private readonly notificationService = inject(NotificationService);
+  private readonly productService = inject(ProductService);
   private readonly timeInterval = setInterval(() => {
     this.updateCurrentTime();
   }, 1000);
+  private scannerBuffer = '';
+  private scannerLastKeyTime = 0;
 
   readonly currencyCode = 'COP';
 
@@ -69,6 +79,7 @@ export class PosComponent implements OnDestroy, OnInit {
   selectedProduct: Product | null = null;
   priceLoading = false;
   priceError = '';
+  escaneoAgregaVenta = false;
   paymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: PaymentMethod | null = null;
   venta: VentaPos = {
@@ -263,11 +274,11 @@ export class PosComponent implements OnDestroy, OnInit {
             'Venta registrada correctamente.'
           );
         },
-        error: error => { // HOLMAN CORREGIR
-          console.error(
-            '[POS] Error registrando venta:',
-            error
-          );
+        error: error => {
+          const message = error?.error?.message ??
+            'No fue posible registrar la venta.';
+          this.notificationService.warning(message);
+          this.changeDetectorRef.markForCheck();
         }
       });
   }
@@ -434,6 +445,114 @@ export class PosComponent implements OnDestroy, OnInit {
     this.selectedPaymentMethod = method;
     this.changeDetectorRef.markForCheck();
   }
+  
+  @HostListener('document:keydown', ['$event'])
+  onGlobalKeyDown(event: KeyboardEvent): void {
+
+    const currentTime = Date.now();
+
+    const timeSinceLastKey =
+      currentTime - this.scannerLastKeyTime;
+
+    /*
+    * Si pasa demasiado tiempo entre teclas,
+    * asumimos que comenzó una nueva entrada.
+    */
+    if (timeSinceLastKey > 100) {
+      this.scannerBuffer = '';
+    }
+
+    this.scannerLastKeyTime = currentTime;
+
+    /*
+    * ENTER indica que el lector terminó
+    * de enviar el código.
+    */
+    if (event.key === 'Enter') {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const codigoBarras =
+        this.scannerBuffer.trim();
+
+      this.scannerBuffer = '';
+
+      if (!codigoBarras) {
+        return;
+      }
+
+      this.procesarCodigoBarras(codigoBarras);
+
+      return;
+    }
+
+    /*
+    * Ignoramos teclas especiales.
+    */
+    if (
+      event.key.length !== 1 ||
+      event.ctrlKey ||
+      event.altKey ||
+      event.metaKey
+    ) {
+      return;
+    }
+
+    this.scannerBuffer += event.key;
+  }
+
+  private procesarCodigoBarras(
+    codigoBarras: string
+  ): void {
+    this.productService
+      .getProductByBarcode(codigoBarras)
+      .subscribe({
+        next: product => {
+
+          if (!product.activo) {
+            this.notificationService.error(
+              'El producto asociado al código de barras está inactivo.'
+            );
+
+            return;
+          }
+
+          if (!this.operadorActivo) {
+            this.productCatalog.showScannedProduct(product);
+            this.selectedProduct = product;
+            this.changeDetectorRef.markForCheck();
+            return;
+          }
+
+          if (!this.escaneoAgregaVenta) {
+            this.productCatalog.showScannedProduct(product);
+            this.selectedProduct = product;
+            this.changeDetectorRef.markForCheck();
+            return;
+          }
+
+          this.onProductSelected(product);
+        },
+
+        error: error => {
+
+          console.error(
+            '[POS] Producto no encontrado por código de barras:',
+            error
+          );
+
+          this.notificationService.error(
+            'No existe un producto asociado a este código de barras.'
+          );
+
+          this.changeDetectorRef.markForCheck();
+        }
+      });
+  }
+
+  @ViewChild(ProductCatalogComponent)
+  private productCatalog!: ProductCatalogComponent;
 
   ngOnDestroy(): void {
     clearInterval(this.timeInterval);

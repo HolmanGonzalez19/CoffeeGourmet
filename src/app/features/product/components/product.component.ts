@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-    ProductService,
-    CreateProductRequest,
-    UpdateProductRequest
+    ProductService
 } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
 
@@ -19,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-product',
@@ -46,6 +46,8 @@ export class ProductComponent implements OnInit {
 
     private readonly router =
         inject(Router);
+
+        private readonly dialog = inject(MatDialog);
 
 
     productos: Product[] = [];
@@ -471,217 +473,46 @@ handlePageEvent(event: PageEvent): void {
 
 
     crearProducto(): void {
-
-    this.formErrorMessage = '';
-
-    this.modoEdicion = false;
-
-    this.productoEditandoId = null;
-
-    this.productoActivo = true;
-
-    this.productoForm = {
-
-        nombre: '',
-
-        categoriaId: 0,
-
-        tipoProducto: '',
-
-        codigoBarras: null,
-
-        stockMinimo: 0,
-
-        descripcion: null,
-
-        precioCompra: 0,
-
-        precioVenta: 0
-
-    };
-
-    this.mostrarFormulario = true;
-
-}
-
-cerrarFormulario(): void {
-
-    if (this.guardandoProducto) {
-        return;
-    }
-
-    this.mostrarFormulario = false;
-
-    this.formErrorMessage = '';
-
-}
-
-guardarProducto(): void {
-
-    this.formErrorMessage = '';
-
-    // ==========================================================
-    // VALIDACIONES
-    // ==========================================================
-
-
-    if (!this.productoForm.nombre.trim()) {
-
-        this.formErrorMessage =
-            'El nombre es obligatorio.';
-
-        return;
-
-    }
-
-    if (!this.productoForm.categoriaId) {
-
-        this.formErrorMessage =
-            'Debe seleccionar una categoría.';
-
-        return;
-
-    }
-
-    if (!this.productoForm.tipoProducto) {
-
-        this.formErrorMessage =
-            'Debe seleccionar un tipo de producto.';
-
-        return;
-
-    }
-
-    if (this.productoForm.stockMinimo < 0) {
-
-        this.formErrorMessage =
-            'Las existencias mínimas no puede ser negativas.';
-
-        return;
-
-    }
-
-    // ==========================================================
-    // EDICIÓN
-    // ==========================================================
-
-    if (
-        this.modoEdicion &&
-        this.productoEditandoId !== null
-    ) {
-
-        this.guardarEdicion();
-
-        return;
-
-    }
-
-    // ==========================================================
-    // CREACIÓN
-    // ==========================================================
-
-    if (this.productoForm.precioCompra < 0) {
-
-        this.formErrorMessage =
-            'El precio de compra no puede ser negativo.';
-
-        return;
-
-    }
-
-    if (this.productoForm.precioVenta <= 0) {
-
-        this.formErrorMessage =
-            'El precio de venta debe ser mayor que cero.';
-
-        return;
-
-    }
-
-    this.guardandoProducto = true;
-
-    const request: CreateProductRequest = {
-
-        ...this.productoForm,
-
-        nombre:
-            this.productoForm.nombre.trim(),
-
-        codigoBarras:
-            this.productoForm.codigoBarras?.trim()
-            || null,
-
-        descripcion:
-            this.productoForm.descripcion?.trim()
-            || null
-
-    };
-
-    this.productService
-        .create(request)
-        .subscribe({
-
-            next: () => {
-
-                this.guardandoProducto = false;
-
-                this.mostrarFormulario = false;
-
-                this.cargarProductos();
-
-            },
-
-            error: (error: unknown) => {
-
-                console.error(
-                    'Error al crear producto:',
-                    error
-                );
-
-                this.formErrorMessage =
-                    'No fue posible crear el producto.';
-
-                this.guardandoProducto = false;
-
+        const dialogRef = this.dialog.open(
+            CreateProductComponent,
+            {
+            width: '800px',
+            maxWidth: 'calc(100vw - 50px)',
+            height: '751px',
+            disableClose: true,
+            autoFocus: false,
+            panelClass: 'create-product-dialog'
             }
-
+        );
+        dialogRef.afterClosed().subscribe((guardado: boolean) => {
+            if (guardado) {
+                this.cargarProductos();
+            }
         });
-
 }
+
+
 
 
     editarProducto(producto: Product): void {
+        const dialogRef = this.dialog.open(
+            CreateProductComponent,
+            {
+            width: '800px',
+            maxWidth: 'calc(100vw - 50px)',
+            height: '751px',
+            disableClose: true,
+            autoFocus: false,
+            panelClass: 'create-product-dialog',
+            data: producto
+            }
+        );
 
-    this.formErrorMessage = '';
-
-    this.modoEdicion = true;
-
-    this.productoEditandoId = producto.id;
-
-    this.productoActivo = producto.activo;
-
-    this.productoForm = {
-
-        nombre: producto.nombre,
-
-        categoriaId: producto.categoriaId,
-
-        tipoProducto: producto.tipoProducto,
-
-        codigoBarras: producto.codigoBarras,
-
-        stockMinimo: producto.stockMinimo,
-
-        descripcion: producto.descripcion,
-
-        precioCompra: producto.precioCompra ?? 0,
-
-        precioVenta: producto.precioVenta ?? 0
-
-    };
-
-    this.mostrarFormulario = true;
-
+        dialogRef.afterClosed().subscribe((guardado: boolean) => {
+            if (guardado) {
+                this.cargarProductos();
+            }
+        });
 }
 
 
@@ -745,7 +576,6 @@ guardarProducto(): void {
 
 mostrarFormulario = false;
 
-guardandoProducto = false;
 
 formErrorMessage = '';
 
@@ -754,104 +584,4 @@ modoEdicion = false;
 productoEditandoId: number | null = null;
 productoActivo = true;
 
-productoForm: CreateProductRequest = {
-
-    nombre: '',
-
-    categoriaId: 0,
-
-    tipoProducto: '',
-
-    codigoBarras: null,
-
-    stockMinimo: 0,
-
-    descripcion: null,
-
-    precioCompra: 0,
-
-    precioVenta: 0
-
-};
-
-
-private guardarEdicion(): void {
-
-    if (this.productoEditandoId === null) {
-        return;
-    }
-
-    this.guardandoProducto = true;
-
-    const request: UpdateProductRequest = {
-
-        nombre:
-            this.productoForm.nombre.trim(),
-
-        categoriaId:
-            this.productoForm.categoriaId,
-
-        tipoProducto:
-            this.productoForm.tipoProducto,
-
-        codigoBarras:
-            this.productoForm.codigoBarras?.trim()
-            || null,
-
-        stockMinimo:
-            this.productoForm.stockMinimo,
-
-        descripcion:
-            this.productoForm.descripcion?.trim()
-            || null,
-
-        activo:
-            this.productoActivo,
-
-        precioCompra:
-            this.productoForm.precioCompra,
-
-        precioVenta:
-            this.productoForm.precioVenta
-
-    };
-
-    this.productService
-        .update(
-            this.productoEditandoId,
-            request
-        )
-        .subscribe({
-
-            next: () => {
-
-                this.guardandoProducto = false;
-
-                this.mostrarFormulario = false;
-
-                this.productoEditandoId = null;
-
-                this.modoEdicion = false;
-
-                this.cargarProductos();
-
-            },
-
-            error: (error: unknown) => {
-
-                console.error(
-                    'Error al actualizar producto:',
-                    error
-                );
-
-                this.formErrorMessage =
-                    'No fue posible actualizar el producto.';
-
-                this.guardandoProducto = false;
-
-            }
-
-        });
-
-}
 }

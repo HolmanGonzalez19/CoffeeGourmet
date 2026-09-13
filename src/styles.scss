@@ -46,7 +46,7 @@ body {
 
 .snackbar-warning > div {
   background-color: rgba(255, 152, 0, 0.8) !important;
-  color: #fff !important;
+  color: #000 !important;
   font-weight: 600;
 }
 
@@ -102,6 +102,16 @@ body {
 
 
 .operator-dialog .mat-mdc-dialog-container {
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28),
+              0 4px 12px rgba(0, 0, 0, 0.12);
+  padding: 0;
+  overflow: hidden;
+  margin: 0px;
+}
+
+.create-product-dialog .mat-mdc-dialog-container {
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28),

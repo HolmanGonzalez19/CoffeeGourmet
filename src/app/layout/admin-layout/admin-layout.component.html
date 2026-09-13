@@ -85,6 +85,16 @@
 
 </a>
 
+<a
+  mat-list-item
+  routerLink="users"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>groups</mat-icon>
+  <span matListItemTitle>Usuarios</span>
+
+</a>
+
     </mat-nav-list>
 
     <div class="admin-layout__sidebar-footer">
@@ -92,7 +102,7 @@
         type="button"
         class="button-red-light button-red-light--danger"
         (click)="logout()">
-        Cerrar caja
+        Cerrar Sesión
       </button>
     </div>
 

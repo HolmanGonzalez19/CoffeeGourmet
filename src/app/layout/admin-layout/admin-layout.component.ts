@@ -36,9 +36,6 @@ export class AdminLayoutComponent {
 
   logout(): void {
       this.authService.logout();
-      this.notificationService.warning(
-      'Sesión Cerrada.'
-    );
       this.router.navigate(['/']);
   }
 }

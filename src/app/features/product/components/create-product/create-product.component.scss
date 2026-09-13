@@ -1,0 +1,300 @@
+@use '../../../../../styles/variables' as vars;
+
+.product-dialog {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  font-family: vars.$font-family-base;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.product-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eee;
+}
+
+.product-dialog__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .product-dialog__eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: vars.$color-primary-dark;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #242424;
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666;
+  }
+}
+
+/* ============================================================
+   BOTÓN CERRAR
+   ============================================================ */
+
+.product-dialog__close {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #999;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  mat-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  &:hover {
+    background: #f2f2f2;
+    color: #333;
+  }
+}
+
+/* ============================================================
+   CONTENIDO
+   ============================================================ */
+
+.product-dialog__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xl;
+}
+
+.product-dialog__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // dos columnas
+  gap: vars.$spacing-lg vars.$spacing-xl;
+  border: 1px solid vars.$color-border-light;
+  border-radius: vars.$radius-lg;
+  background: vars.$color-surface;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: vars.$spacing-xl;
+}
+
+
+/* =========================================================
+     ANGULAR MATERIAL - INPUTS / SELECTS
+     ========================================================= */
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
+    padding: 10px 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: vars.$color-surface;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 44px;
+  }
+
+  .mat-mdc-select-panel {
+    background-color: vars.$color-surface !important;
+    box-shadow: vars.$shadow-md !important;
+    border-radius: vars.$radius-md !important;
+  }
+
+  .mat-mdc-option:hover {
+    background-color: vars.$color-primary-light !important;
+  }
+
+/* ============================================================
+   CAMPOS
+   ============================================================ */
+
+.product-dialog__field {
+  width: 100%;
+
+  &:has(input:disabled),
+  &:has(textarea:disabled),
+  &:has(mat-select[aria-disabled="true"]) {
+    cursor: not-allowed;
+    color: vars.$color-text-secondary;
+
+    * {
+      cursor: not-allowed !important;
+    }
+  }
+}
+
+.product-dialog__field--wide {
+  grid-column: 1 / -1;
+}
+
+.campoObligatorio{
+  color: vars.$color-danger-2;
+  margin-top: 2px;
+  font-size: vars.$font-size-md;
+}
+
+.product-dialog__field--error {
+
+  .mat-mdc-text-field-wrapper {
+    border-color: #d32f2f !important;
+  }
+
+  .mat-mdc-floating-label {
+    color: #d32f2f !important;
+  }
+}
+
+.codigo-barras-error {
+  color: vars.$color-danger-2 !important;
+  font-size: vars.$font-size-md;
+
+  animation: codigoBarrasErrorIn 180ms ease-out;
+}
+
+@keyframes codigoBarrasErrorIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   ACCIONES
+   ============================================================ */
+
+.product-dialog__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid #eee;
+}
+
+.product-dialog__button {
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 8px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.product-dialog__button--secondary {
+  background: #f5f5f5;
+  color: #555;
+
+  &:hover:not(:disabled) {
+    background: #e9e9e9;
+    color: #333;
+  }
+}
+
+.product-dialog__button--primary {
+  background: vars.$color-primary;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: vars.$color-primary-dark;
+  }
+}
+
+.habilitarCodigo{
+  display: flex;
+  align-items: start;
+  width: 57%;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 720px) {
+
+  .product-dialog {
+    min-width: auto;
+    max-width: 100%;
+    padding: 24px;
+  }
+
+  .product-dialog__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-lg vars.$spacing-xl;
+    border: 1px solid vars.$color-border-light;
+    border-radius: vars.$radius-lg;
+    background: vars.$color-surface;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: vars.$spacing-xl;
+  }
+
+  .product-dialog__field--wide {
+    width: 100% !important;
+  }
+
+  .product-dialog__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .product-dialog__button {
+    width: 100%;
+  }
+}
