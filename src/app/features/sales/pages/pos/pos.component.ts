@@ -30,6 +30,9 @@ import { SaleItemPos, VentaPos } from '../../../../core/models/pos.model';
 import { ProductService } from '../../../../core/services/product.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { SaleReceiptComponent } from '../sale-receipt/sale-receipt.component';
+import { PrintService } from '../../../../core/services/print.service';
+
 
 @Component({
   selector: 'app-pos',
@@ -40,7 +43,8 @@ import { FormsModule } from '@angular/forms';
     CurrencyPipe,
     MatButtonModule,
     ProductCatalogComponent,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SaleReceiptComponent
   ],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.scss',
@@ -52,6 +56,7 @@ export class PosComponent implements OnDestroy, OnInit {
   private readonly cashRegisterService = inject(CashRegisterService);
   private readonly paymentMethodService = inject(PaymentMethodService);
   private readonly saleService = inject(SaleService);
+  private readonly printService = inject(PrintService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly dialog = inject(MatDialog);
   private readonly notificationService = inject(NotificationService);
@@ -82,9 +87,9 @@ export class PosComponent implements OnDestroy, OnInit {
   escaneoAgregaVenta = false;
   paymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: PaymentMethod | null = null;
-  venta: VentaPos = {
-    items: []
-  };
+  venta: VentaPos = { items: [] };
+  sale: SaleResponse = {} as SaleResponse;
+
 
   ngOnInit(): void {
     this.verificarToken();
@@ -269,10 +274,15 @@ export class PosComponent implements OnDestroy, OnInit {
       .create(request)
       .subscribe({
         next: response => {
+          this.sale = response;
           this.onSaleCreated(response);
-          this.notificationService.success(
-            'Venta registrada correctamente.'
-          );
+          this.notificationService.success( 'Venta registrada correctamente.' );
+         // this.mostrarRecibo(response); //temporal recibo
+         this.changeDetectorRef.detectChanges();
+         this.imprimirTicket(response);
+          /*setTimeout(() => {
+            window.print();
+          }, 300);*/
         },
         error: error => {
           const message = error?.error?.message ??
@@ -557,4 +567,20 @@ export class PosComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     clearInterval(this.timeInterval);
   }
+
+private imprimirTicket(sale: SaleResponse): void {
+  this.printService.print(sale.id).subscribe({
+      next: () => {
+        console.log('[POS] Ticket enviado a impresora');
+      },
+      error: error => {
+        console.error(
+          '[POS] Error imprimiendo ticket:',
+          error
+        );
+        this.notificationService.warning( 'La venta fue registrada, pero no se pudo imprimir el recibo.' );
+      }
+    });
+  }
+
 }

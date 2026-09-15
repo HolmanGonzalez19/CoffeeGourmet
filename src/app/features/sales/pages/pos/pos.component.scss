@@ -689,6 +689,93 @@
 }
 
 /* =========================================================
+   RECIBO - OCULTO EN PANTALLA
+   ========================================================= */
+
+#receipt {
+  display: none;
+}
+
+
+/* =========================================================
+   IMPRESIÓN
+   ========================================================= */
+
+@media print {
+
+  @page {
+    size: 48mm auto;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 48mm !important;
+    min-width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #fff !important;
+  }
+
+  /*
+   * Ocultar COMPLETAMENTE el POS
+   */
+  .pos {
+    display: none !important;
+  }
+
+  /*
+   * Mostrar solamente el recibo
+   */
+  #receipt {
+    display: block !important;
+
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #fff !important;
+  }
+
+  /*
+   * El componente Angular del recibo
+   */
+  #receipt app-sale-receipt {
+    display: block !important;
+
+    width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /*
+   * Contenido del ticket
+   */
+  #receipt .receipt {
+    display: block !important;
+
+    width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 2mm !important;
+
+    box-sizing: border-box !important;
+
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -726,3 +813,6 @@
     background-color: vars.$color-primary;
   }
 }
+
+
+

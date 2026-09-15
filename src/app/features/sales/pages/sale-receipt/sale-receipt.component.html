@@ -1,0 +1,213 @@
+<!--div class="receipt">
+
+  <div class="receipt__header">
+
+    <h1>COFFEEGOURMET</h1>
+
+    <p class="receipt__title">
+      RECIBO DE VENTA
+    </p>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__info">
+
+    <div>
+      <span>Venta</span>
+      <strong>#{{ sale.id }}</strong>
+    </div>
+
+    <div>
+      <span>Fecha</span>
+      <strong>{{ formatearFecha(sale.fechaHora) }}</strong>
+    </div>
+
+    <div>
+      <span>Operador</span>
+      <strong>{{ sale.usuarioNombre }}</strong>
+    </div>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__products">
+
+    <div
+      class="receipt__product"
+      *ngFor="let detalle of sale.detalles">
+
+      <div class="receipt__product-name">
+        {{ detalle.productoNombre }}
+      </div>
+
+      <div class="receipt__product-detail">
+
+        <span>
+          {{ detalle.cantidad }} x
+          {{ formatearPrecio(detalle.precioUnitario) }}
+        </span>
+
+        <strong>
+          {{ formatearPrecio(detalle.subtotal) }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__total">
+
+    <span>TOTAL</span>
+
+    <strong>
+      {{ formatearPrecio(sale.total) }}
+    </strong>
+
+  </div>
+
+  <div class="receipt__payment">
+
+    <span>Medio de pago</span>
+
+    <strong>
+      {{ sale.metodoPagoNombre }}
+    </strong>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__footer">
+
+    <p>GRACIAS POR SU COMPRA</p>
+
+    <small>
+      Comprobante de venta
+    </small>
+
+  </div>
+
+  <div class="receipt__actions">
+
+  <button
+    type="button"
+    class="receipt__print"
+    (click)="imprimir()">
+    Imprimir
+  </button>
+
+  <button
+    type="button"
+    class="receipt__close"
+    (click)="cerrar()">
+    Cerrar
+  </button>
+
+</div>
+
+</div-->
+
+<div class="receipt">
+
+  <div class="receipt__header">
+
+    <h1>COFFEEGOURMET</h1>
+
+    <p class="receipt__title">
+      RECIBO DE VENTA
+    </p>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__info">
+
+    <div>
+      <span>Venta</span>
+      <strong>#{{ sale.id }}</strong>
+    </div>
+
+    <div>
+      <span>Fecha</span>
+      <strong>{{ formatearFecha(sale.fechaHora) }}</strong>
+    </div>
+
+    <div>
+      <span>Operador</span>
+      <strong>{{ sale.usuarioNombre }}</strong>
+    </div>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__products">
+
+    <div
+      class="receipt__product"
+      *ngFor="let detalle of sale.detalles">
+
+      <div class="receipt__product-name">
+        {{ detalle.productoNombre }}
+      </div>
+
+      <div class="receipt__product-detail">
+
+        <span>
+          {{ detalle.cantidad }} x
+          {{ formatearPrecio(detalle.precioUnitario) }}
+        </span>
+
+        <strong>
+          {{ formatearPrecio(detalle.subtotal) }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__total">
+
+    <span>TOTAL</span>
+
+    <strong>
+      {{ formatearPrecio(sale.total) }}
+    </strong>
+
+  </div>
+
+  <div class="receipt__payment">
+
+    <span>Medio de pago</span>
+
+    <strong>
+      {{ sale.metodoPagoNombre }}
+    </strong>
+
+  </div>
+
+  <div class="receipt__separator"></div>
+
+  <div class="receipt__footer">
+
+    <p>GRACIAS POR SU COMPRA</p>
+
+    <small>
+      Comprobante de venta
+    </small>
+
+  </div>
+
+</div>

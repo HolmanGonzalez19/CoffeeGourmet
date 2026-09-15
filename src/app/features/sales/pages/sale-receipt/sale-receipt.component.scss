@@ -1,0 +1,507 @@
+/*:host {
+  display: block;
+}
+
+.receipt {
+  width: 48mm;
+  padding: 10px 6px;
+  background: #fff;
+  color: #000;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.receipt__header {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.receipt__header h1 {
+  margin: 0;
+  font-size: 13px; 
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  white-space: normal;
+  word-break: break-word;
+  color: #000;
+  line-height: 1; 
+}
+
+.receipt__title {
+  margin: 3px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+}
+
+.receipt__separator {
+  width: 100%;
+  border-top: 1px dashed #000;
+  margin: 8px 0;
+}
+
+.receipt__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  font-size: 11px;
+  color: #000;
+}
+
+.receipt__info div {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+}
+
+.receipt__info span {
+  font-weight: 600;
+  color: #000;
+}
+
+.receipt__info strong {
+  font-weight: 800;
+  color: #000;
+  text-align: right;
+}
+
+.receipt__products {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.receipt__product-name {
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.3;
+  word-break: break-word;
+  color: #000;
+}
+
+.receipt__product-detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 10px;
+  color: #000;
+}
+
+.receipt__total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 900;
+  color: #000;
+}
+
+.receipt__payment {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #000;
+}
+
+.receipt__footer {
+  text-align: center;
+  margin-top: 12px;
+  color: #000;
+}
+
+.receipt__footer p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.receipt__footer small {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+}
+
+@media print {
+  @page {
+    size: 48mm auto;
+    margin: 0;
+  }
+
+  html, body {
+    width: 48mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  body {
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .sale-receipt-dialog,
+  .sale-receipt-dialog * {
+    visibility: visible !important;
+  }
+
+  .cdk-overlay-pane {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  .sale-receipt-dialog {
+    position: static !important;
+    width: 48mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  .sale-receipt-dialog .mat-mdc-dialog-surface {
+    width: 48mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  .sale-receipt-dialog .receipt {
+    width: 48mm !important;
+    margin: 0 !important;
+    padding: 2mm !important;
+    box-sizing: border-box !important;
+    color: #000 !important;
+    font-family: Arial, sans-serif !important;
+  }
+
+  .sale-receipt-dialog .receipt__header {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+  }
+
+  .sale-receipt-dialog .receipt__header h1 {
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  .sale-receipt-dialog .receipt__actions {
+    display: none !important;
+  }
+
+  .cdk-overlay-backdrop {
+    display: none !important;
+  }
+}*/
+
+:host {
+  display: block;
+  width: 48mm;
+  margin: 0;
+  padding: 0;
+}
+
+.receipt {
+  width: 48mm;
+  margin: 0;
+  padding: 2mm 2mm;
+
+  box-sizing: border-box;
+
+  background: #fff;
+  color: #000;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.receipt__header {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+}
+
+.receipt__header h1 {
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.1;
+
+  font-weight: 900;
+  letter-spacing: 0.2px;
+
+  color: #000;
+
+  word-break: break-word;
+}
+
+.receipt__title {
+  margin: 3px 0 0;
+
+  font-size: 10px;
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  color: #000;
+}
+
+/* =========================================================
+   SEPARADOR
+   ========================================================= */
+
+.receipt__separator {
+  width: 100%;
+
+  margin: 7px 0;
+
+  border-top: 1px dashed #000;
+}
+
+/* =========================================================
+   INFORMACIÓN DE LA VENTA
+   ========================================================= */
+
+.receipt__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  width: 100%;
+
+  font-size: 10px;
+}
+
+.receipt__info div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 5px;
+}
+
+.receipt__info span {
+  font-weight: 600;
+  color: #000;
+}
+
+.receipt__info strong {
+  font-weight: 800;
+  color: #000;
+
+  text-align: right;
+
+  max-width: 65%;
+
+  word-break: break-word;
+}
+
+/* =========================================================
+   PRODUCTOS
+   ========================================================= */
+
+.receipt__products {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  width: 100%;
+}
+
+.receipt__product {
+  width: 100%;
+}
+
+.receipt__product-name {
+  width: 100%;
+
+  margin: 0 0 2px;
+
+  font-size: 10px;
+  line-height: 1.25;
+
+  font-weight: 800;
+
+  color: #000;
+
+  word-break: break-word;
+}
+
+.receipt__product-detail {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 5px;
+
+  font-size: 9px;
+  line-height: 1.2;
+
+  color: #000;
+}
+
+.receipt__product-detail span {
+  flex: 1;
+
+  min-width: 0;
+
+  word-break: break-word;
+}
+
+.receipt__product-detail strong {
+  flex-shrink: 0;
+
+  font-weight: 800;
+
+  text-align: right;
+}
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
+
+.receipt__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  font-size: 14px;
+  line-height: 1.2;
+
+  font-weight: 900;
+
+  color: #000;
+}
+
+.receipt__total strong {
+  font-weight: 900;
+}
+
+/* =========================================================
+   MÉTODO DE PAGO
+   ========================================================= */
+
+.receipt__payment {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 5px;
+
+  font-size: 10px;
+  line-height: 1.2;
+
+  color: #000;
+}
+
+.receipt__payment span {
+  font-weight: 600;
+}
+
+.receipt__payment strong {
+  font-weight: 800;
+
+  text-align: right;
+
+  word-break: break-word;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.receipt__footer {
+  width: 100%;
+
+  margin-top: 10px;
+
+  text-align: center;
+
+  color: #000;
+}
+
+.receipt__footer p {
+  margin: 0;
+
+  font-size: 10px;
+  line-height: 1.2;
+
+  font-weight: 900;
+}
+
+.receipt__footer small {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+/* =========================================================
+   IMPRESIÓN
+   ========================================================= */
+
+@media print {
+
+  :host {
+    display: block !important;
+
+    width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .receipt {
+    display: block !important;
+
+    width: 48mm !important;
+
+    margin: 0 !important;
+    padding: 2mm !important;
+
+    box-sizing: border-box !important;
+
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+

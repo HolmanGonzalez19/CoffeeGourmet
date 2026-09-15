@@ -1,6 +1,7 @@
 @use '../src/styles/variables' as variables;
 @use '../src/styles/typography' as typography;
 @use '../src/styles/utilities' as utilities;
+@use '../src/styles/theme';
 
 html,
 body {

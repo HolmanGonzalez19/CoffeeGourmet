@@ -58,6 +58,7 @@
       </div>
       <div class="pos__operation-info" *ngIf="operadorActivo">
           <mat-slide-toggle
+            class="custom-toggle"
             [checked]="escaneoAgregaVenta"
             (change)="escaneoAgregaVenta = $event.checked">
             Escanear para agregar a la venta
@@ -203,3 +204,10 @@
     </section>
   </main>
 </div>
+<!--div class="receipt" id="receipt" *ngIf="sale">
+  <app-sale-receipt-dialog  *ngIf="sale" [sale]="sale"></app-sale-receipt-dialog>
+</div-->
+<div id="receipt" *ngIf="sale">
+  <app-sale-receipt [sale]="sale"></app-sale-receipt>
+</div>
+
