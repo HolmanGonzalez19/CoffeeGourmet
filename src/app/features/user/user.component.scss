@@ -87,6 +87,17 @@
     }
   }
 
+   &__button-primary {
+    border: 1px solid vars.$color-primary;
+    background: vars.$color-primary;
+    color: vars.$color-surface;
+
+    &:hover:not(:disabled) {
+      background: vars.$color-primary-dark;
+      border-color: vars.$color-primary-dark;
+    }
+  }
+
   &__field {
     gap: 4px;
     padding: 0px 20px;
@@ -428,5 +439,12 @@
   &:hover {
     border: 1px solid vars.$color-primary !important;
     color: vars.$color-primary !important;
+  }
+}
+
+.paginas{  
+  background-color: vars.$color-surface !important;
+  &:hover {
+    background-color: vars.$color-surface !important;
   }
 }

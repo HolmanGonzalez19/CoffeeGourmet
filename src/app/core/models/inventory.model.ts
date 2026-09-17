@@ -48,7 +48,7 @@ export interface CreateInventoryMovementRequest {
 
   usuarioId: number;
 
-  tipoMovimiento: 'ENTRADA' | 'SALIDA' | 'AJUSTE';
+  tipoMovimiento: string | null;
 
   cantidad: number;
 
@@ -69,4 +69,18 @@ export interface InventoryReference {
 
   descripcion: string;
 
+}
+
+export interface RegisterMovementData {
+  item: Inventory;
+  movimientoForm: MovimientoForm;
+}
+
+export interface MovimientoForm {
+  productoId: number |null;
+  usuarioId: number;
+  tipoMovimiento: string;
+  cantidad: number;
+  motivo: string | null;
+  compraId: number | null;
 }

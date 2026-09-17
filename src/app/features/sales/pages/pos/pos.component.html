@@ -192,9 +192,6 @@
           <!-- ================================================= -->
 
           <div class="pos__secondary-actions">
-            <button mat-button type="button" (click)="consultarPrecio()">
-              CALCULADORA
-            </button>
             <button mat-button type="button" [disabled]="!ventaActiva" (click)="limpiarCarrito()">
               LIMPIAR CARRITO
             </button>
@@ -204,9 +201,6 @@
     </section>
   </main>
 </div>
-<!--div class="receipt" id="receipt" *ngIf="sale">
-  <app-sale-receipt-dialog  *ngIf="sale" [sale]="sale"></app-sale-receipt-dialog>
-</div-->
 <div id="receipt" *ngIf="sale">
   <app-sale-receipt [sale]="sale"></app-sale-receipt>
 </div>

@@ -12,13 +12,33 @@ import {
   CreateInventoryMovementRequest,
   InventoryReference
 } from '../../../../core/models/inventory.model';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { RegisterMovimentComponent } from './register-moviment/register-moviment.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.scss'
@@ -33,6 +53,8 @@ export class InventoryComponent implements OnInit {
 
   private readonly authService =
     inject(AuthService);
+
+    private readonly dialog = inject(MatDialog);
 
 
   // ============================================================
@@ -66,7 +88,6 @@ export class InventoryComponent implements OnInit {
   // REFERENCIAS
   // ============================================================
 
-  referencias: InventoryReference[] = [];
 
 
   // ============================================================
@@ -118,11 +139,7 @@ export class InventoryComponent implements OnInit {
   // ============================================================
 
   ngOnInit(): void {
-
     this.cargarInventario();
-
-    this.cargarReferencias();
-
   }
 
 
@@ -173,30 +190,7 @@ export class InventoryComponent implements OnInit {
   // CARGAR REFERENCIAS DE COMPRAS
   // ============================================================
 
-  cargarReferencias(): void {
-
-    this.inventoryService
-      .getReferences()
-      .subscribe({
-
-        next: (referencias: InventoryReference[]) => {
-
-          this.referencias = referencias;
-
-        },
-
-        error: (error: unknown) => {
-
-          console.error(
-            'Error al cargar referencias:',
-            error
-          );
-
-        }
-
-      });
-
-  }
+  
 
 
   // ============================================================
@@ -393,41 +387,43 @@ export class InventoryComponent implements OnInit {
   // ============================================================
 
   registrarMovimiento(item: Inventory): void {
+    const usuarioId = this.obtenerUsuarioId();
 
-    const usuarioId =
-      this.obtenerUsuarioId();
+      if (!usuarioId) {
+        this.errorMessage = 'No fue posible identificar al usuario autenticado.';
+        return;
+      }
 
-    if (!usuarioId) {
+      const movimientoForm = {
+        productoId: item.productoId,
+        usuarioId: usuarioId,
+        tipoMovimiento: 'ENTRADA',
+        cantidad: 0,
+        motivo: null,
+        compraId: null
+      };
+    
+    const dialogRef = this.dialog.open(
+            RegisterMovimentComponent,
+            {
+                width: '800px',
+                maxWidth: 'calc(100vw - 50px)',
+                height: '536px',
+                disableClose: true,
+                autoFocus: false,
+                panelClass: 'create-product-dialog',
+                data: {
+                  item: item,
+                  movimientoForm: movimientoForm
+                }
+            }
+        );
 
-      this.errorMessage =
-        'No fue posible identificar al usuario autenticado.';
-
-      return;
-
-    }
-
-    this.productoSeleccionado = item;
-
-    this.movimientoError = '';
-
-    this.movimientoForm = {
-
-      productoId: item.productoId,
-
-      usuarioId: usuarioId,
-
-      tipoMovimiento: 'ENTRADA',
-
-      cantidad: 0,
-
-      motivo: null,
-
-      compraId: null
-
-    };
-
-    this.mostrarMovimiento = true;
-
+        dialogRef.afterClosed().subscribe((guardado: boolean) => {
+            if (guardado) {
+                this.cargarInventario();
+            }
+        });
   }
 
 
@@ -468,132 +464,6 @@ export class InventoryComponent implements OnInit {
     }
 
     return usuario.usuarioId;
-
-  }
-
-
-  // ============================================================
-  // GUARDAR MOVIMIENTO
-  // ============================================================
-
-  guardarMovimiento(): void {
-
-    this.movimientoError = '';
-
-
-    // ----------------------------------------------------------
-    // TIPO DE MOVIMIENTO
-    // ----------------------------------------------------------
-
-    if (!this.movimientoForm.tipoMovimiento) {
-
-      this.movimientoError =
-        'Debe seleccionar el tipo de movimiento.';
-
-      return;
-
-    }
-
-
-    // ----------------------------------------------------------
-    // CANTIDAD
-    // ----------------------------------------------------------
-
-    if (
-      !this.movimientoForm.cantidad
-      ||
-      this.movimientoForm.cantidad < 1
-    ) {
-
-      this.movimientoError =
-        'La cantidad debe ser mayor que cero.';
-
-      return;
-
-    }
-
-
-    // ----------------------------------------------------------
-    // COMPRA PARA ENTRADA
-    // ----------------------------------------------------------
-
-    if (
-      this.movimientoForm.tipoMovimiento === 'ENTRADA'
-      &&
-      !this.movimientoForm.compraId
-    ) {
-
-      this.movimientoError =
-        'Debe seleccionar una compra.';
-
-      return;
-
-    }
-
-
-    // ----------------------------------------------------------
-    // GUARDAR
-    // ----------------------------------------------------------
-
-    this.guardandoMovimiento = true;
-
-    const request: CreateInventoryMovementRequest = {
-
-      productoId:
-        this.movimientoForm.productoId,
-
-      usuarioId:
-        this.movimientoForm.usuarioId,
-
-      tipoMovimiento:
-        this.movimientoForm.tipoMovimiento,
-
-      cantidad:
-        this.movimientoForm.cantidad,
-
-      motivo:
-        this.movimientoForm.motivo?.trim()
-        || null,
-
-      compraId:
-        this.movimientoForm.tipoMovimiento === 'ENTRADA'
-          ? this.movimientoForm.compraId
-          : null
-
-    };
-
-
-    this.inventoryService
-      .createMovement(request)
-      .subscribe({
-
-        next: () => {
-
-          this.guardandoMovimiento = false;
-
-          this.mostrarMovimiento = false;
-
-          this.productoSeleccionado = null;
-
-          this.cargarInventario();
-
-        },
-
-        error: (error: unknown) => {
-
-          console.error(
-            'Error al registrar movimiento:',
-            error
-          );
-
-          this.movimientoError =
-            'No fue posible registrar el movimiento.';
-
-          this.guardandoMovimiento = false;
-
-        }
-
-      });
 
   }
 

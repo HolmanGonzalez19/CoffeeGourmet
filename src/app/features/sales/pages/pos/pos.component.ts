@@ -239,14 +239,9 @@ export class PosComponent implements OnDestroy, OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        console.log('[POS] Acceso administrativo iniciado.'); // HOLMAN CORREGIR
+        console.log('[POS] Acceso administrativo iniciado.'); 
       }
     });
-  }
-
-  // Consultar precio
-  consultarPrecio(): void {// HOLMAN CORREGIR
-    console.log('[POS] Consultar precio');
   }
 
   cobrar(): void {
@@ -277,12 +272,8 @@ export class PosComponent implements OnDestroy, OnInit {
           this.sale = response;
           this.onSaleCreated(response);
           this.notificationService.success( 'Venta registrada correctamente.' );
-         // this.mostrarRecibo(response); //temporal recibo
          this.changeDetectorRef.detectChanges();
          this.imprimirTicket(response);
-          /*setTimeout(() => {
-            window.print();
-          }, 300);*/
         },
         error: error => {
           const message = error?.error?.message ??
@@ -419,7 +410,7 @@ export class PosComponent implements OnDestroy, OnInit {
           console.error(
             '[POS] Error consultando estado de caja:',
             error
-          );// HOLMAN CORREGIR
+          );
           this.cashRegisterStatus = 'CERRADA';
           this.cashRegisterLoading = false;
           this.changeDetectorRef.markForCheck();
@@ -431,7 +422,6 @@ export class PosComponent implements OnDestroy, OnInit {
     return this.cashRegisterStatus === 'ABIERTA';
   }
 
-  // Métodos de pago
   private loadPaymentMethods(): void {
     this.paymentMethodService.getActive().subscribe({
         next: methods => {
@@ -442,7 +432,7 @@ export class PosComponent implements OnDestroy, OnInit {
           console.error(
             '[POS] Error consultando métodos de pago:',
             error
-          );//HOLMAN CORREGIR
+          );
           this.changeDetectorRef.markForCheck();
         }
       });
@@ -464,20 +454,12 @@ export class PosComponent implements OnDestroy, OnInit {
     const timeSinceLastKey =
       currentTime - this.scannerLastKeyTime;
 
-    /*
-    * Si pasa demasiado tiempo entre teclas,
-    * asumimos que comenzó una nueva entrada.
-    */
     if (timeSinceLastKey > 100) {
       this.scannerBuffer = '';
     }
 
     this.scannerLastKeyTime = currentTime;
 
-    /*
-    * ENTER indica que el lector terminó
-    * de enviar el código.
-    */
     if (event.key === 'Enter') {
 
       event.preventDefault();
@@ -497,9 +479,6 @@ export class PosComponent implements OnDestroy, OnInit {
       return;
     }
 
-    /*
-    * Ignoramos teclas especiales.
-    */
     if (
       event.key.length !== 1 ||
       event.ctrlKey ||

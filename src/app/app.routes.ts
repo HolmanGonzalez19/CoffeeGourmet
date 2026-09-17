@@ -45,6 +45,7 @@ import { adminGuard }
 import { noActiveSessionGuard }
   from './core/guards/no-active-session.guard';
 import { UsersComponent } from './features/user/user.component';
+import { SuppliersComponent } from './features/supplers/suppliers.component';
 
 
 export const routes: Routes = [
@@ -174,6 +175,16 @@ export const routes: Routes = [
       {
         path: 'statistics',
         component: StatisticsComponent
+      },
+
+      /*
+       * ========================================================
+       * PROVEEDORES
+       * ========================================================
+       */
+      {
+        path: 'suppliers',
+        component: SuppliersComponent
       },
 
       /*

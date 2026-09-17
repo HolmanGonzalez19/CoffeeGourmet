@@ -1,34 +1,30 @@
 <section class="purchases">
 
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+
   <header class="purchases__header">
-
     <div>
-
+      <span class="purchases__eyebrow">
+        ADMINISTRACIÓN
+      </span>
       <h1>
         Compras
       </h1>
-
       <p>
-        Gestión de compras realizadas a proveedores
+        Gestión de compras realizadas a proveedores.
       </p>
-
     </div>
 
-
     <div class="purchases__actions">
-
       <button
         type="button"
-        (click)="volverAlDashboard()">
-
-        Dashboard
-
-      </button>
-
-
-      <button
-        type="button"
+        class="purchases__button-primary"
         (click)="registrarCompra()">
+        <mat-icon>
+          add
+        </mat-icon>
 
         Registrar compra
 
@@ -39,195 +35,385 @@
   </header>
 
 
-  <section class="purchases__filters">
+  <!-- ==========================================================
+       CONTENIDO
+       ========================================================== -->
 
-    <div class="purchases__field">
-
-      <label for="busqueda">
-        Buscar
-      </label>
-
-      <input
-        id="busqueda"
-        type="text"
-        [(ngModel)]="filtroBusqueda"
-        (input)="aplicarFiltros()"
-        placeholder="Código o proveedor">
-
-    </div>
+  <div class="purchases__content">
 
 
-    <div class="purchases__field">
+    <!-- ========================================================
+         FILTROS
+         ======================================================== -->
 
-      <label for="estado">
-        Estado
-      </label>
+    <section class="purchases__filters">
 
-      <select
-        id="estado"
-        [(ngModel)]="filtroEstado"
-        (change)="aplicarFiltros()">
+      <mat-form-field class="purchases__field">
 
-        <option value="TODOS">
-          Todos
-        </option>
+        <mat-label>
+          Estado
+        </mat-label>
 
-        <option value="REGISTRADA">
-          Registradas
-        </option>
+        <mat-select
+          id="estado"
+          [(ngModel)]="filtroEstado"
+          (selectionChange)="aplicarFiltros()">
 
-        <option value="ANULADA">
-          Anuladas
-        </option>
+          <mat-option value="TODOS">
+            Todos los Estados
+          </mat-option>
 
-      </select>
+          <mat-option value="REGISTRADA">
+            Registradas
+          </mat-option>
 
-    </div>
+          <mat-option value="ANULADA">
+            Anuladas
+          </mat-option>
 
+        </mat-select>
 
-    <button
-      type="button"
-      (click)="limpiarFiltros()">
-
-      Limpiar
-
-    </button>
-
-  </section>
+      </mat-form-field>
 
 
-  <div
-    *ngIf="loading"
-    class="purchases__state">
+      <button
+        mat-button
+        matButton="outlined"
+        class="clear_filter"
+        (click)="limpiarFiltros()">
 
-    Cargando compras...
+        <mat-icon>
+          filter_alt_off
+        </mat-icon>
+
+        Limpiar filtros
+
+      </button>
+
+    </section>
+
+
+    <!-- ========================================================
+         LOADING
+         ======================================================== -->
+
+    <section
+      *ngIf="loading"
+      class="purchases__loading">
+
+      <div class="purchases__spinner"></div>
+
+      <span>
+        Cargando compras...
+      </span>
+
+    </section>
+
+
+    <!-- ========================================================
+         ERROR
+         ======================================================== -->
+
+    <section
+      *ngIf="!loading && errorMessage"
+      class="purchases__error">
+
+      <mat-icon>
+        error_outline
+      </mat-icon>
+
+      <span>
+        {{ errorMessage }}
+      </span>
+
+    </section>
+
+
+    <!-- ========================================================
+         PANEL
+         ======================================================== -->
+
+    <section
+      *ngIf="!loading && !errorMessage"
+      class="purchases__panel">
+
+
+      <!-- ======================================================
+           HEADER DEL PANEL
+           ====================================================== -->
+
+      <div class="purchases__panel-header">
+
+        <div>
+
+          <h2>
+            Compras registradas
+          </h2>
+
+          <p>
+            Consulta y gestiona las compras realizadas a proveedores.
+          </p>
+
+        </div>
+
+
+        <!-- ====================================================
+             BUSCADOR
+             ==================================================== -->
+
+        <div class="purchases__field-search">
+
+          <mat-form-field>
+
+            <mat-label>
+              Buscar
+            </mat-label>
+
+            <input
+              matInput
+              id="busqueda"
+              type="text"
+              placeholder="Código o proveedor"
+              [(ngModel)]="filtroBusqueda"
+              (input)="aplicarFiltros()">
+
+            <mat-icon matSuffix>
+              search
+            </mat-icon>
+
+          </mat-form-field>
+
+        </div>
+
+
+        <!-- ====================================================
+             CONTADOR
+             ==================================================== -->
+
+        <div class="purchases__count">
+
+          {{ comprasFiltradas.length }} registros
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================================
+           TABLA
+           ====================================================== -->
+
+      <div
+        class="purchases__table-wrapper"
+        *ngIf="comprasFiltradas.length > 0">
+
+        <table class="purchases__table">
+
+          <thead>
+
+            <!-- ==================================================
+                 PAGINADOR
+                 ================================================== -->
+
+            <tr class="paginas">
+
+              <td>
+
+                <span>
+                  Página {{ paginaActual + 1 }}
+                  de {{ obtenerTotalPaginas() }}
+                </span>
+
+              </td>
+
+              <td colspan="5">
+
+                <div class="purchases__paginator">
+
+                  <mat-paginator
+                    [length]="totalRegistros"
+                    [pageIndex]="paginaActual"
+                    [pageSize]="registrosPorPagina"
+                    [pageSizeOptions]="[5, 10, 25, 100, 200]"
+                    [showFirstLastButtons]="true"
+                    (page)="handlePageEvent($event)">
+
+                  </mat-paginator>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+
+            <!-- ==================================================
+                 ENCABEZADOS
+                 ================================================== -->
+
+            <tr>
+
+              <th>
+                Código
+              </th>
+
+              <th>
+                Fecha
+              </th>
+
+              <th>
+                Proveedor
+              </th>
+
+              <th>
+                Total
+              </th>
+
+              <th>
+                Estado
+              </th>
+
+              <th>
+                Acciones
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <!-- ====================================================
+               DATOS
+               ==================================================== -->
+
+          <tbody>
+
+            <tr
+              *ngFor="let compra of comprasFiltradas">
+
+              <!-- CÓDIGO -->
+
+              <td>
+
+                <div class="purchases__name">
+
+                  <strong>
+                    {{ compra.codigoCompra }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <!-- FECHA -->
+
+              <td>
+
+                {{ compra.fecha
+                  | date:'dd/MM/yyyy HH:mm' }}
+
+              </td>
+
+
+              <!-- PROVEEDOR -->
+
+              <td>
+
+                {{ compra.proveedorNombre }}
+
+              </td>
+
+
+              <!-- TOTAL -->
+
+              <td>
+
+                <span class="purchases__price">
+
+                  {{ compra.total
+                    | currency:'COP':'symbol':'1.0-0' }}
+
+                </span>
+
+              </td>
+
+
+              <!-- ESTADO -->
+
+              <td>
+
+                <span
+                  class="purchases__status"
+                  [class.purchases__status--cancelled]="
+                    compra.estado === 'ANULADA'
+                  ">
+
+                  <span class="purchases__status-dot"></span>
+
+                  {{ obtenerTextoEstado(compra.estado) }}
+
+                </span>
+
+              </td>
+
+
+              <!-- ACCIONES -->
+
+              <td>
+
+                <div class="purchases__row-actions">
+
+                  <button
+                    type="button"
+                    class="purchases__row-button"
+                    (click)="verDetalle(compra)">
+
+                    <mat-icon>
+                      visibility
+                    </mat-icon>
+
+                    Ver
+
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- ======================================================
+           SIN RESULTADOS
+           ====================================================== -->
+
+      <div
+        *ngIf="comprasFiltradas.length === 0"
+        class="purchases__empty">
+
+        <mat-icon>
+          shopping_cart
+        </mat-icon>
+
+        <h3>
+          No hay compras
+        </h3>
+
+        <p>
+          No se encontraron compras con los filtros seleccionados.
+        </p>
+
+      </div>
+
+    </section>
 
   </div>
-
-
-  <div
-    *ngIf="!loading && errorMessage"
-    class="purchases__state purchases__state--error">
-
-    {{ errorMessage }}
-
-  </div>
-
-
-  <section
-    *ngIf="!loading && !errorMessage"
-    class="purchases__table-container">
-
-    <table class="purchases__table">
-
-      <thead>
-
-        <tr>
-
-          <th>
-            Código
-          </th>
-
-          <th>
-            Fecha
-          </th>
-
-          <th>
-            Proveedor
-          </th>
-
-          <th>
-            Total
-          </th>
-
-          <th>
-            Estado
-          </th>
-
-          <th>
-            Acciones
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        <tr
-          *ngFor="let compra of comprasFiltradas">
-
-          <td>
-            <strong>
-              {{ compra.codigoCompra }}
-            </strong>
-          </td>
-
-
-          <td>
-            {{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}
-          </td>
-
-
-          <td>
-            {{ compra.proveedorNombre }}
-          </td>
-
-          <td>
-            {{ compra.total | currency:'COP':'symbol':'1.0-0' }}
-          </td>
-
-
-          <td>
-
-            <span
-              [class.purchases__status--registered]="
-                compra.estado === 'REGISTRADA'
-              "
-              [class.purchases__status--cancelled]="
-                compra.estado === 'ANULADA'
-              ">
-
-              {{ obtenerTextoEstado(compra.estado) }}
-
-            </span>
-
-          </td>
-
-
-          <td>
-
-            <button
-              type="button"
-              (click)="verDetalle(compra)">
-
-              Ver
-
-            </button>
-
-          </td>
-
-        </tr>
-
-
-        <tr
-          *ngIf="comprasFiltradas.length === 0">
-
-          <td
-            colspan="7"
-            class="purchases__empty">
-
-            No hay compras que coincidan con los filtros.
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </section>
 
 </section>

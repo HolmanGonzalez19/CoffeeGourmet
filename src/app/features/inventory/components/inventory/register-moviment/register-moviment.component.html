@@ -1,0 +1,78 @@
+<section class="suppliers-dialog" *ngIf="!loading">
+  <header class="suppliers-dialog__header">
+    <div class="suppliers-dialog__heading">
+      <h2> Nuevo Movimiento producto: {{ nombreproducto }}</h2>
+      <p> Registra un nuevo movimiento en el sistema.'
+      </p>
+    </div>
+    <button
+      type="button"
+      class="suppliers-dialog__close"
+      (click)="cerrarModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <div class="suppliers-dialog__content">
+    <section class="suppliers-dialog__fields">
+        <mat-form-field class="suppliers-dialog__field">
+            <mat-label> Tipo de movimiento </mat-label>
+            <mat-select id="movimiento" [(ngModel)]="movimientoForm.tipoMovimiento" name="movimiento" #movimiento="ngModel" required>
+            <mat-option [value]="null"> Seleccione un movimiento </mat-option>
+              <mat-option value="ENTRADA"> Entrada </mat-option>
+              <mat-option value="SALIDA">Salida</mat-option>
+              <mat-option value="AJUSTE"> Ajuste </mat-option>
+            </mat-select>
+            <mat-error class="campoObligatorio" *ngIf="movimiento.invalid && movimiento.touched">
+            Campo Obligatorio
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="suppliers-dialog__field">
+            <mat-label> Cantidad </mat-label>
+            <input matInput id="cantidad" type="number" maxlength="150"
+            [(ngModel)]="movimientoForm.cantidad" placeholder="cantidad de prductos"
+            name="cantidad" #cantidad="ngModel">
+        </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Motivo </mat-label>
+        <input matInput id="motivo" type="text" maxlength="150"
+          [(ngModel)]="movimientoForm.motivo" placeholder="Motivo del movimiento"
+          name="motivo" #motivo="ngModel">
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+            <mat-label> Refrencia de compra </mat-label>
+            <mat-select id="referencia" [(ngModel)]="movimientoForm.compraId" name="referencia" #referencia="ngModel" required>
+            <mat-option [value]="null"> Seleccione una referencia </mat-option>
+             <mat-option *ngFor="let referencia of referencias" [value]="referencia.id">
+                {{ referencia.descripcion }}
+            </mat-option>
+            </mat-select>
+            <mat-error class="campoObligatorio" *ngIf="referencia.invalid && referencia.touched">
+            Campo Obligatorio
+            </mat-error>
+        </mat-form-field>
+    </section>
+  </div>
+  <footer class="suppliers-dialog__actions">
+    <button
+      type="button"
+      class="suppliers-dialog__button suppliers-dialog__button--secondary"
+      (click)="cerrarModal()"
+      [disabled]="guardandoMovimiento">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="suppliers-dialog__button suppliers-dialog__button--primary"
+      (click)="validarMovimiento(movimiento, referencia)"
+      [disabled]="guardandoMovimiento">
+      <mat-icon>
+        save
+      </mat-icon>
+      Guardar Movimiento
+    </button>
+  </footer>
+</section>
+<section *ngIf="loading" class="products__loading">
+    <div class="products__spinner"></div>
+    <span> Cargando</span>
+</section>

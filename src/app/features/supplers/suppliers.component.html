@@ -1,0 +1,167 @@
+<section class="suppliers">
+  <header class="suppliers__header">
+    <div>
+      <span class="suppliers__eyebrow"> ADMINISTRACIÓN </span>
+      <h1> Proveedores </h1>
+      <p> Gestión y consulta de proveedores. </p>
+    </div>
+    <div class="suppliers__actions">
+      <button
+        type="button"
+        class="suppliers__button-primary"
+        (click)="crearProveedor()">
+        <mat-icon>add</mat-icon>
+        Nuevo Proveedor
+      </button>
+    </div>
+  </header>
+  
+  <div class="__content">
+    <section class="suppliers__filters">
+        <mat-form-field class="suppliers__field">
+          <mat-label> Estado </mat-label>
+          <mat-select id="estado" [(ngModel)]="filtroEstado" (selectionChange)="cargarProveedores()">
+            <mat-option value=""> Todos los Estados </mat-option>
+            <mat-option [value]="'ACTIVOS'"> Activos </mat-option>
+            <mat-option [value]="'INACTIVOS'"> Inactivos </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button matButton="outlined" class="clear_filter" (click)="limpiarFiltros()"> 
+          <mat-icon> filter_alt_off </mat-icon>
+          Limpiar filtros
+        </button>
+    </section>
+
+    <section *ngIf="loading" class="suppliers__loading">
+      <div class="suppliers__spinner"></div>
+      <span> Cargando proveedores... </span>
+    </section>
+
+    <section *ngIf="!loading && errorMessage" class="suppliers__error">
+      <mat-icon> error_outline </mat-icon>
+      <span> {{ errorMessage }} </span>
+    </section>
+
+    <section *ngIf="!loading && !errorMessage" class="suppliers__panel">
+      <div class="suppliers__panel-header">
+        <div>
+          <h2> Proveedores registrados </h2>
+          <p> Consulta, edita y administra los proveedores del sistema. </p>
+        </div>
+
+        <div class="suppliers__field-search">
+           <mat-form-field>
+            <mat-label> Buscar </mat-label>
+            <input
+              matInput
+              id="busqueda"
+              type="text"
+              placeholder="Nombre..."
+              [(ngModel)]="filtroBusqueda"
+              (input)="aplicarFiltros()">
+            <mat-icon matSuffix> search </mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="suppliers__count">
+          {{ suppliersFiltrados.length }} registros
+        </div>
+      </div>
+
+      <div
+        class="suppliers__table-wrapper"
+        *ngIf="suppliersFiltrados.length > 0">
+        <table class="suppliers__table">
+          <thead>
+            <tr class="paginas">
+              <td>
+                <span>
+                  Página {{ paginaActual + 1 }} de {{ obtenerTotalPaginas() }}
+                </span>
+              </td>
+              <td colspan="8">
+                <div class="sales__paginator">
+                  <mat-paginator
+                    [length]="totalRegistros"
+                    [pageIndex]="paginaActual"
+                    [pageSize]="registrosPorPagina"
+                    [pageSizeOptions]="[5, 10, 25, 100, 200]"
+                    [showFirstLastButtons]="true"
+                    (page)="handlePageEvent($event)">
+                  </mat-paginator>
+                </div>
+              </td>                
+            </tr>
+
+            <tr>
+              <th> Nombre </th>
+              <th> Contacto </th>
+              <th> Telefono </th>
+              <th> Correo </th>
+              <th> Observaciones </th>
+              <th> Estado </th>
+              <th> Acciones </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let supplier of suppliersPaginados">
+              <td>
+                <div class="suppliers__name">
+                  <strong>
+                    {{ supplier.nombre }}
+                  </strong>
+                </div>
+              </td>
+              <td> {{ supplier.contacto }} </td>
+              <td> {{ supplier.telefono }} </td>
+              <td> {{ supplier.correo }} </td>
+              <td> {{ supplier.observacion }} </td>
+              <td>
+                <span
+                  class="suppliers__status"
+                  [class.suppliers__status--inactive]="!supplier.activo">
+                  <span class="suppliers__status-dot"></span>
+                  {{ obtenerTextoEstado(supplier.activo) }}
+                </span>
+              </td>
+              <td>
+                <div class="suppliers__row-actions">
+                  <button
+                    type="button"
+                    class="suppliers__row-button"
+                    (click)="editarProveedor(supplier)">
+                    <mat-icon> edit </mat-icon>
+                  </button>
+
+                  <button
+                    mat-button
+                    matButton="outlined" 
+                    [ngClass]="{
+                      'suppliers__des-act-boton': supplier.activo,
+                      'suppliers__des-act-boton--active': !supplier.activo
+                    }"
+                    (click)="cambiarEstado(supplier)">
+                    <mat-icon>
+                      {{ supplier.activo ? 'block' : 'check_circle' }}
+                    </mat-icon>
+                    {{ supplier.activo ? 'Desactivar' : 'Activar' }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        *ngIf="suppliersFiltrados.length === 0"
+        class="suppliers__empty">
+        <mat-icon> inventory_2 </mat-icon>
+        <h3> No hay Proveedor </h3>
+        <p> No se encontraron Proveedores con los filtros seleccionados. </p>
+      </div>
+    </section>
+  </div>
+</section>

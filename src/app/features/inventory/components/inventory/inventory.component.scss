@@ -1,697 +1,702 @@
-.inventory {
+@use '../../../../../styles/variables' as vars;
 
-  padding: 24px;
-
+.suppliers {
   min-height: 100%;
-
-  background: #f5f6f8;
-
-
-  // ============================================================
-  // HEADER
-  // ============================================================
+  padding: vars.$spacing-2xl;
+  background: vars.$color-background;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-xl;
+  font-family: vars.$font-family-base;
 
   &__header {
-
     display: flex;
-
-    justify-content: space-between;
-
     align-items: center;
-
-    margin-bottom: 24px;
-
+    justify-content: space-between;
+    gap: vars.$spacing-lg;
+    padding: vars.$spacing-lg vars.$spacing-xl;
+    border-radius: vars.$radius-lg;
+    background: vars.$color-surface-secondary;
+    box-shadow: vars.$shadow-sm;
   }
 
-
-  &__header h1 {
-
-    margin: 0;
-
-    font-size: 28px;
-
+  &__eyebrow {
+    display: block;
+    margin-bottom: vars.$spacing-xs;
+    font-size: vars.$font-size-xs;
     font-weight: 700;
-
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: vars.$color-text-muted;
   }
 
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
 
   &__header p {
-
-    margin: 6px 0 0;
-
-    color: #6b7280;
-
+    margin-top: vars.$spacing-sm;
+    color: vars.$color-text-secondary;
+    font-size: vars.$font-size-md;
   }
 
-
-  &__actions {
-
+  &__actions,
+  &__form-actions {
     display: flex;
-
-    gap: 10px;
-
-  }
-
-
-  &__actions button {
-
-    padding: 10px 16px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 6px;
-
-    background: white;
-
-    cursor: pointer;
-
-  }
-
-
-  // ============================================================
-  // FILTROS
-  // ============================================================
-
-  &__filters {
-
-    display: grid;
-
-    grid-template-columns:
-      minmax(260px, 2fr)
-      minmax(200px, 1fr)
-      auto;
-
-    gap: 16px;
-
-    align-items: end;
-
-    padding: 20px;
-
-    background: white;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 8px;
-
-    margin-bottom: 16px;
-
-  }
-
-
-  &__filter {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 6px;
-
-  }
-
-
-  &__filter label {
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    color: #374151;
-
-  }
-
-
-  &__filter input,
-  &__filter select {
-
-    height: 40px;
-
-    padding: 0 10px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 6px;
-
-    background: white;
-
-    font-size: 14px;
-
-  }
-
-
-  &__filter input:focus,
-  &__filter select:focus {
-
-    outline: none;
-
-    border-color: #6b7280;
-
-  }
-
-
-  &__button-clear {
-
-    height: 40px;
-
-    padding: 0 14px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 6px;
-
-    background: #f9fafb;
-
-    cursor: pointer;
-
-    white-space: nowrap;
-
-  }
-
-
-  &__button-clear:hover {
-
-    background: #f3f4f6;
-
-  }
-
-
-  // ============================================================
-  // SUMMARY
-  // ============================================================
-
-  &__summary {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    margin-bottom: 10px;
-
-    color: #6b7280;
-
-    font-size: 14px;
-
-  }
-
-
-  &__summary strong {
-
-    color: #111827;
-
-  }
-
-
-  // ============================================================
-  // TABLE
-  // ============================================================
-
-  &__table-container {
-
-    overflow-x: auto;
-
-    background: white;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 8px;
-
-  }
-
-
-  &__table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    min-width: 1050px;
-
-  }
-
-
-  &__table th {
-
-    padding: 14px 12px;
-
-    text-align: left;
-
-    background: #f9fafb;
-
-    border-bottom: 1px solid #e5e7eb;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    color: #4b5563;
-
-    text-transform: uppercase;
-
-  }
-
-
-  &__table td {
-
-    padding: 14px 12px;
-
-    border-bottom: 1px solid #f0f1f3;
-
-    font-size: 14px;
-
-    color: #374151;
-
-    vertical-align: middle;
-
-  }
-
-
-  &__table tbody tr:hover {
-
-    background: #fafafa;
-
-  }
-
-
-  // ============================================================
-  // PRODUCT NAME
-  // ============================================================
-
-  &__name {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 3px;
-
-  }
-
-
-  &__name strong {
-
-    color: #111827;
-
-  }
-
-
-  &__name small {
-
-    color: #9ca3af;
-
-    font-size: 12px;
-
-  }
-
-
-  // ============================================================
-  // QUANTITY
-  // ============================================================
-
-  &__quantity {
-
-    color: #111827;
-
-    font-size: 16px;
-
-  }
-
-
-  // ============================================================
-  // STATUS
-  // ============================================================
-
-  &__status {
-
-    display: inline-flex;
-
     align-items: center;
+    gap: vars.$spacing-sm;
+  }
 
-    padding: 5px 9px;
+  button {
+    font-family: inherit;
+  }
 
-    border-radius: 999px;
-
-    background: #ecfdf3;
-
-    color: #15803d;
-
-    font-size: 12px;
-
+  &__button-primary{
+    min-height: 40px;
+    padding: 0 vars.$spacing-lg;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-md;
     font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-sm;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
 
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
   }
 
+  &__button-primary {
+    border: 1px solid vars.$color-primary;
+    background: vars.$color-primary;
+    color: vars.$color-surface;
 
-  &__status--low {
-
-    background: #fffbeb;
-
-    color: #b45309;
-
+    &:hover:not(:disabled) {
+      background: vars.$color-primary-dark;
+      border-color: vars.$color-primary-dark;
+    }
   }
 
+  /* =========================================================
+     FORMULARIO
+     ========================================================= */
 
-  &__status--empty {
-
-    background: #fef2f2;
-
-    color: #b91c1c;
-
+  &__form-container {
+    margin-bottom: vars.$spacing-2xl;
   }
 
+  &__form {
+    padding: vars.$spacing-2xl;
+    background: vars.$color-surface;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-xl;
+    box-shadow: vars.$shadow-sm;
+  }
 
-  // ============================================================
-  // ACTIONS
-  // ============================================================
-
-  &__row-actions {
-
+  &__form-header {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: vars.$spacing-lg;
+    margin-bottom: vars.$spacing-xl;
 
-    gap: 6px;
+    h2 {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+    }
 
-    flex-wrap: wrap;
-
+    p {
+      margin-top: vars.$spacing-xs;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-md;
+    }
   }
 
-
-  &__row-actions button {
-
-    padding: 7px 10px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 5px;
-
-    background: white;
-
-    font-size: 12px;
-
+  &__form-close {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-md;
+    background: vars.$color-surface;
+    color: vars.$color-text-secondary;
     cursor: pointer;
 
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  }
-
-
-  &__row-actions button:hover {
-
-    background: #f3f4f6;
-
-  }
-
-
-  // ============================================================
-  // MESSAGES
-  // ============================================================
-
-  &__message {
-
-    padding: 40px;
-
-    text-align: center;
-
-    background: white;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 8px;
-
-    color: #6b7280;
-
-  }
-
-
-  &__message--error {
-
-    color: #b91c1c;
-
-  }
-
-
-  &__empty {
-
-    padding: 50px !important;
-
-    text-align: center;
-
-    color: #9ca3af !important;
-
-  }
-
-
-  // ============================================================
-  // RESPONSIVE
-  // ============================================================
-
-  @media (max-width: 900px) {
-
-    &__filters {
-
-      grid-template-columns: 1fr 1fr;
-
+    &:hover {
+      background: vars.$color-surface-secondary;
+      color: vars.$color-text-primary;
     }
 
-
-    &__button-clear {
-
-      width: 100%;
-
+    mat-icon {
+      font-size: 20px;
     }
-
   }
 
+  &__form-error {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+    margin-bottom: vars.$spacing-lg;
+    padding: vars.$spacing-md;
+    border: 1px solid vars.$color-danger;
+    border-radius: vars.$radius-md;
+    background: vars.$color-surface;
+    color: vars.$color-danger;
+    font-size: vars.$font-size-md;
 
-  @media (max-width: 700px) {
-
-    padding: 16px;
-
-
-    &__header {
-
-      flex-direction: column;
-
-      align-items: flex-start;
-
-      gap: 16px;
-
+    mat-icon {
+      font-size: 20px;
     }
-
-
-    &__filters {
-
-      grid-template-columns: 1fr;
-
-    }
-
   }
 
-// ============================================================
-// FORMULARIO MOVIMIENTO
-// ============================================================
-
-&__movement-form {
-
-  margin-top: 20px;
-
-  padding: 24px;
-
-  background: white;
-
-  border: 1px solid #e5e7eb;
-
-  border-radius: 8px;
-
-}
-
-
-&__movement-header {
-
-  margin-bottom: 20px;
-
-}
-
-
-&__movement-header h2 {
-
-  margin: 0;
-
-  font-size: 20px;
-
-  font-weight: 700;
-
-  color: #111827;
-
-}
-
-
-&__movement-header p {
-
-  margin: 6px 0 0;
-
-  color: #6b7280;
-
-  font-size: 14px;
-
-}
-
-
-&__movement-header strong {
-
-  color: #111827;
-
-}
-
-
-// ============================================================
-// FORM GROUP
-// ============================================================
-
-&__form-group {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-
-  margin-bottom: 16px;
-
-}
-
-
-&__form-group label {
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  color: #374151;
-
-}
-
-
-&__form-group input,
-&__form-group select {
-
-  width: 100%;
-
-  height: 40px;
-
-  padding: 0 10px;
-
-  box-sizing: border-box;
-
-  border: 1px solid #d1d5db;
-
-  border-radius: 6px;
-
-  background: white;
-
-  font-size: 14px;
-
-}
-
-
-&__form-group input:focus,
-&__form-group select:focus {
-
-  outline: none;
-
-  border-color: #6b7280;
-
-}
-
-
-// ============================================================
-// ACCIONES
-// ============================================================
-
-&__form-actions {
-
-  display: flex;
-
-  justify-content: flex-end;
-
-  gap: 10px;
-
-  margin-top: 24px;
-
-}
-
-
-&__form-actions button {
-
-  padding: 10px 16px;
-
-  border: 1px solid #d1d5db;
-
-  border-radius: 6px;
-
-  background: white;
-
-  cursor: pointer;
-
-}
-
-
-&__form-actions button:disabled {
-
-  opacity: 0.6;
-
-  cursor: not-allowed;
-
-}
-
-
-&__button-primary {
-
-  background: #111827 !important;
-
-  color: white;
-
-  border-color: #111827 !important;
-
-}
-
-
-// ============================================================
-// ERROR
-// ============================================================
-
-&__message--error {
-
-  margin-bottom: 16px;
-
-  color: #b91c1c;
-
-}
-
-
-// ============================================================
-// RESPONSIVE
-// ============================================================
-
-@media (max-width: 700px) {
-
-  &__movement-form {
-
-    padding: 16px;
-
+  &__form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: vars.$spacing-md vars.$spacing-lg;
   }
 
+  &__field {
+    gap: 4px;
+    padding: 0px 20px;
+    width: 28% !important;
+  }
+  
+  &__field-search{
+    width: 53% !important;
+  }
+
+  &__field--full {
+    grid-column: 1 / -1;
+  }
 
   &__form-actions {
-
-    flex-direction: column;
-
+    justify-content: flex-end;
+    margin-top: vars.$spacing-lg;
+    padding-top: vars.$spacing-lg;
+    border-top: 1px solid vars.$color-border-light;
   }
 
+  /* =========================================================
+     ANGULAR MATERIAL - INPUTS / SELECTS
+     ========================================================= */
 
-  &__form-actions button {
-
+  .mat-mdc-form-field {
     width: 100%;
+  }
+
+  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
+    padding: 10px 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: vars.$color-surface;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 44px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .mat-mdc-select-panel {
+    background-color: vars.$color-surface !important;
+    box-shadow: vars.$shadow-md !important;
+    border-radius: vars.$radius-md !important;
+  }
+
+  .mat-mdc-option:hover {
+    background-color: vars.$color-primary-light !important;
+  }
+
+  /* =========================================================
+     FILTROS
+     ========================================================= */
+
+  &__filters {  
+    border: 1px solid vars.$color-border-light;
+    border-radius: vars.$radius-lg;
+    background: vars.$color-surface;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding: vars.$spacing-xl;
+    margin-bottom: vars.$spacing-lg;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-xl;
+  }
+
+  &__filter-field {
+    width: 100%;
+  }
+
+  /* =========================================================
+     LOADING / ERROR
+     ========================================================= */
+
+  &__loading,
+  &__error {
+    min-height: 180px;
+    padding: vars.$spacing-2xl;
+    background: vars.$color-surface;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-xl;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-md;
+
+    color: vars.$color-text-secondary;
+    font-size: vars.$font-size-md;
+  }
+
+  &__error {
+    flex-direction: row;
+    color: vars.$color-danger;
+
+    mat-icon {
+      font-size: 22px;
+    }
+  }
+
+  &__spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid vars.$color-border;
+    border-top-color: vars.$color-primary;
+    border-radius: vars.$radius-round;
+    animation: suppliers-spin 0.8s linear infinite;
+  }
+
+  /* =========================================================
+     PANEL TABLA
+     ========================================================= */
+
+  &__panel {
+    max-height: 600px;
+    overflow: overlay;
+    background: vars.$color-surface;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-xl;
+    box-shadow: vars.$shadow-sm;
+  }
+
+  &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-lg;
+    padding: vars.$spacing-xl;
+
+    h2 {
+      font-size: vars.$font-size-xl;
+      font-weight: 700;
+    }
+
+    p {
+      margin-top: vars.$spacing-xs;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-md;
+    }
+  }
+
+  &__count {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    border-radius: vars.$radius-md;
+    background: vars.$color-primary-light;
+    color: vars.$color-primary-dark;
+    font-size: vars.$font-size-sm;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* =========================================================
+     TABLA
+     ========================================================= */
+
+  &__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  &__table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    font-size: vars.$font-size-md;
+
+    thead {
+      background: vars.$color-surface-secondary;
+    }
+
+    th {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      border-bottom: 1px solid vars.$color-border;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-sm;
+      font-weight: 700;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      border-bottom: 1px solid vars.$color-border-light;
+      color: vars.$color-text-primary;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background: vars.$color-background;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__code {
+    color: vars.$color-text-secondary;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 170px;
+
+    strong {
+      font-size: vars.$font-size-md;
+      font-weight: 600;
+    }
+
+    small {
+      max-width: 220px;
+      overflow: hidden;
+      color: vars.$color-text-muted;
+      font-size: vars.$font-size-sm;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__type {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: vars.$radius-sm;
+    background: vars.$color-surface-secondary;
+    color: vars.$color-text-secondary;
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+  }
+
+  &__price {
+    color: vars.$color-text-primary;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__des-act-boton{
+    background-color: vars.$color-surface;
+    color: vars.$color-danger !important;
+    border: 1px solid vars.$color-danger !important;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: vars.$color-danger;
+      color: vars.$color-surface !important;
+    }
+  }
+
+  &__des-act-boton--active{
+    background-color: vars.$color-surface;
+    color: vars.$color-success !important;
+    border: 1px solid vars.$color-success !important;
+    border-radius: vars.$radius-md;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: vars.$color-success;
+      color: vars.$color-surface !important;
+    }
+  }
+
+  /* =========================================================
+     ESTADO
+     ========================================================= */
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: vars.$radius-md;
+    background: vars.$color-success-light;
+    color: vars.$color-success;
+    font-size: vars.$font-size-xs;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: vars.$radius-round;
+    background: currentColor;
+  }
+
+  &__status--inactive {
+    background: vars.$color-danger-light;
+    color: vars.$color-danger;
+  }
+
+  /* =========================================================
+     ACCIONES DE FILA
+     ========================================================= */
+
+  &__row-actions {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    white-space: nowrap;
+  }
+
+  &__row-button {
+    min-height: 32px;
+    padding: 0 vars.$spacing-sm;
+    border: 1px solid vars.$color-border;
+    border-radius: vars.$radius-sm;
+    background: vars.$color-surface;
+    color: vars.$color-text-primary;
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    &:hover {
+      background: vars.$color-primary-light;
+      border-color: vars.$color-primary;
+      color: vars.$color-primary-dark;
+    }
+
+    mat-icon {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+    }
+  }
+
+  /* =========================================================
+     EMPTY
+     ========================================================= */
+
+  &__empty {
+    min-height: 260px;
+    padding: vars.$spacing-2xl;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    mat-icon {
+      width: 44px;
+      height: 44px;
+      margin-bottom: vars.$spacing-md;
+      color: vars.$color-text-muted;
+      font-size: 44px;
+    }
+
+    h3 {
+      font-size: vars.$font-size-lg;
+      font-weight: 700;
+    }
+
+    p {
+      margin-top: vars.$spacing-xs;
+      color: vars.$color-text-secondary;
+      font-size: vars.$font-size-md;
+    }
+  }
+
+  
+}
+
+.clear_filter{
+  background: vars.$color-surface !important;
+  color: vars.$color-primary-dark !important;
+  font-size: vars.$font-size-sm !important;
+  border-radius: vars.$radius-md !important;
+  font-weight: 600 !important;
+  border: 1px solid vars.$color-text-primary;
+  &:hover {
+    border: 1px solid vars.$color-primary !important;
+    color: vars.$color-primary !important;
+  }
+}
+
+/* ============================================================
+  INPUTS
+  ============================================================ */
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
+  padding: 10px 0px;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: vars.$color-surface !important;
+  box-shadow: vars.$shadow-md !important;
+  border-radius: vars.$radius-md !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background-color: vars.$color-primary-light !important;
+}
+
+.clear_filter{
+  background: vars.$color-surface !important;
+  color: vars.$color-primary-dark !important;
+  font-size: vars.$font-size-sm !important;
+  border-radius: vars.$radius-md !important;
+  font-weight: 600 !important;
+  border: 1px solid vars.$color-text-primary;
+  &:hover {
+    border: 1px solid vars.$color-primary !important;
+    color: vars.$color-primary !important;
+  }
+}
+
+::ng-deep .mat-mdc-select-trigger{
+  padding: 0px 10px;
+}
+
+::ng-deep .mat-mdc-icon-button {
+  color: vars.$color-primary !important;
+
+  &:hover {
+    color: vars.$color-primary-dark !important;
+  }
+}
+
+.paginas{  
+  background-color: vars.$color-surface !important;
+  &:hover {
+    background-color: vars.$color-surface !important;
+  }
+}
+
+@keyframes suppliers-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+
+  .suppliers {
+
+    &__filters-fields {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__form-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
   }
 
 }
 
+@media (max-width: 768px) {
+
+  .suppliers {
+    padding: vars.$spacing-lg;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__actions {
+      width: 100%;
+    }
+
+    &__button-primary {
+      flex: 1;
+    }
+
+    &__filters-fields {
+      grid-template-columns: 1fr;
+    }
+
+    &__form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__field--full {
+      grid-column: auto;
+    }
+
+    &__panel-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__paginator {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: vars.$spacing-md;
+    }
+  }
 }

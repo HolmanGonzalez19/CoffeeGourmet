@@ -112,17 +112,17 @@
               <td> {{ usuario.fechaCreacion | date:'dd/MM/yyyy' }} </td>
               <td> {{ usuario.rolNombre }} </td>
               <td>
-                <div class="user__row-actions">
+                <div class="users__row-actions">
                   <button
                     type="button"
-                    class="user__row-button"
+                    class="users__row-button"
                     (click)="editarUsuario(usuario)">
                     <mat-icon> edit </mat-icon>
                   </button>
                   <button
                     mat-button matButton="outlined" 
-                    [ngClass]="{'user__des-act-boton': usuario.activo,
-                      'user__des-act-boton--active': !usuario.activo}"
+                    [ngClass]="{'users__des-act-boton': usuario.activo,
+                      'users__des-act-boton--active': !usuario.activo}"
                     (click)="cambiarEstado(usuario)">
                     <mat-icon>{{ usuario.activo ? 'block' : 'check_circle' }} </mat-icon>
                     {{ usuario.activo ? 'Desactivar' : 'Activar' }}

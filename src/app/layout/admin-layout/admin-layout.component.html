@@ -87,6 +87,16 @@
 
 <a
   mat-list-item
+  routerLink="suppliers"
+  routerLinkActive="admin-layout__item--active">
+
+  <mat-icon matListItemIcon>local_shipping</mat-icon>
+  <span matListItemTitle>Proveedores</span>
+
+</a>
+
+<a
+  mat-list-item
   routerLink="users"
   routerLinkActive="admin-layout__item--active">
 
@@ -127,9 +137,8 @@
       </div>
 
       <div class="admin-layout__header-user">
-
         <div class="admin-layout__avatar">
-          A
+          {{ authService.getCurrentUser()?.nombre?.charAt(0)?.toUpperCase() }}
         </div>
 
         <div>

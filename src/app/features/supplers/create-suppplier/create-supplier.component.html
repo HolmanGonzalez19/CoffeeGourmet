@@ -1,0 +1,85 @@
+<section class="suppliers-dialog" *ngIf="!loading">
+  <header class="suppliers-dialog__header">
+    <div class="suppliers-dialog__heading">
+      <h2> {{ modoEdicion ? 'Editar Proveedor' : 'Nuevo Proveedor' }} </h2>
+      <p>
+        {{ modoEdicion
+          ? 'Modifica la información del proveedor.'
+          : 'Registra un nuevo proveedor en el sistema.'
+        }}
+      </p>
+    </div>
+    <button
+      type="button"
+      class="suppliers-dialog__close"
+      (click)="cerrarModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <div class="suppliers-dialog__content">
+    <section class="suppliers-dialog__fields">
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Nombre </mat-label>
+        <input matInput id="suppleiersNombre" type="text" maxlength="150"
+          [(ngModel)]="suppliersForm.nombre" placeholder="Nombre del Proveedor"
+          name="nombre" #nombre="ngModel" required>
+        <mat-error class="campoObligatorio" *ngIf="nombre.invalid && nombre.touched">
+          Campo Obligatorio
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Contacto </mat-label>
+        <input matInput id="suppleiersContacto" type="text" maxlength="150"
+          [(ngModel)]="suppliersForm.contacto" placeholder="Contacto del Proveedor"
+          name="contacto" #contacto="ngModel">
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Telefono </mat-label>
+        <input matInput id="suppleierstelefono" type="number" maxlength="150"
+          [(ngModel)]="suppliersForm.telefono" placeholder="Telefono del Proveedor"
+          telefono="telefono" #telefono="ngModel" >
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Correo </mat-label>
+        <input matInput id="suppleiersCorreo" type="text" maxlength="150"
+          [(ngModel)]="suppliersForm.correo" placeholder="Correo del Proveedor"
+          name="correo" #correo="ngModel">
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Dirección </mat-label>
+        <input matInput id="suppleiersDireccion" type="text" maxlength="150"
+          [(ngModel)]="suppliersForm.direccion" placeholder="Direccion del Proveedor"
+          name="direccion" #direccion="ngModel">
+      </mat-form-field>
+      <mat-form-field class="suppliers-dialog__field">
+        <mat-label> Observaciones </mat-label>
+        <input matInput id="suppleiersObservacion" type="text" maxlength="150"
+          [(ngModel)]="suppliersForm.observacion" placeholder="Observacion del Proveedor"
+          name="observacion" #observacion="ngModel">
+      </mat-form-field>
+    </section>
+  </div>
+  <footer class="suppliers-dialog__actions">
+    <button
+      type="button"
+      class="suppliers-dialog__button suppliers-dialog__button--secondary"
+      (click)="cerrarModal()"
+      [disabled]="guardandoSuppliers">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="suppliers-dialog__button suppliers-dialog__button--primary"
+      (click)="validarProveedor(nombre)"
+      [disabled]="guardandoSuppliers">
+      <mat-icon>
+        {{ guardandoSuppliers ? 'hourglass_empty' : 'save' }}
+      </mat-icon>
+      {{ guardandoSuppliers ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Guardar proveedor') }}
+    </button>
+  </footer>
+</section>
+<section *ngIf="loading" class="products__loading">
+    <div class="products__spinner"></div>
+    <span> Cargando</span>
+</section>
