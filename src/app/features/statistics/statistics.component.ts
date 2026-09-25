@@ -7,12 +7,14 @@ import {
     Statistics,
     ProductSale
 } from '../../core/models/statistics.model';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-statistics',
     standalone: true,
     imports: [
-        CommonModule
+        CommonModule,
+        MatIconModule
     ],
     templateUrl: './statistics.component.html',
     styleUrl: './statistics.component.scss'

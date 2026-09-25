@@ -408,7 +408,7 @@ export class InventoryComponent implements OnInit {
             {
                 width: '800px',
                 maxWidth: 'calc(100vw - 50px)',
-                height: '536px',
+                height: '443px',
                 disableClose: true,
                 autoFocus: false,
                 panelClass: 'create-product-dialog',

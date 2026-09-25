@@ -1,5 +1,9 @@
 @use './variables' as vars;
 
+// ============================================================
+// TEXT
+// ============================================================
+
 .text-primary {
   color: vars.$color-text-primary;
 }
@@ -12,25 +16,87 @@
   color: vars.$color-text-muted;
 }
 
+
+// ============================================================
+// TEXT ALIGNMENT
+// ============================================================
+
 .text-center {
   text-align: center;
 }
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+
+// ============================================================
+// WIDTH
+// ============================================================
 
 .w-full {
   width: 100%;
 }
 
+
+// ============================================================
+// DISPLAY
+// ============================================================
+
 .flex {
   display: flex;
 }
+
+.inline-flex {
+  display: inline-flex;
+}
+
+
+// ============================================================
+// ALIGNMENT
+// ============================================================
 
 .items-center {
   align-items: center;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+
+// ============================================================
+// JUSTIFY
+// ============================================================
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-between {
   justify-content: space-between;
 }
+
+
+// ============================================================
+// GAP
+// ============================================================
 
 .gap-sm {
   gap: vars.$spacing-sm;

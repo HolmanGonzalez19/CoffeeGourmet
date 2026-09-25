@@ -156,9 +156,7 @@
             <tr
               *ngIf="movimientos.length === 0">
 
-              <td
-                colspan="6"
-                class="suppliers__empty">
+              <td colspan="6" class="suppliers__empty">
 
                 No existen movimientos registrados.
 
@@ -173,7 +171,7 @@
       </div>
 
     </section>
-<br><br>
+<br>
 
     <section class="suppliers__filters">
 
@@ -207,14 +205,11 @@
       <button
         mat-button
         matButton="outlined"
-        class="clear_filter"
         (click)="limpiarFiltros()">
 
         <mat-icon>filter_alt_off</mat-icon>
         Limpiar filtros
-
       </button>
-
     </section>
 
     <section
@@ -264,11 +259,6 @@
         <div class="suppliers__field-search">
 
           <mat-form-field>
-
-            <mat-label>
-              Buscar
-            </mat-label>
-
             <input
               matInput
               id="busqueda"

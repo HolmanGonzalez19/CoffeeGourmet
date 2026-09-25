@@ -182,9 +182,8 @@
   }
 
   &__field {
-    gap: 4px;
-    padding: 0px 20px;
-    width: 28% !important;
+   width: 28% !important;
+    padding: 0;
   }
   
   &__field-search{
@@ -203,38 +202,126 @@
   }
 
   /* =========================================================
-     ANGULAR MATERIAL - INPUTS / SELECTS
-     ========================================================= */
+   ANGULAR MATERIAL - INPUTS / SELECTS
+   ========================================================= */
 
-  .mat-mdc-form-field {
-    width: 100%;
-  }
+.mat-mdc-form-field {
+  width: 100%;
+}
 
-  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-    padding: 10px 0;
-  }
+/* Altura y separación interna */
+.mat-mdc-form-field-infix {
+  min-height: 42px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
 
-  .mat-mdc-text-field-wrapper {
-    background-color: vars.$color-surface;
-  }
+/* Wrapper del campo */
+.mat-mdc-text-field-wrapper {
+  background-color: vars.$color-surface !important;
+}
 
-  .mat-mdc-form-field-infix {
-    min-height: 44px;
-  }
+/* Label */
+.mat-mdc-form-field .mdc-floating-label {
+  color: vars.$color-text-secondary !important;
+  font-size: vars.$font-size-sm;
+}
 
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none;
-  }
+/* Label cuando está activo / seleccionado */
+.mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: vars.$color-primary-dark !important;
+}
 
-  .mat-mdc-select-panel {
-    background-color: vars.$color-surface !important;
-    box-shadow: vars.$shadow-md !important;
-    border-radius: vars.$radius-md !important;
-  }
+/* Línea/borde normal */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: vars.$color-border !important;
+}
 
-  .mat-mdc-option:hover {
-    background-color: vars.$color-primary-light !important;
-  }
+/* Línea/borde al seleccionar */
+.mat-mdc-form-field.mat-focused
+.mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused
+.mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused
+.mdc-notched-outline__trailing {
+  border-color: vars.$color-primary !important;
+  border-width: 1px !important;
+}
+
+/* Texto seleccionado */
+.mat-mdc-select-value {
+  color: vars.$color-text-primary !important;
+  font-size: vars.$font-size-sm;
+}
+
+/* Flecha del select */
+.mat-mdc-select-arrow {
+  color: vars.$color-text-secondary !important;
+}
+
+/* Flecha al seleccionar */
+.mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+  color: vars.$color-primary !important;
+}
+
+/* Panel desplegable */
+.mat-mdc-select-panel {
+  background-color: vars.$color-surface !important;
+  box-shadow: vars.$shadow-md !important;
+  border-radius: vars.$radius-md !important;
+}
+
+/* Opciones */
+.mat-mdc-option {
+  color: vars.$color-text-primary !important;
+  font-size: vars.$font-size-sm !important;
+}
+
+/* Hover de opción */
+.mat-mdc-option:hover {
+  background-color: vars.$color-primary-light !important;
+}
+
+/* Opción seleccionada */
+.mat-mdc-option.mdc-list-item--selected {
+  background-color: vars.$color-primary-light !important;
+  color: vars.$color-primary-dark !important;
+}
+
+/* Hover sobre opción seleccionada */
+.mat-mdc-option.mdc-list-item--selected:hover {
+  background-color: vars.$color-primary-light !important;
+}
+
+/* Inputs */
+.mat-mdc-input-element {
+  color: vars.$color-text-primary !important;
+  font-size: vars.$font-size-sm !important;
+}
+
+/* Placeholder */
+.mat-mdc-input-element::placeholder {
+  color: vars.$color-text-muted !important;
+  opacity: 1;
+}
+
+/* Iconos suffix */
+.mat-mdc-form-field-icon-suffix {
+  color: vars.$color-primary !important;
+}
+
+/* Quitar espacio inferior innecesario */
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+/* Trigger del select */
+.mat-mdc-select-trigger {
+  padding: 0 10px;
+}
+
 
   /* =========================================================
      FILTROS
@@ -247,6 +334,10 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: vars.$spacing-xl;
     margin-bottom: vars.$spacing-lg;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-md;
+    flex-wrap: wrap;
   }
 
   &__content {
@@ -305,7 +396,8 @@
      ========================================================= */
 
   &__panel {
-    overflow: hidden;
+    max-height: 600px;
+    overflow: overlay;
     background: vars.$color-surface;
     border: 1px solid vars.$color-border;
     border-radius: vars.$radius-xl;
@@ -568,27 +660,12 @@
       font-size: vars.$font-size-md;
     }
   }
-
-  
-}
-
-.clear_filter{
-  background: vars.$color-surface !important;
-  color: vars.$color-primary-dark !important;
-  font-size: vars.$font-size-sm !important;
-  border-radius: vars.$radius-md !important;
-  font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
-  &:hover {
-    border: 1px solid vars.$color-primary !important;
-    color: vars.$color-primary !important;
-  }
 }
 
 /* ============================================================
   INPUTS
   ============================================================ */
-
+/*
 ::ng-deep .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
   padding: 10px 0px;
 }
@@ -603,18 +680,21 @@
   background-color: vars.$color-primary-light !important;
 }
 
-.clear_filter{
+.clear_filter {
   background: vars.$color-surface !important;
   color: vars.$color-primary-dark !important;
   font-size: vars.$font-size-sm !important;
   border-radius: vars.$radius-md !important;
   font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
+  border: 1px solid vars.$color-text-primary !important;
+
   &:hover {
-    border: 1px solid vars.$color-primary !important;
-    color: vars.$color-primary !important;
+    background: vars.$color-primary-light !important;
+    border-color: vars.$color-primary !important;
+    color: vars.$color-primary-dark !important;
   }
 }
+
 
 ::ng-deep .mat-mdc-select-trigger{
   padding: 0px 10px;
@@ -626,7 +706,56 @@
   &:hover {
     color: vars.$color-primary-dark !important;
   }
+}*/
+
+/* =========================================================
+   PAGINADOR
+   ========================================================= */
+
+.products__paginator {
+  background: vars.$color-surface !important;
 }
+
+.products .mat-mdc-paginator {
+  background-color: vars.$color-surface !important;
+  color: vars.$color-text-secondary !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.products .mat-mdc-paginator-container {
+  min-height: 48px;
+  padding: 0 vars.$spacing-md;
+  background-color: vars.$color-surface !important;
+}
+
+.products .mat-mdc-paginator-page-size {
+  background-color: vars.$color-surface !important;
+}
+
+.products .mat-mdc-paginator-range-label {
+  color: vars.$color-text-secondary !important;
+}
+
+.products .mat-mdc-paginator-page-size-label {
+  color: vars.$color-text-secondary !important;
+}
+
+.products .mat-mdc-paginator .mat-mdc-icon-button {
+  color: vars.$color-primary !important;
+  background-color: transparent !important;
+}
+
+.products .mat-mdc-paginator .mat-mdc-icon-button:hover {
+  color: vars.$color-primary-dark !important;
+  background-color: vars.$color-primary-light !important;
+}
+
+.products .mat-mdc-paginator .mat-mdc-icon-button:disabled {
+  color: vars.$color-text-disabled !important;
+  background-color: transparent !important;
+}
+
 
 .paginas{  
   background-color: vars.$color-surface !important;

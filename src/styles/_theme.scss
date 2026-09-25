@@ -2,7 +2,7 @@
 @use './variables' as vars;
 
 // ============================================================
-// TEMA COFFEE GOURMET - ANGULAR MATERIAL 20
+// ANGULAR MATERIAL THEME
 // ============================================================
 
 $coffee-gourmet-theme: mat.define-theme((
@@ -15,24 +15,31 @@ $coffee-gourmet-theme: mat.define-theme((
   typography: (
     plain-family: vars.$font-family-base,
     brand-family: vars.$font-family-base,
-    bold-weight: 700,
-    medium-weight: 600,
-    regular-weight: 400,
+    bold-weight: vars.$font-weight-bold,
+    medium-weight: vars.$font-weight-semibold,
+    regular-weight: vars.$font-weight-regular,
   ),
 ));
 
+
 // ============================================================
-// TEMA GLOBAL
+// MATERIAL CORE
 // ============================================================
 
 @include mat.core();
+
+
+// ============================================================
+// GLOBAL MATERIAL THEME
+// ============================================================
 
 :root {
   @include mat.all-component-themes($coffee-gourmet-theme);
 }
 
+
 // ============================================================
-// CAMPOS DE FORMULARIO
+// FORM FIELDS
 // ============================================================
 
 .mat-mdc-form-field {
@@ -50,8 +57,9 @@ $coffee-gourmet-theme: mat.define-theme((
   color: vars.$color-text-primary;
 }
 
+
 // ============================================================
-// BOTONES
+// MATERIAL BUTTONS
 // ============================================================
 
 .mat-mdc-button,
@@ -59,12 +67,13 @@ $coffee-gourmet-theme: mat.define-theme((
 .mat-mdc-raised-button,
 .mat-mdc-unelevated-button {
   font-family: vars.$font-family-base;
-  font-weight: 600;
+  font-weight: vars.$font-weight-semibold;
   border-radius: vars.$radius-sm;
 }
 
+
 // ============================================================
-// ICONOS
+// ICONS
 // ============================================================
 
 .mat-icon,
@@ -74,6 +83,4 @@ $coffee-gourmet-theme: mat.define-theme((
     'wght' 600,
     'GRAD' 0,
     'opsz' 24;
-
-  //color: vars.$color-text-secondary;
 }

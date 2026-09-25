@@ -1,85 +1,116 @@
-<h2 mat-dialog-title>
-  Movimiento de caja
-</h2>
+<div class="cash-movement-dialog">
+
+  <header class="cash-movement-dialog__header">
+
+    <div class="cash-movement-dialog__icon">
+      <mat-icon>payments</mat-icon>
+    </div>
+
+    <div>
+      <span class="cash-movement-dialog__eyebrow">
+        CONTROL DE EFECTIVO
+      </span>
+
+      <h2 mat-dialog-title>
+        Movimiento de caja
+      </h2>
+    </div>
+
+  </header>
 
 
-<mat-dialog-content>
+  <mat-dialog-content class="cash-movement-dialog__content">
 
-  <mat-form-field appearance="outline">
+    <mat-form-field
+      appearance="outline"
+      class="cash-movement-dialog__field">
 
-    <mat-label>
-      Tipo de movimiento
-    </mat-label>
+      <mat-label>
+        Tipo de movimiento
+      </mat-label>
 
-    <mat-select
-      [(ngModel)]="tipoMovimiento">
+      <mat-select
+        [(ngModel)]="tipoMovimiento">
 
-      <mat-option value="INGRESO">
-        Ingreso de efectivo
-      </mat-option>
+        <mat-option value="INGRESO">
+          Ingreso de efectivo
+        </mat-option>
 
-      <mat-option value="RETIRO">
-        Retiro de efectivo
-      </mat-option>
+        <mat-option value="RETIRO">
+          Retiro de efectivo
+        </mat-option>
 
-    </mat-select>
+      </mat-select>
 
-  </mat-form-field>
-
-
-  <mat-form-field appearance="outline">
-
-    <mat-label>
-      Monto
-    </mat-label>
-
-    <input
-      matInput
-      type="number"
-      min="1"
-      [(ngModel)]="monto">
-
-  </mat-form-field>
+    </mat-form-field>
 
 
-  <mat-form-field appearance="outline">
+    <mat-form-field
+      appearance="outline"
+      class="cash-movement-dialog__field">
 
-    <mat-label>
-      Descripción
-    </mat-label>
+      <mat-label>
+        Monto
+      </mat-label>
 
-    <textarea
-      matInput
-      rows="3"
-      maxlength="500"
-      [(ngModel)]="descripcion">
-    </textarea>
+      <span matTextPrefix>$&nbsp;</span>
 
-  </mat-form-field>
+      <input
+        matInput
+        type="number"
+        min="1"
+        step="100"
+        [(ngModel)]="monto">
 
-</mat-dialog-content>
-
-
-<mat-dialog-actions align="end">
-
-  <button
-    mat-button
-    type="button"
-    (click)="cancelar()">
-
-    Cancelar
-
-  </button>
+    </mat-form-field>
 
 
-  <button
-    mat-raised-button
-    type="button"
-    [disabled]="monto <= 0"
-    (click)="guardar()">
+    <mat-form-field
+      appearance="outline"
+      class="cash-movement-dialog__field">
 
-    Registrar
+      <mat-label>
+        Descripción
+      </mat-label>
 
-  </button>
+      <textarea
+        matInput
+        rows="3"
+        maxlength="500"
+        [(ngModel)]="descripcion">
+      </textarea>
 
-</mat-dialog-actions>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions
+    align="end"
+    class="cash-movement-dialog__actions">
+
+    <button
+      mat-button
+      type="button"
+      class="cash-movement-dialog__button cash-movement-dialog__button--secondary"
+      (click)="cancelar()">
+
+      Cancelar
+
+    </button>
+
+
+    <button
+      mat-flat-button
+      type="button"
+      class="cash-movement-dialog__button cash-movement-dialog__button--primary"
+      [disabled]="monto <= 0"
+      (click)="guardar()">
+
+      Registrar
+
+    </button>
+
+  </mat-dialog-actions>
+
+</div>

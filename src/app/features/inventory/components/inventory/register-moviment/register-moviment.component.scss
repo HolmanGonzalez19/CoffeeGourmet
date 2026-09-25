@@ -1,300 +1,614 @@
 @use '../../../../../../styles/variables' as vars;
 
+
+// ============================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================
+
 .suppliers-dialog {
   width: 100%;
+
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 32px;
+
+  gap: vars.$spacing-xl;
+
+  padding: vars.$spacing-2xl;
+
   font-family: vars.$font-family-base;
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
+
+// ============================================================
+// HEADER
+// ============================================================
 
 .suppliers-dialog__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #eee;
+
+  gap: vars.$spacing-lg;
+
+  padding-bottom: vars.$spacing-lg;
+
+  border-bottom: 1px solid vars.$color-border-light;
 }
+
 
 .suppliers-dialog__heading {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 
-  .suppliers-dialog__eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    color: vars.$color-primary-dark;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    color: #242424;
-  }
-
-  p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #666;
-  }
+  gap: vars.$spacing-xs;
 }
 
-/* ============================================================
-   BOTÓN CERRAR
-   ============================================================ */
+
+.suppliers-dialog__heading .suppliers-dialog__eyebrow {
+  font-size: vars.$font-size-xs;
+  font-weight: vars.$font-weight-bold;
+
+  letter-spacing: .8px;
+
+  color: vars.$color-primary-dark;
+}
+
+
+.suppliers-dialog__heading h2 {
+  margin: 0;
+
+  font-size: vars.$font-size-xl;
+  font-weight: vars.$font-weight-bold;
+
+  line-height: 1.3;
+
+  color: vars.$color-text-primary;
+}
+
+
+.suppliers-dialog__heading p {
+  margin: 0;
+
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+
+  color: vars.$color-text-secondary;
+}
+
+
+// ============================================================
+// BOTÓN CERRAR
+// ============================================================
 
 .suppliers-dialog__close {
   flex-shrink: 0;
+
   width: 32px;
   height: 32px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  border-radius: 50%;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: vars.$radius-round;
+
   background: transparent;
-  color: #999;
+
+  color: vars.$color-text-muted;
+
   cursor: pointer;
+
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-
-  mat-icon {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    line-height: 20px;
-  }
-
-  &:hover {
-    background: #f2f2f2;
-    color: #333;
-  }
+    background-color .15s ease,
+    color .15s ease;
 }
 
-/* ============================================================
-   CONTENIDO
-   ============================================================ */
+
+.suppliers-dialog__close mat-icon {
+  width: 20px;
+  height: 20px;
+
+  font-size: 20px;
+  line-height: 20px;
+}
+
+
+.suppliers-dialog__close:hover {
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-primary;
+}
+
+
+// ============================================================
+// CONTENIDO
+// ============================================================
 
 .suppliers-dialog__content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-xl;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xl;
 }
+
+
+// ============================================================
+// CONTENEDOR DE CAMPOS
+// ============================================================
 
 .suppliers-dialog__fields {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); // dos columnas
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
   gap: vars.$spacing-lg vars.$spacing-xl;
+
+  padding: vars.$spacing-xl;
+
   border: 1px solid vars.$color-border-light;
   border-radius: vars.$radius-lg;
+
   background: vars.$color-surface;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  padding: vars.$spacing-xl;
+
+  box-shadow: vars.$shadow-sm;
 }
 
 
-/* =========================================================
-     ANGULAR MATERIAL - INPUTS / SELECTS
-     ========================================================= */
+// ============================================================
+// ANGULAR MATERIAL - INPUTS / SELECTS
+// ============================================================
+
+.suppliers-dialog {
 
   .mat-mdc-form-field {
     width: 100%;
+
+    margin: 0;
   }
 
-  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-    padding: 10px 0;
-  }
 
-  .mat-mdc-text-field-wrapper {
-    background-color: vars.$color-surface;
-  }
+  // ==========================================================
+  // INFIX
+  // IMPORTANTE:
+  // Esta es la configuración que ya funciona en PRODUCTS.
+  // No usamos height rígido.
+  // ==========================================================
 
   .mat-mdc-form-field-infix {
-    min-height: 44px;
+    min-height: 42px !important;
+
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
+
+
+  // ==========================================================
+  // WRAPPER
+  // ==========================================================
+
+  .mat-mdc-text-field-wrapper {
+    background-color: vars.$color-surface !important;
+  }
+
+
+  // ==========================================================
+  // LABEL
+  // ==========================================================
+
+  .mat-mdc-form-field .mdc-floating-label {
+    color: vars.$color-text-secondary !important;
+
+    font-size: vars.$font-size-sm;
+  }
+
+
+  .mat-mdc-form-field.mat-focused .mdc-floating-label {
+    color: vars.$color-primary-dark !important;
+  }
+
+
+  // ==========================================================
+  // BORDE NORMAL
+  // ==========================================================
+
+  .mat-mdc-form-field .mdc-notched-outline__leading,
+  .mat-mdc-form-field .mdc-notched-outline__notch,
+  .mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: vars.$color-border !important;
+  }
+
+
+  // ==========================================================
+  // BORDE FOCUS
+  // ==========================================================
+
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__leading,
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__notch,
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-primary !important;
+
+    border-width: 1px !important;
+  }
+
+
+  // ==========================================================
+  // INPUT
+  // ==========================================================
+
+  .mat-mdc-input-element {
+    color: vars.$color-text-primary !important;
+
+    font-size: vars.$font-size-sm !important;
+  }
+
+
+  // ==========================================================
+  // PLACEHOLDER
+  // ==========================================================
+
+  .mat-mdc-input-element::placeholder {
+    color: vars.$color-text-muted !important;
+
+    opacity: 1;
+  }
+
+
+  // ==========================================================
+  // SELECT
+  // ==========================================================
+
+  .mat-mdc-select {
+    color: vars.$color-text-primary !important;
+
+    font-size: vars.$font-size-sm;
+  }
+
+
+  .mat-mdc-select-value {
+    color: vars.$color-text-primary !important;
+
+    font-size: vars.$font-size-sm;
+  }
+
+
+  // ==========================================================
+  // SELECT TRIGGER
+  // ==========================================================
+
+  .mat-mdc-select-trigger {
+    padding: 0 10px;
+  }
+
+
+  // ==========================================================
+  // FLECHA SELECT
+  // ==========================================================
+
+  .mat-mdc-select-arrow {
+    color: vars.$color-text-secondary !important;
+  }
+
+
+  .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+    color: vars.$color-primary !important;
+  }
+
+
+  // ==========================================================
+  // PANEL SELECT
+  // ==========================================================
 
   .mat-mdc-select-panel {
     background-color: vars.$color-surface !important;
+
     box-shadow: vars.$shadow-md !important;
+
     border-radius: vars.$radius-md !important;
   }
+
+
+  // ==========================================================
+  // OPCIONES
+  // ==========================================================
+
+  .mat-mdc-option {
+    color: vars.$color-text-primary !important;
+
+    font-size: vars.$font-size-sm !important;
+  }
+
 
   .mat-mdc-option:hover {
     background-color: vars.$color-primary-light !important;
   }
 
-/* ============================================================
-   CAMPOS
-   ============================================================ */
+
+  .mat-mdc-option.mdc-list-item--selected {
+    background-color: vars.$color-primary-light !important;
+
+    color: vars.$color-primary-dark !important;
+  }
+
+
+  .mat-mdc-option.mdc-list-item--selected:hover {
+    background-color: vars.$color-primary-light !important;
+  }
+
+
+  // ==========================================================
+  // ICONOS SUFFIX
+  // ==========================================================
+
+  .mat-mdc-form-field-icon-suffix {
+    color: vars.$color-primary !important;
+  }
+
+
+  // ==========================================================
+  // SUBSCRIPT
+  // Elimina el espacio reservado debajo del campo.
+  // ==========================================================
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+}
+
+
+// ============================================================
+// CAMPOS
+// ============================================================
 
 .suppliers-dialog__field {
   width: 100%;
 
-  &:has(input:disabled),
-  &:has(textarea:disabled),
-  &:has(mat-select[aria-disabled="true"]) {
-    cursor: not-allowed;
-    color: vars.$color-text-secondary;
-
-    * {
-      cursor: not-allowed !important;
-    }
-  }
+  min-width: 0;
 }
+
 
 .suppliers-dialog__field--wide {
   grid-column: 1 / -1;
 }
 
-.campoObligatorio{
-  color: vars.$color-danger-2;
+
+// ============================================================
+// CAMPOS DESHABILITADOS
+// ============================================================
+
+.suppliers-dialog__field:has(input:disabled),
+.suppliers-dialog__field:has(textarea:disabled),
+.suppliers-dialog__field:has(mat-select[aria-disabled="true"]) {
+  cursor: not-allowed;
+
+  color: vars.$color-text-secondary;
+}
+
+
+.suppliers-dialog__field:has(input:disabled) *,
+.suppliers-dialog__field:has(textarea:disabled) *,
+.suppliers-dialog__field:has(mat-select[aria-disabled="true"]) * {
+  cursor: not-allowed !important;
+}
+
+
+// ============================================================
+// CAMPO OBLIGATORIO
+// ============================================================
+
+.campoObligatorio {
   margin-top: 2px;
+
+  color: vars.$color-danger-2;
+
   font-size: vars.$font-size-md;
 }
 
+
+// ============================================================
+// ERROR
+// ============================================================
+
 .suppliers-dialog__field--error {
 
-  .mat-mdc-text-field-wrapper {
-    border-color: #d32f2f !important;
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-danger !important;
   }
 
+
   .mat-mdc-floating-label {
-    color: #d32f2f !important;
+    color: vars.$color-danger !important;
   }
 }
 
+
 .codigo-barras-error {
   color: vars.$color-danger-2 !important;
+
   font-size: vars.$font-size-md;
 
   animation: codigoBarrasErrorIn 180ms ease-out;
 }
 
+
 @keyframes codigoBarrasErrorIn {
+
   from {
     opacity: 0;
+
     transform: translateY(-6px);
   }
 
   to {
     opacity: 1;
+
     transform: translateY(0);
   }
 }
 
-/* ============================================================
-   ACCIONES
-   ============================================================ */
+
+// ============================================================
+// ACCIONES
+// ============================================================
 
 .suppliers-dialog__actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  padding-top: 18px;
-  border-top: 1px solid #eee;
+
+  gap: vars.$spacing-sm;
+
+  padding-top: vars.$spacing-lg;
+
+  border-top: 1px solid vars.$color-border-light;
 }
 
+
+// ============================================================
+// BOTONES
+// ============================================================
+
 .suppliers-dialog__button {
-  min-height: 40px;
-  padding: 0 18px;
-  border-radius: 8px;
-  border: none;
+  min-height: vars.$button-height-md;
+
+  padding: 0 vars.$spacing-lg;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 7px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+
+  border: 0;
+  border-radius: vars.$radius-md;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-semibold;
+
   cursor: pointer;
+
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
-
-  mat-icon {
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+    background-color .15s ease,
+    color .15s ease,
+    box-shadow .15s ease;
 }
+
+
+.suppliers-dialog__button mat-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
+}
+
+
+.suppliers-dialog__button:disabled {
+  opacity: .6;
+
+  cursor: not-allowed;
+}
+
+
+// ============================================================
+// BOTÓN SECUNDARIO
+// ============================================================
 
 .suppliers-dialog__button--secondary {
-  background: #f5f5f5;
-  color: #555;
+  background: vars.$color-surface-secondary;
 
-  &:hover:not(:disabled) {
-    background: #e9e9e9;
-    color: #333;
-  }
+  color: vars.$color-text-secondary;
 }
+
+
+.suppliers-dialog__button--secondary:hover:not(:disabled) {
+  background: vars.$color-border;
+
+  color: vars.$color-text-primary;
+}
+
+
+// ============================================================
+// BOTÓN PRIMARIO
+// ============================================================
 
 .suppliers-dialog__button--primary {
   background: vars.$color-primary;
-  color: #fff;
 
-  &:hover:not(:disabled) {
-    background: vars.$color-primary-dark;
-  }
+  color: vars.$color-surface;
 }
 
-.habilitarCodigo{
-  display: flex;
-  align-items: start;
+
+.suppliers-dialog__button--primary:hover:not(:disabled) {
+  background: vars.$color-primary-dark;
+}
+
+
+// ============================================================
+// TOGGLE / CÓDIGO
+// ============================================================
+
+.habilitarCodigo {
   width: 57%;
+
+  display: flex;
+  align-items: flex-start;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
 
 @media (max-width: 720px) {
 
   .suppliers-dialog {
     min-width: auto;
     max-width: 100%;
-    padding: 24px;
-  }
 
-  .suppliers-dialog__fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: vars.$spacing-lg vars.$spacing-xl;
-    border: 1px solid vars.$color-border-light;
-    border-radius: vars.$radius-lg;
-    background: vars.$color-surface;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: vars.$spacing-xl;
   }
 
-  .suppliers-dialog__field--wide {
-    width: 100% !important;
+
+  .suppliers-dialog__fields {
+    grid-template-columns: 1fr;
+
+    gap: vars.$spacing-lg;
+
+    padding: vars.$spacing-lg;
   }
+
+
+  .suppliers-dialog__field--wide {
+    width: 100%;
+
+    grid-column: auto;
+  }
+
 
   .suppliers-dialog__actions {
     flex-direction: column-reverse;
+
     align-items: stretch;
   }
 
+
   .suppliers-dialog__button {
+    width: 100%;
+  }
+
+
+  .habilitarCodigo {
     width: 100%;
   }
 }

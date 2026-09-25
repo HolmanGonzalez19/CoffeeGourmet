@@ -1,34 +1,31 @@
 @use '../../../../../styles/variables' as vars;
 
+
+// ============================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================
+
 .suppliers {
   min-height: 100%;
+  width: 100%;
+
   padding: vars.$spacing-2xl;
+
   background: vars.$color-background;
+
   display: flex;
   flex-direction: column;
+
   gap: vars.$spacing-xl;
+
   font-family: vars.$font-family-base;
 
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: vars.$spacing-lg;
-    padding: vars.$spacing-lg vars.$spacing-xl;
-    border-radius: vars.$radius-lg;
-    background: vars.$color-surface-secondary;
-    box-shadow: vars.$shadow-sm;
-  }
+  box-sizing: border-box;
 
-  &__eyebrow {
-    display: block;
-    margin-bottom: vars.$spacing-xs;
-    font-size: vars.$font-size-xs;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: vars.$color-text-muted;
-  }
+
+  // ==========================================================
+  // ELEMENTOS BASE
+  // ==========================================================
 
   h1,
   h2,
@@ -37,666 +34,981 @@
     margin: 0;
   }
 
-  h1 {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  &__header p {
-    margin-top: vars.$spacing-sm;
-    color: vars.$color-text-secondary;
-    font-size: vars.$font-size-md;
-  }
-
-  &__actions,
-  &__form-actions {
-    display: flex;
-    align-items: center;
-    gap: vars.$spacing-sm;
-  }
-
   button {
     font-family: inherit;
   }
 
-  &__button-primary{
-    min-height: 40px;
-    padding: 0 vars.$spacing-lg;
-    border-radius: vars.$radius-md;
-    font-size: vars.$font-size-md;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
+
+  // ==========================================================
+  // HEADER
+  // ==========================================================
+
+  &__header {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: vars.$spacing-sm;
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
+    justify-content: space-between;
 
-    mat-icon {
-      width: 18px;
-      height: 18px;
-      font-size: 18px;
-    }
+    gap: vars.$spacing-lg;
 
-    &:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-  }
+    padding: vars.$spacing-lg vars.$spacing-xl;
 
-  &__button-primary {
-    border: 1px solid vars.$color-primary;
-    background: vars.$color-primary;
-    color: vars.$color-surface;
+    border-radius: vars.$radius-lg;
 
-    &:hover:not(:disabled) {
-      background: vars.$color-primary-dark;
-      border-color: vars.$color-primary-dark;
-    }
-  }
+    background: vars.$color-surface-secondary;
 
-  /* =========================================================
-     FORMULARIO
-     ========================================================= */
-
-  &__form-container {
-    margin-bottom: vars.$spacing-2xl;
-  }
-
-  &__form {
-    padding: vars.$spacing-2xl;
-    background: vars.$color-surface;
-    border: 1px solid vars.$color-border;
-    border-radius: vars.$radius-xl;
     box-shadow: vars.$shadow-sm;
   }
 
-  &__form-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: vars.$spacing-lg;
-    margin-bottom: vars.$spacing-xl;
 
-    h2 {
-      font-size: vars.$font-size-xl;
-      font-weight: 700;
-    }
+  &__eyebrow {
+    display: block;
 
-    p {
-      margin-top: vars.$spacing-xs;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-md;
-    }
+    margin-bottom: vars.$spacing-xs;
+
+    font-size: vars.$font-size-xs;
+    font-weight: vars.$font-weight-bold;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+
+    color: vars.$color-text-muted;
   }
 
-  &__form-close {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid vars.$color-border;
-    border-radius: vars.$radius-md;
-    background: vars.$color-surface;
+
+  &__header h1 {
+    font-size: vars.$font-size-2xl;
+    font-weight: vars.$font-weight-bold;
+
+    line-height: 1.2;
+
+    color: vars.$color-text-primary;
+  }
+
+
+  &__header p {
+    margin-top: vars.$spacing-sm;
+
     color: vars.$color-text-secondary;
-    cursor: pointer;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background: vars.$color-surface-secondary;
-      color: vars.$color-text-primary;
-    }
-
-    mat-icon {
-      font-size: 20px;
-    }
-  }
-
-  &__form-error {
-    display: flex;
-    align-items: center;
-    gap: vars.$spacing-sm;
-    margin-bottom: vars.$spacing-lg;
-    padding: vars.$spacing-md;
-    border: 1px solid vars.$color-danger;
-    border-radius: vars.$radius-md;
-    background: vars.$color-surface;
-    color: vars.$color-danger;
     font-size: vars.$font-size-md;
-
-    mat-icon {
-      font-size: 20px;
-    }
   }
 
-  &__form-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: vars.$spacing-md vars.$spacing-lg;
+
+  // ==========================================================
+  // CONTENIDO
+  // ==========================================================
+
+  &__content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: vars.$spacing-xl;
   }
+
+
+  // ==========================================================
+  // FILTROS
+  // ==========================================================
+
+  &__filters {
+    width: 100%;
+
+    min-height: 72px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    gap: vars.$spacing-md;
+
+    padding: vars.$spacing-md vars.$spacing-lg;
+
+    border: 1px solid vars.$color-border-light;
+
+    border-radius: vars.$radius-lg;
+
+    background: vars.$color-surface;
+
+    box-shadow: vars.$shadow-sm;
+    margin-bottom: 16px;
+  }
+
+
+  // ==========================================================
+  // CAMPOS ANGULAR MATERIAL
+  // ==========================================================
 
   &__field {
-    gap: 4px;
-    padding: 0px 20px;
-    width: 28% !important;
-  }
-  
-  &__field-search{
-    width: 53% !important;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
   }
 
-  &__field--full {
-    grid-column: 1 / -1;
+
+  // Filtro de estado
+  &__filters .suppliers__field {
+    width: 280px;
+    flex: 0 0 280px;
   }
 
-  &__form-actions {
-    justify-content: flex-end;
-    margin-top: vars.$spacing-lg;
-    padding-top: vars.$spacing-lg;
-    border-top: 1px solid vars.$color-border-light;
+
+  // ==========================================================
+  // BUSCADOR
+  // ==========================================================
+
+  &__field-search {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    min-width: 280px;
   }
 
-  /* =========================================================
-     ANGULAR MATERIAL - INPUTS / SELECTS
-     ========================================================= */
 
-  .mat-mdc-form-field {
+  &__field-search .mat-mdc-form-field {
     width: 100%;
   }
 
-  .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-    padding: 10px 0;
+
+  // ==========================================================
+  // ANGULAR MATERIAL 20
+  // ==========================================================
+
+  .mat-mdc-form-field {
+    width: 100%;
+
+    margin: 0;
   }
+
+
+  /*
+   * Altura compacta para los campos.
+   *
+   * Importante:
+   * En Material 20 no utilizamos .mat-form-field-flex
+   * porque pertenece a la estructura antigua.
+   */
 
   .mat-mdc-text-field-wrapper {
-    background-color: vars.$color-surface;
+    background-color: vars.$color-surface !important;
   }
 
+
   .mat-mdc-form-field-infix {
-    min-height: 44px;
+    min-height: 40px !important;
+
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
+    display: flex;
+    align-items: center;
   }
+
+
+  .mat-mdc-form-field-flex {
+    align-items: center;
+  }
+
+
+  // Input
+
+  .mat-mdc-input-element {
+    margin: 0 !important;
+
+    font-family: vars.$font-family-base;
+
+    font-size: vars.$font-size-sm;
+
+    line-height: 1.2;
+
+    color: vars.$color-text-primary;
+  }
+
+
+  .mat-mdc-input-element::placeholder {
+    color: vars.$color-text-muted;
+
+    opacity: 1;
+  }
+
+
+  // Select
+
+  .mat-mdc-select {
+    font-size: vars.$font-size-sm;
+  }
+
+
+  .mat-mdc-select-trigger {
+    min-height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 8px;
+  }
+
+
+  .mat-mdc-select-value {
+    color: vars.$color-text-primary;
+  }
+
+
+  .mat-mdc-select-placeholder {
+    color: vars.$color-text-muted;
+  }
+
+
+  // Label
+
+  .mat-mdc-floating-label {
+    color: vars.$color-text-secondary;
+  }
+
+
+  .mat-mdc-form-field.mat-focused {
+
+    .mat-mdc-floating-label {
+      color: vars.$color-primary !important;
+    }
+  }
+
+
+  // Borde
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-border !important;
+  }
+
+
+  .mat-mdc-form-field.mat-focused {
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: vars.$color-primary !important;
+    }
+  }
+
+
+  // Iconos de los campos
+
+  .mat-mdc-form-field-icon-suffix {
+    color: vars.$color-primary;
+  }
+
+
+  // ==========================================================
+  // SUBSCRIPT
+  // ==========================================================
 
   .mat-mdc-form-field-subscript-wrapper {
     display: none;
   }
 
+
+  // ==========================================================
+  // PANEL DEL SELECT
+  // ==========================================================
+
   .mat-mdc-select-panel {
     background-color: vars.$color-surface !important;
-    box-shadow: vars.$shadow-md !important;
+
     border-radius: vars.$radius-md !important;
+
+    box-shadow: vars.$shadow-md !important;
   }
 
-  .mat-mdc-option:hover {
+
+  .mat-mdc-option {
+    min-height: 40px;
+
+    color: vars.$color-text-primary !important;
+  }
+
+
+  .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
     background-color: vars.$color-primary-light !important;
   }
 
-  /* =========================================================
-     FILTROS
-     ========================================================= */
 
-  &__filters {  
-    border: 1px solid vars.$color-border-light;
-    border-radius: vars.$radius-lg;
-    background: vars.$color-surface;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    padding: vars.$spacing-xl;
-    margin-bottom: vars.$spacing-lg;
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background-color: vars.$color-primary-light !important;
   }
 
-  &__content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-xl;
+
+  // ==========================================================
+  // BOTÓN LIMPIAR FILTROS
+  // ==========================================================
+
+  .clear_filter {
+    flex: 0 0 auto;
+
+    width: auto;
+    min-width: max-content;
+
+    height: 40px;
+    min-height: 40px;
+
+    padding: 0 vars.$spacing-md;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: vars.$spacing-xs;
+
+    box-sizing: border-box;
+
+    white-space: nowrap;
+
+    border: 1px solid vars.$color-text-primary !important;
+
+    border-radius: vars.$radius-md !important;
+
+    background: vars.$color-surface !important;
+
+    color: vars.$color-primary-dark !important;
+
+    font-family: vars.$font-family-base;
+    font-size: vars.$font-size-sm !important;
+    font-weight: vars.$font-weight-semibold !important;
+
+    line-height: 1 !important;
+
+    cursor: pointer;
+
+    transition:
+      background-color .15s ease,
+      border-color .15s ease,
+      color .15s ease;
   }
 
-  &__filter-field {
-    width: 100%;
+
+  .clear_filter mat-icon {
+    flex-shrink: 0;
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    font-size: 18px;
+
+    line-height: 18px;
   }
 
-  /* =========================================================
-     LOADING / ERROR
-     ========================================================= */
 
-  &__loading,
-  &__error {
+  .clear_filter:hover {
+    border-color: vars.$color-primary !important;
+
+    background: vars.$color-primary-light !important;
+
+    color: vars.$color-primary !important;
+  }
+
+
+  // ==========================================================
+  // LOADING
+  // ==========================================================
+
+  &__loading {
     min-height: 180px;
+
     padding: vars.$spacing-2xl;
+
+    box-sizing: border-box;
+
     background: vars.$color-surface;
+
     border: 1px solid vars.$color-border;
+
     border-radius: vars.$radius-xl;
 
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
+
     gap: vars.$spacing-md;
 
     color: vars.$color-text-secondary;
+
     font-size: vars.$font-size-md;
   }
 
-  &__error {
-    flex-direction: row;
-    color: vars.$color-danger;
-
-    mat-icon {
-      font-size: 22px;
-    }
-  }
 
   &__spinner {
     width: 30px;
     height: 30px;
+
     border: 3px solid vars.$color-border;
+
     border-top-color: vars.$color-primary;
+
     border-radius: vars.$radius-round;
-    animation: suppliers-spin 0.8s linear infinite;
+
+    animation: suppliers-spin .8s linear infinite;
   }
 
-  /* =========================================================
-     PANEL TABLA
-     ========================================================= */
+
+  // ==========================================================
+  // ERROR
+  // ==========================================================
+
+  &__error {
+    min-height: 120px;
+
+    padding: vars.$spacing-2xl;
+
+    box-sizing: border-box;
+
+    background: vars.$color-surface;
+
+    border: 1px solid vars.$color-border;
+
+    border-radius: vars.$radius-xl;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: vars.$spacing-sm;
+
+    color: vars.$color-danger;
+
+    font-size: vars.$font-size-md;
+  }
+
+
+  &__error mat-icon {
+    width: 22px;
+    height: 22px;
+
+    font-size: 22px;
+  }
+
+
+  // ==========================================================
+  // PANEL
+  // ==========================================================
 
   &__panel {
+    width: 100%;
+
     max-height: 600px;
-    overflow: overlay;
+
+    overflow: auto;
+
+    box-sizing: border-box;
+
     background: vars.$color-surface;
+
     border: 1px solid vars.$color-border;
+
     border-radius: vars.$radius-xl;
+
     box-shadow: vars.$shadow-sm;
   }
+
+
+  // ==========================================================
+  // HEADER DEL PANEL
+  // ==========================================================
 
   &__panel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     gap: vars.$spacing-lg;
+
     padding: vars.$spacing-xl;
 
-    h2 {
-      font-size: vars.$font-size-xl;
-      font-weight: 700;
-    }
-
-    p {
-      margin-top: vars.$spacing-xs;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-md;
-    }
+    border-bottom: 1px solid vars.$color-border-light;
   }
 
+
+  &__panel-header h2 {
+    font-size: vars.$font-size-xl;
+
+    font-weight: vars.$font-weight-bold;
+
+    line-height: 1.3;
+
+    color: vars.$color-text-primary;
+  }
+
+
+  &__panel-header p {
+    margin-top: vars.$spacing-xs;
+
+    color: vars.$color-text-secondary;
+
+    font-size: vars.$font-size-md;
+  }
+
+
+  // ==========================================================
+  // CONTADOR
+  // ==========================================================
+
   &__count {
+    flex-shrink: 0;
+
     padding: vars.$spacing-sm vars.$spacing-md;
+
     border-radius: vars.$radius-md;
+
     background: vars.$color-primary-light;
+
     color: vars.$color-primary-dark;
+
     font-size: vars.$font-size-sm;
-    font-weight: 700;
+
+    font-weight: vars.$font-weight-bold;
+
     white-space: nowrap;
   }
 
-  /* =========================================================
-     TABLA
-     ========================================================= */
+
+  // ==========================================================
+  // TABLA
+  // ==========================================================
 
   &__table-wrapper {
     width: 100%;
+
     overflow-x: auto;
   }
 
+
   &__table {
     width: 100%;
+
     min-width: 1100px;
+
     border-collapse: collapse;
+
     font-size: vars.$font-size-md;
-
-    thead {
-      background: vars.$color-surface-secondary;
-    }
-
-    th {
-      padding: vars.$spacing-md vars.$spacing-lg;
-      border-bottom: 1px solid vars.$color-border;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-sm;
-      font-weight: 700;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: vars.$spacing-md vars.$spacing-lg;
-      border-bottom: 1px solid vars.$color-border-light;
-      color: vars.$color-text-primary;
-      vertical-align: middle;
-    }
-
-    tbody tr {
-      transition: background-color 0.15s ease;
-
-      &:hover {
-        background: vars.$color-background;
-      }
-
-      &:last-child td {
-        border-bottom: none;
-      }
-    }
   }
 
-  &__code {
+
+  &__table thead {
+    background: vars.$color-surface-secondary;
+  }
+
+
+  &__table th {
+    padding: vars.$spacing-md vars.$spacing-lg;
+
+    border-bottom: 1px solid vars.$color-border;
+
     color: vars.$color-text-secondary;
-    font-weight: 600;
+
+    font-size: vars.$font-size-sm;
+
+    font-weight: vars.$font-weight-bold;
+
+    text-align: left;
+
     white-space: nowrap;
   }
+
+
+  &__table td {
+    padding: vars.$spacing-md vars.$spacing-lg;
+
+    border-bottom: 1px solid vars.$color-border-light;
+
+    color: vars.$color-text-primary;
+
+    vertical-align: middle;
+  }
+
+
+  &__table tbody tr {
+    transition: background-color .15s ease;
+  }
+
+
+  &__table tbody tr:hover {
+    background: vars.$color-background;
+  }
+
+
+  &__table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+
+  // ==========================================================
+  // NOMBRE PRODUCTO
+  // ==========================================================
 
   &__name {
     display: flex;
     flex-direction: column;
+
     gap: 2px;
+
     min-width: 170px;
-
-    strong {
-      font-size: vars.$font-size-md;
-      font-weight: 600;
-    }
-
-    small {
-      max-width: 220px;
-      overflow: hidden;
-      color: vars.$color-text-muted;
-      font-size: vars.$font-size-sm;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
   }
 
-  &__type {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 8px;
-    border-radius: vars.$radius-sm;
-    background: vars.$color-surface-secondary;
-    color: vars.$color-text-secondary;
-    font-size: vars.$font-size-xs;
-    font-weight: 700;
+
+  &__name strong {
+    font-size: vars.$font-size-md;
+
+    font-weight: vars.$font-weight-semibold;
   }
 
-  &__price {
-    color: vars.$color-text-primary;
-    font-weight: 700;
+
+  &__name small {
+    max-width: 220px;
+
+    overflow: hidden;
+
+    color: vars.$color-text-muted;
+
+    font-size: vars.$font-size-sm;
+
+    text-overflow: ellipsis;
+
     white-space: nowrap;
   }
 
-  &__des-act-boton{
-    background-color: vars.$color-surface;
-    color: vars.$color-danger !important;
-    border: 1px solid vars.$color-danger !important;
-    border-radius: vars.$radius-md;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
 
-    &:hover {
-      background-color: vars.$color-danger;
-      color: vars.$color-surface !important;
-    }
+  // ==========================================================
+  // CANTIDAD
+  // ==========================================================
+
+  &__quantity {
+    color: vars.$color-text-primary;
+
+    font-weight: vars.$font-weight-bold;
   }
 
-  &__des-act-boton--active{
-    background-color: vars.$color-surface;
-    color: vars.$color-success !important;
-    border: 1px solid vars.$color-success !important;
-    border-radius: vars.$radius-md;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
 
-    &:hover {
-      background-color: vars.$color-success;
-      color: vars.$color-surface !important;
-    }
-  }
-
-  /* =========================================================
-     ESTADO
-     ========================================================= */
+  // ==========================================================
+  // ESTADO
+  // ==========================================================
 
   &__status {
     display: inline-flex;
+
     align-items: center;
+
     gap: 6px;
+
     padding: 5px 9px;
+
     border-radius: vars.$radius-md;
+
     background: vars.$color-success-light;
+
     color: vars.$color-success;
+
     font-size: vars.$font-size-xs;
-    font-weight: 700;
+
+    font-weight: vars.$font-weight-bold;
+
     white-space: nowrap;
   }
+
 
   &__status-dot {
     width: 6px;
     height: 6px;
+
+    flex-shrink: 0;
+
     border-radius: vars.$radius-round;
+
     background: currentColor;
   }
 
+
   &__status--inactive {
     background: vars.$color-danger-light;
+
     color: vars.$color-danger;
   }
 
-  /* =========================================================
-     ACCIONES DE FILA
-     ========================================================= */
+
+  &__status--low {
+    background: vars.$color-warning-light;
+
+    color: vars.$color-warning;
+  }
+
+
+  // ==========================================================
+  // ACCIONES DE FILA
+  // ==========================================================
 
   &__row-actions {
     display: flex;
+
     align-items: center;
+
     gap: vars.$spacing-xs;
+
     white-space: nowrap;
   }
 
+
   &__row-button {
     min-height: 32px;
+
     padding: 0 vars.$spacing-sm;
+
     border: 1px solid vars.$color-border;
+
     border-radius: vars.$radius-sm;
+
     background: vars.$color-surface;
+
     color: vars.$color-text-primary;
+
     font-size: vars.$font-size-sm;
-    font-weight: 600;
+
+    font-weight: vars.$font-weight-semibold;
+
     cursor: pointer;
 
     display: inline-flex;
-    align-items: center;
-    gap: 5px;
 
-    &:hover {
-      background: vars.$color-primary-light;
-      border-color: vars.$color-primary;
-      color: vars.$color-primary-dark;
-    }
-
-    mat-icon {
-      width: 16px;
-      height: 16px;
-      font-size: 16px;
-    }
-  }
-
-  /* =========================================================
-     EMPTY
-     ========================================================= */
-
-  &__empty {
-    min-height: 260px;
-    padding: vars.$spacing-2xl;
-
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 
+    gap: 5px;
+
+    white-space: nowrap;
+
+    transition:
+      background-color .15s ease,
+      border-color .15s ease,
+      color .15s ease;
+  }
+
+
+  &__row-button:hover {
+    background: vars.$color-primary-light;
+
+    border-color: vars.$color-primary;
+
+    color: vars.$color-primary-dark;
+  }
+
+
+  &__row-button mat-icon {
+    width: 16px;
+    height: 16px;
+
+    font-size: 16px;
+  }
+
+
+  // ==========================================================
+  // EMPTY
+  // ==========================================================
+
+  &__empty {
+    min-height: 260px;
+
+    padding: vars.$spacing-2xl;
+
+    box-sizing: border-box;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
     text-align: center;
-
-    mat-icon {
-      width: 44px;
-      height: 44px;
-      margin-bottom: vars.$spacing-md;
-      color: vars.$color-text-muted;
-      font-size: 44px;
-    }
-
-    h3 {
-      font-size: vars.$font-size-lg;
-      font-weight: 700;
-    }
-
-    p {
-      margin-top: vars.$spacing-xs;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-md;
-    }
   }
 
-  
-}
 
-.clear_filter{
-  background: vars.$color-surface !important;
-  color: vars.$color-primary-dark !important;
-  font-size: vars.$font-size-sm !important;
-  border-radius: vars.$radius-md !important;
-  font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
-  &:hover {
-    border: 1px solid vars.$color-primary !important;
+  &__empty mat-icon {
+    width: 44px;
+    height: 44px;
+
+    margin-bottom: vars.$spacing-md;
+
+    color: vars.$color-text-muted;
+
+    font-size: 44px;
+  }
+
+
+  &__empty h3 {
+    font-size: vars.$font-size-lg;
+
+    font-weight: vars.$font-weight-bold;
+  }
+
+
+  &__empty p {
+    margin-top: vars.$spacing-xs;
+
+    color: vars.$color-text-secondary;
+
+    font-size: vars.$font-size-md;
+  }
+
+
+  // ==========================================================
+  // BOTONES / ICON BUTTON
+  // ==========================================================
+
+  .mat-mdc-icon-button {
     color: vars.$color-primary !important;
   }
-}
 
-/* ============================================================
-  INPUTS
-  ============================================================ */
 
-::ng-deep .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-  padding: 10px 0px;
-}
-
-::ng-deep .mat-mdc-select-panel {
-  background-color: vars.$color-surface !important;
-  box-shadow: vars.$shadow-md !important;
-  border-radius: vars.$radius-md !important;
-}
-
-::ng-deep .mat-mdc-option:hover {
-  background-color: vars.$color-primary-light !important;
-}
-
-.clear_filter{
-  background: vars.$color-surface !important;
-  color: vars.$color-primary-dark !important;
-  font-size: vars.$font-size-sm !important;
-  border-radius: vars.$radius-md !important;
-  font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
-  &:hover {
-    border: 1px solid vars.$color-primary !important;
-    color: vars.$color-primary !important;
-  }
-}
-
-::ng-deep .mat-mdc-select-trigger{
-  padding: 0px 10px;
-}
-
-::ng-deep .mat-mdc-icon-button {
-  color: vars.$color-primary !important;
-
-  &:hover {
+  .mat-mdc-icon-button:hover {
     color: vars.$color-primary-dark !important;
   }
 }
 
-.paginas{  
-  background-color: vars.$color-surface !important;
-  &:hover {
-    background-color: vars.$color-surface !important;
-  }
+
+// ============================================================
+// BOTÓN LIMPIAR FILTROS
+// ============================================================
+
+.clear_filter {
+  box-sizing: border-box;
 }
 
+
+// ============================================================
+// PAGINACIÓN
+// ============================================================
+
+.paginas {
+  background-color: vars.$color-surface !important;
+}
+
+
+.paginas:hover {
+  background-color: vars.$color-surface !important;
+}
+
+
+// ============================================================
+// ANIMACIÓN
+// ============================================================
+
 @keyframes suppliers-spin {
+
   to {
     transform: rotate(360deg);
   }
 }
 
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
 @media (max-width: 1100px) {
 
   .suppliers {
 
-    &__filters-fields {
-      grid-template-columns: repeat(2, 1fr);
+    &__filters {
+      align-items: center;
     }
 
-    &__form-grid {
-      grid-template-columns: repeat(2, 1fr);
+
+    &__filters .suppliers__field {
+      width: 240px;
+
+      flex-basis: 240px;
     }
 
+
+    &__field-search {
+      max-width: 320px;
+    }
   }
-
 }
+
 
 @media (max-width: 768px) {
 
   .suppliers {
     padding: vars.$spacing-lg;
 
+
     &__header {
       flex-direction: column;
+
       align-items: flex-start;
     }
 
-    &__actions {
+
+    &__filters {
+      flex-direction: column;
+
+      align-items: stretch;
+
+      padding: vars.$spacing-lg;
+    }
+
+
+    &__filters .suppliers__field {
       width: 100%;
+
+      flex: 1 1 auto;
     }
 
-    &__button-primary {
-      flex: 1;
+
+    &__field-search {
+      width: 100%;
+
+      max-width: none;
+
+      min-width: 0;
+
+      margin-left: 0;
     }
 
-    &__filters-fields {
-      grid-template-columns: 1fr;
+
+    .clear_filter {
+      width: 100%;
+
+      flex: 0 0 auto;
     }
 
-    &__form-grid {
-      grid-template-columns: 1fr;
-    }
-
-    &__field--full {
-      grid-column: auto;
-    }
 
     &__panel-header {
       align-items: flex-start;
+
       flex-direction: column;
     }
 
-    &__paginator {
-      align-items: flex-start;
+
+    &__count {
+      align-self: flex-start;
+    }
+
+
+    &__row-actions {
       flex-direction: column;
-      padding: vars.$spacing-md;
+
+      align-items: stretch;
+    }
+
+
+    &__row-button {
+      width: 100%;
     }
   }
 }

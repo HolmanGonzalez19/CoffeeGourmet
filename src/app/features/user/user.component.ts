@@ -64,7 +64,7 @@ export class UsersComponent implements OnInit {
             {
             width: '800px',
             maxWidth: 'calc(100vw - 50px)',
-            height: '537px',
+            height: '490px',
             disableClose: true,
             autoFocus: false,
             panelClass: 'create-product-dialog'
@@ -83,7 +83,7 @@ export class UsersComponent implements OnInit {
             {
             width: '800px',
             maxWidth: 'calc(100vw - 50px)',
-            height: '537px',
+            height: '490px',
             disableClose: true,
             autoFocus: false,
             panelClass: 'create-product-dialog',

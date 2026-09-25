@@ -478,7 +478,7 @@ handlePageEvent(event: PageEvent): void {
             {
             width: '800px',
             maxWidth: 'calc(100vw - 50px)',
-            height: '751px',
+            height: '621px',
             disableClose: true,
             autoFocus: false,
             panelClass: 'create-product-dialog'

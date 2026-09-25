@@ -127,16 +127,18 @@
 
 
   <button
-    type="button"
-    mat-flat-button
-    [disabled]="
-      efectivoContado === null ||
-      efectivoContado < 0
-    "
-    (click)="confirmar()">
+  type="button"
+  mat-flat-button
+  class="button-red-light button-red-light--primary"
+  [disabled]="
+    efectivoContado === null ||
+    efectivoContado < 0
+  "
+  (click)="confirmar()">
 
-    Confirmar cierre
+  Confirmar cierre
 
-  </button>
+</button>
+
 
 </div>

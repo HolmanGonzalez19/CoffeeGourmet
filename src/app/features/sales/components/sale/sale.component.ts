@@ -27,6 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 @Component({
@@ -55,6 +57,8 @@ export class SalesComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly paymentMethodService = inject(PaymentMethodService);
   private readonly cashRegisterService = inject(CashRegisterService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly authService = inject(AuthService);
 
   ventas: SaleResponse[] = [];
   usuarios: User[] = [];
@@ -171,5 +175,55 @@ export class SalesComponent implements OnInit {
     this.paginaActual = event.pageIndex;
     this.registrosPorPagina = event.pageSize;
     this.cargarVentas();
+  }
+
+  anularVenta(venta: SaleResponse): void {
+    const confirmar = window.confirm( `¿Está seguro de anular la venta #${venta.id}?` );
+
+    if (!confirmar) {
+      return;
+    }
+
+    const usuarioId = this.obtenerUsuarioId();
+
+    if (!usuarioId) {
+      this.notificationService.error( 'No se pudo identificar el usuario autenticado.' );
+      return;
+    }
+
+    const motivo = 'Anulada por usuario';
+
+    this.saleService.cancel( venta.id, usuarioId, motivo ).subscribe({
+      next: () => {
+        this.notificationService.success(
+          'Venta anulada correctamente.'
+        );
+        this.cargarVentas();
+      },
+      error: (error) => {
+        const message = error?.error?.message ?? 'No fue posible anular la venta.';
+        this.notificationService.error(message);
+      }
+    });
+  }
+
+
+  // ============================================================
+  // OBTENER USUARIO AUTENTICADO
+  // ============================================================
+
+  private obtenerUsuarioId(): number | null {
+
+    const usuario =
+      this.authService.getCurrentUser();
+
+    if (!usuario) {
+
+      return null;
+
+    }
+
+    return usuario.usuarioId;
+
   }
 }

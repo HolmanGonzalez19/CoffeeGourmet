@@ -6,7 +6,11 @@
 
   <header class="statistics__header">
 
-    <div>
+    <div class="statistics__heading">
+
+      <span class="statistics__eyebrow">
+        ADMINISTRACIÓN
+      </span>
 
       <h1>
         Estadísticas
@@ -18,18 +22,24 @@
 
     </div>
 
+
     <div class="statistics__actions">
 
       <button
+        mat-stroked-button
         type="button"
+        class="statistics__button statistics__button--secondary"
         (click)="cargarEstadisticas()"
         [disabled]="loading">
+
+        <mat-icon>
+          refresh
+        </mat-icon>
 
         {{ loading ? 'Actualizando...' : 'Actualizar' }}
 
       </button>
 
-    
     </div>
 
   </header>
@@ -39,26 +49,36 @@
        ERROR
        ========================================================== -->
 
-  <div
+  <section
     *ngIf="errorMessage"
-    class="statistics__error">
+    class="statistics__message statistics__message--error">
 
-    {{ errorMessage }}
+    <mat-icon>
+      error_outline
+    </mat-icon>
 
-  </div>
+    <span>
+      {{ errorMessage }}
+    </span>
+
+  </section>
 
 
   <!-- ==========================================================
        LOADING
        ========================================================== -->
 
-  <div
+  <section
     *ngIf="loading"
     class="statistics__loading">
 
-    Cargando estadísticas...
+    <div class="statistics__spinner"></div>
 
-  </div>
+    <span>
+      Cargando estadísticas...
+    </span>
+
+  </section>
 
 
   <!-- ==========================================================
@@ -67,13 +87,26 @@
 
   <ng-container *ngIf="!loading && statistics">
 
+
     <!-- ========================================================
          TARJETAS RESUMEN
          ======================================================== -->
 
     <section class="statistics__summary">
 
+
+      <!-- TOTAL VENTAS -->
+
       <article class="statistics-card">
+
+        <div class="statistics-card__icon">
+
+          <mat-icon>
+            receipt_long
+          </mat-icon>
+
+        </div>
+
 
         <div class="statistics-card__content">
 
@@ -94,7 +127,18 @@
       </article>
 
 
+      <!-- INGRESOS -->
+
       <article class="statistics-card">
+
+        <div class="statistics-card__icon statistics-card__icon--success">
+
+          <mat-icon>
+            payments
+          </mat-icon>
+
+        </div>
+
 
         <div class="statistics-card__content">
 
@@ -115,7 +159,18 @@
       </article>
 
 
+      <!-- PRODUCTOS -->
+
       <article class="statistics-card">
+
+        <div class="statistics-card__icon statistics-card__icon--primary">
+
+          <mat-icon>
+            inventory_2
+          </mat-icon>
+
+        </div>
+
 
         <div class="statistics-card__content">
 
@@ -144,9 +199,15 @@
 
     <section class="statistics__section">
 
+      <!-- HEADER -->
+
       <div class="statistics__section-header">
 
         <div>
+
+          <span class="statistics__section-eyebrow">
+            RESUMEN DE VENTAS
+          </span>
 
           <h2>
             Productos más vendidos
@@ -158,8 +219,19 @@
 
         </div>
 
+
+        <span class="statistics__count">
+
+          {{ productosMasVendidos.length }} productos
+
+        </span>
+
       </div>
 
+
+      <!-- ======================================================
+           TABLA
+           ====================================================== -->
 
       <div
         *ngIf="productosMasVendidos.length > 0"
@@ -171,7 +243,7 @@
 
             <tr>
 
-              <th>
+              <th class="statistics-table__position">
                 #
               </th>
 
@@ -179,13 +251,14 @@
                 Producto
               </th>
 
-              <th>
+              <th class="statistics-table__quantity">
                 Cantidad vendida
               </th>
 
             </tr>
 
           </thead>
+
 
           <tbody>
 
@@ -195,16 +268,50 @@
                 let i = index
               ">
 
-              <td>
-                {{ i + 1 }}
+              <!-- POSICIÓN -->
+
+              <td class="statistics-table__position">
+
+                <span
+                  class="statistics-table__rank"
+                  [class.statistics-table__rank--top]="i < 3">
+
+                  {{ i + 1 }}
+
+                </span>
+
               </td>
 
-              <td>
-                {{ producto.producto }}
-              </td>
+
+              <!-- PRODUCTO -->
 
               <td>
-                {{ producto.cantidadVendida }}
+
+                <div class="statistics-table__product">
+
+                  <strong>
+                    {{ producto.producto }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <!-- CANTIDAD -->
+
+              <td class="statistics-table__quantity">
+
+                <span class="statistics-table__quantity-value">
+
+                  {{ producto.cantidadVendida }}
+
+                </span>
+
+                <span class="statistics-table__quantity-label">
+                  unidades
+                </span>
+
               </td>
 
             </tr>
@@ -216,9 +323,21 @@
       </div>
 
 
+      <!-- ======================================================
+           SIN RESULTADOS
+           ====================================================== -->
+
       <div
         *ngIf="productosMasVendidos.length === 0"
         class="statistics__empty">
+
+        <div class="statistics__empty-icon">
+
+          <mat-icon>
+            bar_chart
+          </mat-icon>
+
+        </div>
 
         <strong>
           No hay ventas registradas.

@@ -33,6 +33,11 @@ import {
 } from '../../../../core/models/product.model';
 import { SupplierService } from '../../../../core/services/supplier.service';
 import { GetSuppliers, Supplier } from '../../../../core/models/supplier.model';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 interface PurchaseDetailForm {
@@ -47,7 +52,12 @@ interface PurchaseDetailForm {
 
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    MatSelectModule,
+    MatInputModule,
+    MatOptionModule,
+    MatFormFieldModule
   ],
 
   templateUrl: './purchase-form.component.html',

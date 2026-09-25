@@ -8,156 +8,300 @@
   font-family: vars.$font-family-base;
   box-shadow: vars.$shadow-md;
 
-  // Encabezado
+  // ============================================================
+  // HEADER
+  // ============================================================
+
   .dialog-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: vars.$spacing-sm;
+    margin-bottom: vars.$spacing-md;
 
     .dialog-icon {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: vars.$radius-md;
-      background: vars.$color-surface-secondary;
-      color: vars.$color-primary-dark;
-      font-size: 18px;
-
-      // Corrige el ícono de Material
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24;
-        font-size: 18px;
-        line-height: 1;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     h2 {
-      font-size: vars.$font-size-lg;
-      font-weight: 750;
-      color: vars.$color-primary-dark;
       margin: 0;
+      font-size: vars.$font-size-lg;
+      font-weight: vars.$font-weight-bold;
+      color: vars.$color-secondary;
+      line-height: 1.2;
     }
   }
 
-  // Descripción
-  .dialog-description {
-    font-size: vars.$font-size-sm;
-    color: vars.$color-text-secondary;
-    margin-bottom: 20px;
+  // ============================================================
+  // ICONO
+  // ============================================================
+
+  .card__icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: vars.$radius-md;
+    background: vars.$color-secondary-light;
+    color: vars.$color-secondary;
   }
 
-  // Campo de entrada
+  .card__icon mat-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+
+  // ============================================================
+  // DESCRIPCIÓN
+  // ============================================================
+
+  .dialog-description {
+    margin: 0 0 vars.$spacing-xl;
+    font-size: vars.$font-size-sm;
+    line-height: 1.5;
+    color: vars.$color-text-secondary;
+  }
+
+  // ============================================================
+  // CAMPO DE MONTO
+  // ============================================================
+
   .dialog-input-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
+    gap: vars.$spacing-xs;
+    margin-bottom: vars.$spacing-lg;
 
     label {
       font-size: vars.$font-size-xs;
-      font-weight: 700;
-      color: vars.$color-text-muted;
+      font-weight: vars.$font-weight-semibold;
+      color: vars.$color-text-secondary;
       letter-spacing: 0.5px;
     }
 
     .dialog-input {
       width: 100%;
-      border-radius: vars.$radius-md;
-
-      .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
-
-      .mat-form-field-outline {
-        color: vars.$color-border;
-      }
-
-      .mat-form-field-outline-thick {
-        color: vars.$color-border-light;
-      }
 
       input {
-        font-size: vars.$font-size-sm;
+        font-family: vars.$font-family-base;
+        font-size: vars.$font-size-md;
+        font-weight: vars.$font-weight-medium;
         color: vars.$color-text-primary;
+      }
+
+      .mat-mdc-form-field-prefix,
+      .mat-mdc-form-field-suffix {
+        color: vars.$color-text-secondary;
+        font-size: vars.$font-size-sm;
+      }
+
+      .mat-mdc-form-field-infix {
+        min-height: vars.$input-height-lg;
+      }
+    }
+
+    // ========================================================
+    // SUGERENCIA
+    // ========================================================
+
+    .dialog-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: vars.$spacing-sm;
+      margin-top: vars.$spacing-xs;
+      font-size: vars.$font-size-xs;
+      line-height: 1.4;
+      color: vars.$color-text-muted;
+
+      strong {
+        color: vars.$color-text-primary;
+        font-size: vars.$font-size-sm;
+        font-weight: vars.$font-weight-semibold;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  // ============================================================
+  // BOTONES DE MONTO
+  // ============================================================
+
+  .dialog-options {
+    display: flex;
+    gap: vars.$spacing-sm;
+    margin-bottom: vars.$spacing-xl;
+
+    button {
+      flex: 1;
+      min-height: vars.$button-height-md;
+
+      border: 1px solid vars.$color-border;
+      border-radius: vars.$radius-xl;
+
+      background: vars.$color-surface;
+      color: vars.$color-text-secondary;
+
+      font-family: vars.$font-family-base;
+      font-size: vars.$font-size-sm;
+      font-weight: vars.$font-weight-semibold;
+
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+
+      &:hover {
+        background: vars.$color-primary-light;
+        border-color: vars.$color-primary;
+        color: vars.$color-primary;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  // ============================================================
+  // ERROR
+  // ============================================================
+
+  .dialog-error {
+    margin-bottom: vars.$spacing-lg;
+    padding: vars.$spacing-sm vars.$spacing-md;
+
+    border: 1px solid vars.$color-danger-light;
+    border-radius: vars.$radius-md;
+
+    background: vars.$color-danger-light;
+    color: vars.$color-danger;
+
+    font-size: vars.$font-size-sm;
+    line-height: 1.4;
+  }
+
+  // ============================================================
+  // ACCIONES
+  // ============================================================
+
+  .dialog-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: vars.$spacing-sm;
+
+    margin-top: vars.$spacing-xl;
+    padding: 0;
+
+    // ----------------------------------------------------------
+    // BOTÓN CANCELAR
+    // ----------------------------------------------------------
+
+    .product-dialog__button {
+      min-height: vars.$button-height-md;
+      padding: 0 vars.$spacing-lg;
+
+      border-radius: vars.$radius-sm;
+
+      font-family: vars.$font-family-base;
+      font-size: vars.$font-size-sm;
+      font-weight: vars.$font-weight-semibold;
+
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+
+      &--secondary {
+        border: 1px solid vars.$color-border;
+        background: vars.$color-surface;
+        color: vars.$color-text-secondary;
+
+        &:hover {
+          background: vars.$color-surface-secondary;
+          border-color: vars.$color-border-disabled;
+          color: vars.$color-text-primary;
+        }
+      }
+    }
+
+    // ----------------------------------------------------------
+    // BOTÓN ABRIR CAJA
+    // ----------------------------------------------------------
+
+    .button-red-light {
+      min-height: vars.$button-height-md;
+      padding: 0 vars.$spacing-lg;
+
+      border-radius: vars.$radius-sm;
+
+      font-family: vars.$font-family-base;
+      font-size: vars.$font-size-sm;
+      font-weight: vars.$font-weight-semibold;
+
+      transition:
+        background-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.1s ease;
+
+      &--primary {
+        background: vars.$color-primary;
+        color: vars.$color-text-light;
+
+        &:hover:not(:disabled) {
+          background: vars.$color-primary-hover;
+          box-shadow: vars.$shadow-sm;
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(1px);
+        }
+
+        &:disabled {
+          background: vars.$color-primary-light;
+          color: vars.$color-text-muted;
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 480px) {
+  .open-cash-register-dialog {
+    padding: vars.$spacing-xl;
+
+    .dialog-options {
+      gap: vars.$spacing-xs;
+
+      button {
+        font-size: vars.$font-size-xs;
       }
     }
 
     .dialog-suggestion {
-      font-size: vars.$font-size-xs;
-      color: vars.$color-text-muted;
-      margin-top: 4px;
-
-      strong {
-        color: vars.$color-text-primary;
-        font-weight: 700;
-      }
-    }
-  }
-
-  // Botones de monto sugerido
-  .dialog-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 22px;
-
-    button {
-      flex: 1;
-      border-radius: 20px;
-      font-size: vars.$font-size-sm;
-      font-weight: 650;
-      color: vars.$color-text-secondary;
-      border-color: vars.$color-border;
-      background: vars.$color-surface;
-      transition: background .15s ease, border-color .15s ease;
-
-      &:hover {
-        background: vars.$color-surface-secondary;
-        border-color: vars.$color-primary-light;
-        color: vars.$color-primary-dark;
-      }
-    }
-  }
-
-  // Acciones
-  .dialog-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-
-    .cancel {
-      border: 1px solid vars.$color-border;
-      background: vars.$color-surface;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-sm;
-      font-weight: 650;
-      border-radius: vars.$radius-sm;
-      padding: 6px 14px;
-
-      &:hover {
-        background: vars.$color-surface-secondary;
-        color: vars.$color-primary-dark;
-      }
+      align-items: flex-start;
+      flex-direction: column;
+      gap: vars.$spacing-xs;
     }
 
-    .confirm {
-      background: vars.$color-primary-light;
-      color: vars.$color-surface;
-      font-size: vars.$font-size-sm;
-      font-weight: 650;
-      border-radius: vars.$radius-sm;
-      padding: 6px 14px;
-      transition: background .15s ease;
+    .dialog-actions {
+      flex-direction: column-reverse;
+      align-items: stretch;
 
-      &:hover {
-        background: vars.$color-primary-dark;
-      }
-
-      &:disabled {
-        background: vars.$color-primary-light;
-        opacity: 0.7;
-        cursor: not-allowed;
+      button {
+        width: 100%;
       }
     }
   }

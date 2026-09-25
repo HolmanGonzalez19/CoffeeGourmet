@@ -1,145 +1,237 @@
 @use '../../../../../styles/variables' as vars;
 
+// ============================================================
+// LOGIN
+// ============================================================
+
 .login {
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px;
-  box-sizing: border-box;
-  font-family: vars.$font-family-base;
+width: 100%;
+min-height: 100%;
 
-  &__card {
-    position: relative;
-    width: min(100%, 390px);
-    padding: 34px 32px 24px;
-    box-sizing: border-box;
-    background: vars.$color-surface;
-    border-radius: 8px;
-    box-shadow:
-      0 18px 45px rgba(0, 0, 0, 0.28),
-      0 4px 12px rgba(0, 0, 0, 0.12);
-  }
+display: flex;
+align-items: center;
+justify-content: center;
 
-  &__close {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    width: 30px;
-    height: 30px;
-    border: 0;
-    background: transparent;
-    font-size: 22px;
-    line-height: 30px;
-    color: vars.$color-text-secondary;
-    cursor: pointer;
-    border-radius: 50%;
-    transition:
-      background-color 0.15s ease,
-      color 0.15s ease;
-    
-    &:hover {
-      background: vars.$color-surface-secondary;
-      color: vars.$color-text-primary;
-    }
+padding: 9px;
+box-sizing: border-box;
 
-    &:disabled {
-      cursor: default;
-      opacity: 0.5;
-    }
-  }
+font-family: vars.$font-family-base;
 
-  &__brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    margin-bottom: 18px;
+// ==========================================================
+// CARD
+// ==========================================================
 
-    span {
-      font-size: vars.$font-size-xs;
-      font-weight: 700;
-      letter-spacing: 1.4px;
-      color: vars.$color-primary;
-    }
-  }
+&__card {
+position: relative;
 
-  &__brand-icon {
-    width: 70px;
-    height: 70px;
-    display: grid;
-    place-items: center;
-    border-radius: vars.$radius-lg;
+width: min(100%, 390px);
 
-    img {
-      width: 160%;
-      object-fit: contain;
-      border-radius: inherit;
-    }
-  }
+padding: 34px 32px 24px;
 
-  &__header {
-    text-align: center;
-    margin-bottom: 24px;
+background: vars.$color-surface;
+border-radius: vars.$radius-md;
+box-shadow: vars.$shadow-dialog;
 
-    h1 {
-      margin: 0 0 7px;
-      color: vars.$color-text-primary;
-      font-size: vars.$font-size-lg;
-      line-height: 1.2;
-      font-weight: 600;
-    }
 
-    p {
-      margin: 0 auto;
-      max-width: 290px;
-      color: vars.$color-text-secondary;
-      font-size: vars.$font-size-sm;
-      line-height: 1.5;
-    }
-  }
+}
 
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-  }
+// ==========================================================
+// CLOSE BUTTON
+// ==========================================================
 
-  &__field {
-    width: 100%;
-  }
+&__close {
+position: absolute;
+top: 10px;
+right: 12px;
 
-  &__submit {
-    width: 100%;
-    min-height: 40px;
-    margin-top: 3px;
-    border-radius: 20px !important;
-    background: vars.$color-primary;
-    color: vars.$color-surface !important;
-    font-size: vars.$font-size-sm;
-    font-weight: 600;
-    box-shadow: none !important;
-  }
+width: 30px;
+height: 30px;
 
-  &__cancel {
-    align-self: center;
-    min-height: 30px;
-    color: vars.$color-text-secondary;
-    font-size: vars.$font-size-xs;
-    font-weight: 500;
-  }
+border: 0;
+border-radius: vars.$radius-round;
 
-  &__footer {
-    margin-top: 18px;
-    padding-top: 14px;
-    border-top: 1px solid vars.$color-border;
-    text-align: center;
+background: transparent;
 
-    span {
-      color: vars.$color-text-muted;
-      font-size: vars.$font-size-xs;
-    }
-  }
+font-size: 22px;
+line-height: 30px;
+
+color: vars.$color-text-secondary;
+
+cursor: pointer;
+
+transition:
+  background-color 0.15s ease,
+  color 0.15s ease;
+
+&:hover {
+  background: vars.$color-surface-secondary;
+  color: vars.$color-text-primary;
+}
+
+&:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+
+}
+
+// ==========================================================
+// BRAND
+// ==========================================================
+
+&__brand {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+gap: 7px;
+
+margin-bottom: 18px;
+
+span {
+  font-size: vars.$font-size-xs;
+  font-weight: vars.$font-weight-bold;
+  letter-spacing: 1.4px;
+  color: vars.$color-primary;
+}
+
+
+}
+
+// ==========================================================
+// BRAND ICON
+// ==========================================================
+
+&__brand-icon {
+width: 70px;
+height: 70px;
+
+display: grid;
+place-items: center;
+
+border-radius: vars.$radius-lg;
+
+img {
+  width: 160%;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+
+}
+
+// ==========================================================
+// HEADER
+// ==========================================================
+
+&__header {
+text-align: center;
+margin-bottom: 24px;
+
+h1 {
+  margin: 0 0 7px;
+
+  color: vars.$color-text-primary;
+
+  font-size: vars.$font-size-lg;
+  line-height: 1.2;
+  font-weight: vars.$font-weight-semibold;
+}
+
+p {
+  margin: 0 auto;
+
+  max-width: 290px;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+}
+
+
+}
+
+// ==========================================================
+// FORM
+// ==========================================================
+
+&__form {
+display: flex;
+flex-direction: column;
+
+gap: 13px;
+
+
+}
+
+// ==========================================================
+// FORM FIELD
+// ==========================================================
+
+&__field {
+width: 100%;
+}
+
+// ==========================================================
+// PRIMARY ACTION
+// ==========================================================
+
+&__submit {
+width: 100%;
+min-height: vars.$button-height-lg;
+
+margin-top: 3px;
+
+border-radius: 20px !important;
+
+background: vars.$color-primary;
+color: vars.$color-surface !important;
+
+font-size: vars.$font-size-sm;
+font-weight: vars.$font-weight-semibold;
+
+box-shadow: none !important;
+
+
+}
+
+// ==========================================================
+// SECONDARY ACTION
+// ==========================================================
+
+&__cancel {
+align-self: center;
+
+min-height: 30px;
+
+color: vars.$color-text-secondary;
+
+font-size: vars.$font-size-xs;
+font-weight: vars.$font-weight-medium;
+
+
+}
+
+// ==========================================================
+// FOOTER
+// ==========================================================
+
+&__footer {
+margin-top: 18px;
+padding-top: 14px;
+
+border-top: 1px solid vars.$color-border;
+
+text-align: center;
+
+span {
+  color: vars.$color-text-muted;
+  font-size: vars.$font-size-xs;
+}
+
+
+}
 }

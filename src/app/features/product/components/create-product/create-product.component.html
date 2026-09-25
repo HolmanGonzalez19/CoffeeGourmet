@@ -21,7 +21,7 @@
       <mat-form-field class="product-dialog__field">
         <mat-label> Nombre </mat-label>
         <input matInput id="productoNombre" type="text" maxlength="150"
-          [(ngModel)]="productoForm.nombre" placeholder="Nombre del producto"
+          [(ngModel)]="productoForm.nombre"
           name="nombre" #nombre="ngModel" required>
         <mat-error class="campoObligatorio" *ngIf="nombre.invalid && nombre.touched">
           Campo Obligatorio
@@ -68,14 +68,15 @@
           Campo Obligatorio
         </mat-error>
       </mat-form-field>
-      <mat-form-field lass="product-dialog__field" *ngIf="modoEdicion">
+      <mat-form-field class="product-dialog__field" *ngIf="modoEdicion" [class.product-dialog__field--disabled]="true"
+        [class.product-dialog__field--error]="precioCompraError">
         <mat-label> Precio de compra </mat-label>
         <span matTextPrefix> $&nbsp; </span>
         <input matInput id="productoPrecioCompra" type="number" min="0"
-          step="0.01" [(ngModel)]="productoForm.precioCompra" name="compra" #compra="ngModel" required>
-        <mat-error class="campoObligatorio" *ngIf="compra.invalid && compra.touched">
+          step="0.01" [(ngModel)]="productoForm.precioCompra" name="compra" #compra="ngModel" required disabled>
+        <mat-hint class="campoObligatorio" *ngIf="precioCompraError">
           Campo Obligatorio
-        </mat-error>
+        </mat-hint>
       </mat-form-field>
       <mat-form-field class="product-dialog__field" *ngIf="modoEdicion">
         <mat-label> Precio de venta </mat-label>

@@ -147,4 +147,14 @@ export class SaleService {
 
   }
 
+  cancel( id: number, usuarioId: number, motivo: string): Observable<void> {
+    return this.http.patch<void>(
+      `${this.endpoint}/${id}/cancel`,
+      {
+      usuarioId,
+      motivo
+    }
+    );
+  }
+
 }

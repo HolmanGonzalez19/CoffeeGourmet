@@ -15,7 +15,7 @@
       </button>
     </div>
   </header>
-  <div class="__content">
+  <div class="users__content">
     <section class="users__filters">
         <mat-form-field class="users__field">
           <mat-label> Estado </mat-label>
@@ -33,7 +33,7 @@
             <mat-option [value]="'OPERADOR'"> OPERADOR </mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-button matButton="outlined" class="clear_filter" (click)="limpiarFiltros()"> 
+        <button mat-button matButton="outlined" (click)="limpiarFiltros()"> 
           <mat-icon> filter_alt_off </mat-icon>
           Limpiar filtros
         </button>
@@ -54,8 +54,7 @@
         </div>
         <div class="users__field-search">
            <mat-form-field >
-            <mat-label> Buscar </mat-label>
-            <input matInput id="busqueda" type="text" placeholder="usuario o nombre..."
+            <input matInput id="busqueda" type="text" placeholder="Usuario o Nombre..."
               [(ngModel)]="filtroBusqueda" (input)="aplicarFiltros()">
             <mat-icon matSuffix> search </mat-icon>
           </mat-form-field>

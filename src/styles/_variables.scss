@@ -1,52 +1,127 @@
+ // ============================================================
+// DESIGN SYSTEM - VARIABLES / TOKENS
+// ============================================================
+
+// ============================================================
+// COLORS - PRIMARY
+// ============================================================
+
 $color-primary: #f58a1f;
-$color-primary-dark: #d96f08;
+$color-primary-hover: #d96f08;
 $color-primary-light: #fff3e6;
 
-$color-success-dark: #35694a;
+// ============================================================
+// COLORS - SECONDARY
+// ============================================================
+
+$color-secondary: #6b4535;
+$color-secondary-hover: #4a3026;
+$color-secondary-light: #f1e8e3;
+
+// ============================================================
+// COLORS - SUCCESS
+// ============================================================
+
 $color-success: #18a36b;
+$color-success-hover: #35694a;
 $color-success-light: #dcf4eb;
 
-$color-danger:#dc3545;
-$color-danger-2: #b94a48;
-$color-danger-soft: #efd1d0;
-$color-danger-light: #fbecec; 
-$color-warning: #f59e0b;
+// ============================================================
+// COLORS - DANGER
+// ============================================================
+
+$color-danger: #dc3545;
+$color-danger-hover: #b94a48;
+$color-danger-light: #fbecec;
+
+// ============================================================
+// COLORS - WARNING
+// ============================================================
+
+$color-warning: #c56b35;
+$color-warning-hover: #a95728;
+$color-warning-light: #fff0e5;
+
+// ============================================================
+// COLORS - INFO
+// ============================================================
+
+$color-info: #1565c0;
+$color-info-hover: #0d47a1;
+$color-info-light: #e3f2fd;
+
+// ============================================================
+// COLORS - TEXT
+// ============================================================
 
 $color-text-primary: #1f2937;
 $color-text-secondary: #6b7280;
 $color-text-muted: #9ca3af;
-$color-text-light: #c7cedb;
+$color-text-disabled: #c7cedb;
+$color-text-light: #ffffff;
+
+// ============================================================
+// COLORS - BACKGROUND / SURFACE
+// ============================================================
 
 $color-background: #f7f8fa;
+
 $color-surface: #ffffff;
 $color-surface-secondary: #f1f2f4;
+$color-surface-disabled: #f1f2f4;
+
+// ============================================================
+// COLORS - BORDER
+// ============================================================
 
 $color-border: #e5e7eb;
 $color-border-light: #eef0f2;
+$color-border-disabled: #d9dde3;
+
+// ============================================================
+// COLORS - COMMON
+// ============================================================
+
+$color-white: #ffffff;
+$color-black: #000000;
+
+// ============================================================
+// LAYOUT / SIDEBAR
+// ============================================================
 
 $color-sidebar: #111b30;
 $color-sidebar-active: #202c42;
 
-$color-beige: #FFFAF7;
+// ============================================================
+// LEGACY / SPECIAL COLORS
+// ============================================================
 
+$color-beige: #fffaf7;
 $color-text-gray: #9b928d;
-$color-coffe-light: #f1e8e3;
-$color-text-coffee: #4A3026;
-$color-beige-coffee-light: #EADED7;
-$color-beige-light: #F1E9E4;
-$color-gray: #FEFDFC;
+$color-beige-coffee-light: #eaded7;
+$color-beige-light: #f1e9e4;
+$color-gray: #fefdfc;
+
+$color-coffee-light: #f1e8e3;
+$color-coffe-light: $color-coffee-light;
+$color-text-coffee: #4a3026;
 
 $coffee: #6b4535;
 $border: #e8e2de;
 
-$color-warning: #c56b35;
-$color-warning-soft: #fff0e5;
+// ============================================================
+// BORDER RADIUS
+// ============================================================
 
 $radius-sm: 6px;
 $radius-md: 8px;
 $radius-lg: 10px;
 $radius-xl: 14px;
 $radius-round: 50%;
+
+// ============================================================
+// SPACING
+// ============================================================
 
 $spacing-xs: 4px;
 $spacing-sm: 8px;
@@ -55,8 +130,20 @@ $spacing-lg: 16px;
 $spacing-xl: 20px;
 $spacing-2xl: 24px;
 
+// ============================================================
+// SHADOWS
+// ============================================================
+
 $shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
 $shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+$shadow-dialog:
+  0 18px 45px rgba(0, 0, 0, 0.28),
+  0 4px 12px rgba(0, 0, 0, 0.12);
+
+// ============================================================
+// TYPOGRAPHY
+// ============================================================
 
 $font-family-base: 'Inter', sans-serif;
 
@@ -65,4 +152,48 @@ $font-size-sm: 11px;
 $font-size-md: 13px;
 $font-size-lg: 15px;
 $font-size-xl: 18px;
-$font-size-total: 24px;
+$font-size-2xl: 24px;
+
+// ============================================================
+// FONT WEIGHTS
+// ============================================================
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// ============================================================
+// COMPONENT SIZES
+// ============================================================
+
+$button-height-sm: 32px;
+$button-height-md: 34px;
+$button-height-lg: 40px;
+
+$input-height-sm: 32px;
+$input-height-md: 36px;
+$input-height-lg: 40px;
+
+// ============================================================
+// COMPATIBILITY ALIASES
+// ============================================================
+//
+// Se mantienen temporalmente para componentes existentes.
+// La idea es migrarlos progresivamente a los nombres semánticos
+// nuevos sin romper estilos existentes.
+// ============================================================
+
+$color-primary-dark: $color-primary-hover;
+
+$color-success-dark: $color-success-hover;
+
+$color-danger-2: $color-danger-hover;
+
+$color-danger-soft: #efd1d0;
+
+$color-text-light-legacy: $color-text-disabled;
+
+$color-warning-soft: $color-warning-light;
+
+$font-size-total: $font-size-2xl;

@@ -1,168 +1,772 @@
+@use '../../../../../styles/variables' as vars;
+
+// ============================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================
+
 .purchase-detail {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  min-height: 100%;
+
+  padding: vars.$spacing-2xl;
+
+  background: vars.$color-background;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xl;
+
+  font-family: vars.$font-family-base;
 }
+
+
+// ============================================================
+// HEADER
+// ============================================================
 
 .purchase-detail__header {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
-  margin-bottom: 24px;
+  justify-content: space-between;
 
-  h1 {
-    margin: 0;
-  }
+  gap: vars.$spacing-lg;
 
-  p {
-    margin: 6px 0 0;
-    opacity: 0.7;
-  }
+  padding: vars.$spacing-lg vars.$spacing-xl;
+
+  border-radius: vars.$radius-lg;
+
+  background: vars.$color-surface-secondary;
+
+  box-shadow: vars.$shadow-sm;
 }
 
-.card {
-  padding: 24px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+
+.purchase-detail__heading {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: vars.$spacing-xs;
 }
 
-.purchase-info {
+
+.purchase-detail__eyebrow {
+  font-size: vars.$font-size-xs;
+
+  font-weight: vars.$font-weight-bold;
+
+  letter-spacing: 1.2px;
+
+  text-transform: uppercase;
+
+  color: vars.$color-text-muted;
+}
+
+
+.purchase-detail__heading h1 {
+  margin: 0;
+
+  font-size: 28px;
+
+  font-weight: vars.$font-weight-bold;
+
+  line-height: 1.2;
+
+  color: vars.$color-text-primary;
+}
+
+
+.purchase-detail__heading p {
+  margin: vars.$spacing-sm 0 0;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-md;
+}
+
+
+// ============================================================
+// CARDS
+// ============================================================
+
+.purchase-detail__card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: vars.$spacing-2xl;
+
+  background: vars.$color-surface;
+
+  border: 1px solid vars.$color-border;
+
+  border-radius: vars.$radius-xl;
+
+  box-shadow: vars.$shadow-sm;
+}
+
+
+// ============================================================
+// HEADER DE SECCIÓN
+// ============================================================
+
+.purchase-detail__section-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: vars.$spacing-lg;
+
+  margin-bottom: vars.$spacing-xl;
+}
+
+
+.purchase-detail__section-header h2 {
+  margin: 0;
+
+  font-size: vars.$font-size-xl;
+
+  font-weight: vars.$font-weight-bold;
+
+  color: vars.$color-text-primary;
+}
+
+
+.purchase-detail__section-header p {
+  margin: vars.$spacing-xs 0 0;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-md;
+}
+
+
+// ============================================================
+// INFORMACIÓN DE LA COMPRA
+// ============================================================
+//
+// IMPORTANTE:
+// El HTML utiliza purchase-detail__info-grid.
+// Antes el SCSS estaba apuntando a purchase-detail__info,
+// por eso no se aplicaba.
+//
+// ============================================================
+
+.purchase-detail__info-grid {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
 
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  /*
+   * Cinco columnas para que:
+   *
+   * Código | Estado | Proveedor | Usuario | Fecha
+   *
+   * queden de izquierda a derecha.
+   */
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
 
-  span {
-    font-size: 13px;
-    opacity: 0.65;
-  }
+  gap: vars.$spacing-xl;
+
+  align-items: start;
 }
 
-.observation {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #eeeeee;
 
-  span {
-    font-size: 13px;
-    opacity: 0.65;
-  }
+// ============================================================
+// ITEMS DE INFORMACIÓN
+// ============================================================
 
-  p {
-    margin-bottom: 0;
-  }
+.purchase-detail__info-item {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: vars.$spacing-xs;
 }
 
-h2 {
-  margin-top: 0;
+
+// ============================================================
+// LABEL DE INFORMACIÓN
+// ============================================================
+
+.purchase-detail__info-label {
+  display: block;
+
+  color: vars.$color-text-muted;
+
+  font-size: vars.$font-size-xs;
+
+  font-weight: vars.$font-weight-semibold;
+
+  text-transform: uppercase;
+
+  letter-spacing: .5px;
 }
 
-.table-container {
+
+// ============================================================
+// VALOR DE INFORMACIÓN
+// ============================================================
+
+.purchase-detail__info-value {
+  display: block;
+
+  min-width: 0;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: vars.$color-text-primary;
+
+  font-size: vars.$font-size-md;
+
+  font-weight: vars.$font-weight-semibold;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+// ============================================================
+// ESTADO
+// ============================================================
+
+.purchase-detail__status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  min-height: 26px;
+
+  padding: 5px 9px;
+
+  box-sizing: border-box;
+
+  border-radius: vars.$radius-md;
+
+  background: vars.$color-success-light;
+
+  color: vars.$color-success;
+
+  font-size: vars.$font-size-xs;
+
+  font-weight: vars.$font-weight-bold;
+
+  white-space: nowrap;
+}
+
+
+.purchase-detail__status-dot {
+  width: 6px;
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: vars.$radius-round;
+
+  background: currentColor;
+}
+
+
+.purchase-detail__status--cancelled {
+  background: vars.$color-danger-light;
+
+  color: vars.$color-danger;
+}
+
+
+// ============================================================
+// CONTADOR
+// ============================================================
+
+.purchase-detail__count {
+  padding: vars.$spacing-sm vars.$spacing-md;
+
+  border-radius: vars.$radius-md;
+
+  background: vars.$color-primary-light;
+
+  color: vars.$color-primary-dark;
+
+  font-size: vars.$font-size-sm;
+
+  font-weight: vars.$font-weight-bold;
+
+  white-space: nowrap;
+}
+
+
+// ============================================================
+// OBSERVACIÓN
+// ============================================================
+
+.purchase-detail__observation {
+  margin-top: vars.$spacing-xl;
+
+  padding-top: vars.$spacing-lg;
+
+  border-top: 1px solid vars.$color-border-light;
+}
+
+
+.purchase-detail__observation > span {
+  display: block;
+
+  margin-bottom: vars.$spacing-xs;
+
+  color: vars.$color-text-muted;
+
+  font-size: vars.$font-size-xs;
+
+  font-weight: vars.$font-weight-semibold;
+
+  text-transform: uppercase;
+
+  letter-spacing: .5px;
+}
+
+
+.purchase-detail__observation p {
+  margin: 0;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-md;
+
+  line-height: 1.5;
+}
+
+
+// ============================================================
+// TABLA
+// ============================================================
+
+.purchase-detail__table-wrapper {
+  width: 100%;
+
   overflow-x: auto;
 }
 
-table {
+
+.purchase-detail__table {
   width: 100%;
+
+  min-width: 750px;
+
   border-collapse: collapse;
+
+  font-size: vars.$font-size-md;
 }
 
-th,
-td {
-  padding: 13px 12px;
+
+.purchase-detail__table thead {
+  background: vars.$color-surface-secondary;
+}
+
+
+.purchase-detail__table th {
+  padding: vars.$spacing-md vars.$spacing-lg;
+
+  border-bottom: 1px solid vars.$color-border;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-sm;
+
+  font-weight: vars.$font-weight-bold;
+
   text-align: left;
-  border-bottom: 1px solid #eeeeee;
+
+  white-space: nowrap;
 }
 
-th {
-  font-weight: 600;
-  background: #f9fafb;
+
+.purchase-detail__table td {
+  padding: vars.$spacing-md vars.$spacing-lg;
+
+  border-bottom: 1px solid vars.$color-border-light;
+
+  color: vars.$color-text-primary;
+
+  vertical-align: middle;
 }
 
-.total {
+
+.purchase-detail__table tbody tr {
+  transition: background-color .15s ease;
+}
+
+
+.purchase-detail__table tbody tr:hover {
+  background: vars.$color-background;
+}
+
+
+.purchase-detail__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+// ============================================================
+// PRODUCTO
+// ============================================================
+
+.purchase-detail__product {
   display: flex;
-  justify-content: flex-end;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+  min-width: 200px;
+}
+
+
+.purchase-detail__product strong {
+  color: vars.$color-text-primary;
+
+  font-size: vars.$font-size-md;
+
+  font-weight: vars.$font-weight-semibold;
+}
+
+
+// ============================================================
+// CANTIDAD
+// ============================================================
+
+.purchase-detail__quantity {
+  display: inline-flex;
+
   align-items: center;
-  gap: 20px;
-  margin-top: 24px;
-  font-size: 18px;
+  justify-content: center;
 
-  strong {
-    font-size: 24px;
-  }
+  min-width: 34px;
+
+  padding: 4px 8px;
+
+  border-radius: vars.$radius-sm;
+
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-sm;
+
+  font-weight: vars.$font-weight-semibold;
 }
 
-.audit {
+
+// ============================================================
+// PRECIOS
+// ============================================================
+
+.purchase-detail__price {
+  color: vars.$color-text-primary;
+
+  font-weight: vars.$font-weight-semibold;
+
+  white-space: nowrap;
+}
+
+
+.purchase-detail__price--subtotal {
+  font-weight: vars.$font-weight-bold;
+}
+
+
+// ============================================================
+// TOTAL
+// ============================================================
+
+.purchase-detail__total {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: vars.$spacing-lg;
+
+  margin-top: vars.$spacing-xl;
+
+  padding-top: vars.$spacing-lg;
+
+  border-top: 1px solid vars.$color-border-light;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-md;
+}
+
+
+.purchase-detail__total strong {
+  color: vars.$color-text-primary;
+
+  font-size: vars.$font-size-xl;
+
+  font-weight: vars.$font-weight-bold;
+}
+
+
+// ============================================================
+// AUDITORÍA
+// ============================================================
+
+.purchase-detail__audit {
+  margin-bottom: 0;
+}
+
+
+.purchase-detail__audit {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
 
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
-  span {
-    font-size: 13px;
-    opacity: 0.65;
-  }
+  gap: vars.$spacing-xl;
 }
 
-button {
-  border: none;
-  border-radius: 7px;
-  padding: 10px 18px;
+
+.purchase-detail__audit-item {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: vars.$spacing-xs;
+}
+
+
+// ============================================================
+// BOTONES
+// ============================================================
+
+.purchase-detail__button {
+  min-height: vars.$button-height-md;
+
+  padding: 0 vars.$spacing-lg;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 0;
+
+  border-radius: vars.$radius-md;
+
+  font-family: vars.$font-family-base;
+
+  font-size: vars.$font-size-sm;
+
+  font-weight: vars.$font-weight-semibold;
+
   cursor: pointer;
-  font-weight: 600;
+
+  transition:
+    background-color .15s ease,
+    color .15s ease,
+    border-color .15s ease;
 }
 
-.btn-secondary {
-  background: #e5e7eb;
-  color: #111827;
+
+.purchase-detail__button mat-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
 }
 
-.message {
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+
+.purchase-detail__button--secondary {
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-secondary;
+
+  border: 1px solid vars.$color-border;
 }
 
-.message--error {
-  background: #fee2e2;
-  color: #991b1b;
+
+.purchase-detail__button--secondary:hover {
+  background: vars.$color-border;
+
+  color: vars.$color-text-primary;
 }
 
-.loading {
-  padding: 40px;
-  text-align: center;
+
+// ============================================================
+// ERROR
+// ============================================================
+
+.purchase-detail__error {
+  display: flex;
+
+  align-items: center;
+
+  gap: vars.$spacing-sm;
+
+  padding: vars.$spacing-md vars.$spacing-lg;
+
+  border-radius: vars.$radius-md;
+
+  color: vars.$color-danger;
+
+  background: vars.$color-danger-light;
+
+  border: 1px solid vars.$color-danger;
+
+  font-size: vars.$font-size-md;
 }
+
+
+.purchase-detail__error mat-icon {
+  width: 20px;
+  height: 20px;
+
+  font-size: 20px;
+}
+
+
+// ============================================================
+// LOADING
+// ============================================================
+
+.purchase-detail__loading {
+  min-height: 180px;
+
+  padding: vars.$spacing-2xl;
+
+  background: vars.$color-surface;
+
+  border: 1px solid vars.$color-border;
+
+  border-radius: vars.$radius-xl;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: vars.$spacing-md;
+
+  color: vars.$color-text-secondary;
+
+  font-size: vars.$font-size-md;
+}
+
+
+.purchase-detail__spinner {
+  width: 30px;
+  height: 30px;
+
+  border: 3px solid vars.$color-border;
+
+  border-top-color: vars.$color-primary;
+
+  border-radius: vars.$radius-round;
+
+  animation: purchase-detail-spin .8s linear infinite;
+}
+
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 1200px) {
+
+  .purchase-detail__info-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+}
+
 
 @media (max-width: 900px) {
 
-  .purchase-info {
-    grid-template-columns: 1fr 1fr;
+  .purchase-detail__info-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
 }
 
-@media (max-width: 600px) {
 
-  .purchase-info,
-  .audit {
+@media (max-width: 768px) {
+
+  .purchase-detail {
+    padding: vars.$spacing-lg;
+  }
+
+
+  .purchase-detail__header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .purchase-detail__section-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .purchase-detail__info-grid {
     grid-template-columns: 1fr;
   }
 
-  .purchase-detail__header {
-    align-items: flex-start;
-    gap: 15px;
-    flex-direction: column;
+
+  .purchase-detail__audit {
+    grid-template-columns: 1fr;
+  }
+
+
+  .purchase-detail__button {
+    width: 100%;
+  }
+
+
+  .purchase-detail__total {
+    justify-content: space-between;
+  }
+
+
+  .purchase-detail__info-value {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+}
+
+
+// ============================================================
+// ANIMACIÓN
+// ============================================================
+
+@keyframes purchase-detail-spin {
+
+  to {
+    transform: rotate(360deg);
   }
 
 }

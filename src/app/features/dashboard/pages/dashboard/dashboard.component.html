@@ -172,86 +172,6 @@
               </button>
             </mat-card-actions>
           </mat-card>
-
-
-          <!--article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">$</div>
-                <span class="card__label">Ventas hoy</span>
-              </div>
-
-              <strong class="card__value">{{ dashboard.ventasHoy }}</strong>
-
-              <span class="card__description">
-                Ventas registradas durante el día
-              </span>
-            </article>
-
-            <article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">$</div>
-                <span class="card__label">Total vendido hoy</span>
-              </div>
-
-              <strong class="card__value card__value--money">
-                {{ dashboard.totalVentasHoy | currency:'COP':'symbol-narrow':'1.0-0' }}
-              </strong>
-
-              <span class="card__description">
-                Valor total de las ventas del día
-              </span>
-            </article>
-
-            <article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">▦</div>
-                <span class="card__label">Productos vendidos</span>
-              </div>
-
-              <strong class="card__value">{{ dashboard.productosVendidosHoy }}</strong>
-
-              <span class="card__description">
-                Unidades vendidas durante el día
-              </span>
-            </article>
-
-            <article class="dashboard__card dashboard__card--cash">
-              <div class="card__top">
-                <div class="card__icon card__icon--cash">$</div>
-
-                <span
-                  class="card__status"
-                  [ngClass]="{
-                    'card__status--open': dashboard.cajaAbiertaId !== null,
-                    'card__status--closed': dashboard.cajaAbiertaId === null
-                  }">
-                  {{ dashboard.cajaAbiertaId !== null ? 'ABIERTA' : 'CERRADA' }}
-                </span>
-              </div>
-
-              <span class="card__label">Caja</span>
-
-              <strong class="card__cash-title">
-                {{ dashboard.cajaAbiertaId !== null ? 'Caja abierta' : 'Caja cerrada' }}
-              </strong>
-
-              <span class="card__description">
-                {{
-                  dashboard.cajaAbiertaId !== null
-                    ? 'La caja se encuentra operativa'
-                    : 'No existe una caja abierta actualmente'
-                }}
-              </span>
-
-              <button
-                type="button"
-                class="card__action"
-                (click)="irACaja()"
-                [class.is-open]="dashboard.cajaAbiertaId !== null">
-                {{ dashboard.cajaAbiertaId !== null ? 'Ir a Caja' : 'Abrir Caja' }}
-              </button>
-            </article-->
-
         </div>
       </section>
 
@@ -264,117 +184,31 @@
         </div>
 
         <div class="dashboard__cards dashboard__cards--secondary">
-
-          <!--article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">$</div>
-                <span class="card__label">Efectivo esperado</span>
-              </div>
-
-              <strong class="card__value card__value--money">
-                {{ dashboard.efectivoEsperado | currency:'COP':'symbol-narrow':'1.0-0' }}
-              </strong>
-
-              <span class="card__description">
-                Efectivo esperado en la caja
-              </span>
-            </article>
-
-            <article
-              class="dashboard__card"
-              [ngClass]="{ 'dashboard__card--warning': dashboard.productosStockBajo > 0 }">
-
-              <div class="card__top">
-                <div
-                  class="card__icon"
-                  [ngClass]="{ 'card__icon--warning': dashboard.productosStockBajo > 0 }">
-                  !
-                </div>
-
-                @if (dashboard.productosStockBajo > 0) {
-                  <span class="card__status card__status--warning">ATENCIÓN</span>
-                }
-              </div>
-
-              <span class="card__label">Existencias bajas</span>
-
-              <strong class="card__value">
-                {{ dashboard.productosStockBajo }}
-              </strong>
-
-              <span class="card__description">
-                Productos que requieren revisión
-              </span>
-            </article>
-
-            <article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">↑</div>
-                <span class="card__label">Ingresos totales</span>
-              </div>
-
-              <strong class="card__value card__value--money">
-                {{ dashboard.totalIngresos | currency:'COP':'symbol-narrow':'1.0-0' }}
-              </strong>
-
-              <span class="card__description">
-                Ingresos registrados
-              </span>
-            </article>
-
-            <article class="dashboard__card">
-              <div class="card__top">
-                <div class="card__icon">↓</div>
-                <span class="card__label">Egresos</span>
-              </div>
-
-              <strong class="card__value card__value--money">
-                {{ dashboard.totalEgresos | currency:'COP':'symbol-narrow':'1.0-0' }}
-              </strong>
-
-              <span class="card__description">
-                Egresos registrados
-              </span>
-            </article-->
-
           <mat-card class="dashboard__card">
-
             <mat-card-header>
-
               <div mat-card-avatar class="card__icon">
                 <mat-icon>
                   payments
                 </mat-icon>
               </div>
-
               <mat-card-title>
                 Efectivo esperado
               </mat-card-title>
-
             </mat-card-header>
-
-            <mat-card-content>
-
+           <mat-card-content>
               <strong class="card__value card__value--money">
                 {{ dashboard.efectivoEsperado | currency:'COP':'symbol-narrow':'1.0-0' }}
               </strong>
-
-              <p class="card__description">
+             <p class="card__description">
                 Efectivo esperado en la caja
               </p>
-
             </mat-card-content>
-
           </mat-card>
-
-
           <mat-card class="dashboard__card" [ngClass]="{
             'dashboard__card--warning': dashboard.productosStockBajo > 0
           }">
-
             <mat-card-header>
-
-              <div mat-card-avatar class="card__icon" [ngClass]="{
+             <div mat-card-avatar class="card__icon" [ngClass]="{
                 'card__status--warning': dashboard.productosStockBajo > 0
               }">
 
@@ -393,7 +227,6 @@
               }
 
             </mat-card-header>
-
 
             <mat-card-content>
 

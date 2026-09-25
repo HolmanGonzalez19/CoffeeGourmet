@@ -448,3 +448,48 @@
     background-color: vars.$color-surface !important;
   }
 }
+
+// ============================================================
+  // PAGINADOR MATERIAL
+  // ============================================================
+
+  .mat-mdc-paginator {
+    background-color: vars.$color-surface !important;
+
+    color: vars.$color-text-secondary !important;
+
+    border: 0 !important;
+
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-paginator-container {
+    min-height: 48px;
+
+    padding: 0 vars.$spacing-md;
+
+    background-color: vars.$color-surface !important;
+  }
+
+  .mat-mdc-paginator-range-label,
+  .mat-mdc-paginator-page-size-label {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-paginator .mat-mdc-icon-button {
+    color: vars.$color-primary !important;
+
+    background-color: transparent !important;
+  }
+
+  .mat-mdc-paginator .mat-mdc-icon-button:hover {
+    color: vars.$color-primary-dark !important;
+
+    background-color: vars.$color-primary-light !important;
+  }
+
+  .mat-mdc-paginator .mat-mdc-icon-button:disabled {
+    color: vars.$color-text-disabled !important;
+
+    background-color: transparent !important;
+  }

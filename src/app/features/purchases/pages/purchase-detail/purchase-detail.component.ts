@@ -20,6 +20,7 @@ import {
 import {
   Purchase
 } from '../../../../core/models/purchase.model';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -27,7 +28,8 @@ import {
   standalone: true,
 
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
 
   templateUrl: './purchase-detail.component.html',

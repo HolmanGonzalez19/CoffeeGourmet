@@ -9,6 +9,10 @@
   gap: vars.$spacing-xl;
   font-family: vars.$font-family-base;
 
+  /* =========================================================
+     HEADER
+     ========================================================= */
+
   &__header {
     display: flex;
     align-items: center;
@@ -67,10 +71,12 @@
     font-size: vars.$font-size-md;
     font-weight: 600;
     cursor: pointer;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-sm;
+
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease,
@@ -93,6 +99,10 @@
     }
   }
 
+  /* =========================================================
+     CONTENIDO
+     ========================================================= */
+
   &__content {
     width: 100%;
     display: flex;
@@ -105,50 +115,216 @@
      ========================================================= */
 
   &__filters {
+    width: 100%;
+    box-sizing: border-box;
+
     display: flex;
-    align-items: flex-end;
-    gap: vars.$spacing-lg;
+    align-items: center;
+    gap: vars.$spacing-md;
+    flex-wrap: wrap;
+
     padding: vars.$spacing-xl;
+
     border: 1px solid vars.$color-border-light;
     border-radius: vars.$radius-lg;
+
     background: vars.$color-surface;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
     margin-bottom: vars.$spacing-lg;
   }
 
+  /*
+   * Filtro de estado.
+   *
+   * No usar padding horizontal aquí porque termina
+   * reduciendo innecesariamente el espacio real del campo.
+   */
   &__field {
     width: 28% !important;
-    padding: 0 vars.$spacing-md;
+    padding: 0 !important;
+    margin: 0;
   }
 
+  /*
+   * El buscador está dentro del header del panel,
+   * no dentro de __filters.
+   */
   &__field-search {
     width: 53% !important;
+    min-width: 0;
+
+    .mat-mdc-form-field {
+      width: 100%;
+    }
   }
+
+  /*
+   * Angular Material
+   */
 
   .mat-mdc-form-field {
     width: 100%;
   }
 
   .mat-mdc-text-field-wrapper {
-    background-color: vars.$color-surface;
+    background-color: vars.$color-surface !important;
   }
 
   .mat-mdc-form-field-infix {
-    min-height: 44px;
+    min-height: 42px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
 
   .mat-mdc-form-field-subscript-wrapper {
-    display: none;
+    display: none !important;
   }
 
-  .mat-mdc-select-panel {
-    background-color: vars.$color-surface !important;
-    box-shadow: vars.$shadow-md !important;
-    border-radius: vars.$radius-md !important;
+  /*
+   * Label
+   */
+
+  .mat-mdc-form-field .mdc-floating-label {
+    color: vars.$color-text-secondary !important;
+    font-size: vars.$font-size-sm;
+  }
+
+  .mat-mdc-form-field.mat-focused .mdc-floating-label {
+    color: vars.$color-primary-dark !important;
+  }
+
+  /*
+   * Borde
+   */
+
+  .mat-mdc-form-field
+  .mdc-notched-outline__leading,
+  .mat-mdc-form-field
+  .mdc-notched-outline__notch,
+  .mat-mdc-form-field
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-border !important;
+  }
+
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__leading,
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__notch,
+  .mat-mdc-form-field.mat-focused
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-primary !important;
+    border-width: 1px !important;
+  }
+
+  /*
+   * Select
+   */
+
+  .mat-mdc-select-value {
+    color: vars.$color-text-primary !important;
+    font-size: vars.$font-size-sm;
+  }
+
+  .mat-mdc-select-arrow {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+    color: vars.$color-primary !important;
+  }
+
+  .mat-mdc-select-trigger {
+    padding: 0 10px;
+  }
+
+  /*
+   * Opciones
+   */
+
+  .mat-mdc-option {
+    color: vars.$color-text-primary !important;
+    font-size: vars.$font-size-sm !important;
   }
 
   .mat-mdc-option:hover {
     background-color: vars.$color-primary-light !important;
+  }
+
+  .mat-mdc-option.mdc-list-item--selected {
+    background-color: vars.$color-primary-light !important;
+    color: vars.$color-primary-dark !important;
+  }
+
+  .mat-mdc-option.mdc-list-item--selected:hover {
+    background-color: vars.$color-primary-light !important;
+  }
+
+  /*
+   * Inputs
+   */
+
+  .mat-mdc-input-element {
+    color: vars.$color-text-primary !important;
+    font-size: vars.$font-size-sm !important;
+  }
+
+  .mat-mdc-input-element::placeholder {
+    color: vars.$color-text-muted !important;
+    opacity: 1;
+  }
+
+  /*
+   * Iconos suffix
+   */
+
+  .mat-mdc-form-field-icon-suffix {
+    color: vars.$color-primary !important;
+  }
+
+  /* =========================================================
+     BOTÓN LIMPIAR FILTROS
+     ========================================================= */
+
+  .clear_filter {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-sm;
+
+    padding: 0 vars.$spacing-lg;
+
+    background: vars.$color-surface !important;
+    color: vars.$color-primary-dark !important;
+
+    border: 1px solid vars.$color-border !important;
+    border-radius: vars.$radius-md !important;
+
+    font-family: inherit;
+    font-size: vars.$font-size-sm !important;
+    font-weight: 600 !important;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+
+    &:hover {
+      background: vars.$color-primary-light !important;
+      border-color: vars.$color-primary !important;
+      color: vars.$color-primary-dark !important;
+    }
   }
 
   /* =========================================================
@@ -159,14 +335,17 @@
   &__error {
     min-height: 180px;
     padding: vars.$spacing-2xl;
+
     background: vars.$color-surface;
     border: 1px solid vars.$color-border;
     border-radius: vars.$radius-xl;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: vars.$spacing-md;
+
     color: vars.$color-text-secondary;
     font-size: vars.$font-size-md;
   }
@@ -183,9 +362,11 @@
   &__spinner {
     width: 30px;
     height: 30px;
+
     border: 3px solid vars.$color-border;
     border-top-color: vars.$color-primary;
     border-radius: vars.$radius-round;
+
     animation: purchases-spin 0.8s linear infinite;
   }
 
@@ -195,6 +376,7 @@
 
   &__panel {
     overflow: hidden;
+
     background: vars.$color-surface;
     border: 1px solid vars.$color-border;
     border-radius: vars.$radius-xl;
@@ -205,6 +387,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     gap: vars.$spacing-lg;
     padding: vars.$spacing-xl;
 
@@ -227,11 +410,15 @@
 
   &__count {
     padding: vars.$spacing-sm vars.$spacing-md;
+
     border-radius: vars.$radius-md;
+
     background: vars.$color-primary-light;
     color: vars.$color-primary-dark;
+
     font-size: vars.$font-size-sm;
     font-weight: 700;
+
     white-space: nowrap;
   }
 
@@ -239,7 +426,7 @@
      TABLA
      ========================================================= */
 
-  &__table-container {
+  &__table-wrapper {
     width: 100%;
     overflow-x: auto;
   }
@@ -247,7 +434,9 @@
   &__table {
     width: 100%;
     min-width: 1100px;
+
     border-collapse: collapse;
+
     font-size: vars.$font-size-md;
 
     thead {
@@ -256,18 +445,25 @@
 
     th {
       padding: vars.$spacing-md vars.$spacing-lg;
+
       border-bottom: 1px solid vars.$color-border;
+
       color: vars.$color-text-secondary;
+
       font-size: vars.$font-size-sm;
       font-weight: 700;
+
       text-align: left;
       white-space: nowrap;
     }
 
     td {
       padding: vars.$spacing-md vars.$spacing-lg;
+
       border-bottom: 1px solid vars.$color-border-light;
+
       color: vars.$color-text-primary;
+
       vertical-align: middle;
     }
 
@@ -292,6 +488,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+
     min-width: 170px;
 
     strong {
@@ -301,9 +498,13 @@
 
     small {
       max-width: 220px;
+
       overflow: hidden;
+
       color: vars.$color-text-muted;
+
       font-size: vars.$font-size-sm;
+
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -316,29 +517,49 @@
   }
 
   /* =========================================================
-     ESTADOS
-     ========================================================= */
+   ESTADOS
+   ========================================================= */
 
-  &__status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 9px;
-    border-radius: vars.$radius-md;
-    font-size: vars.$font-size-xs;
-    font-weight: 700;
-    white-space: nowrap;
-  }
+&__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 
-  &__status--registered {
-    background: vars.$color-success-light;
-    color: vars.$color-success;
-  }
+  min-width: 92px;
 
-  &__status--cancelled {
-    background: vars.$color-danger-light;
-    color: vars.$color-danger;
-  }
+  padding: 5px 10px;
+
+  border-radius: vars.$radius-md;
+
+  background: vars.$color-success-light;
+  color: vars.$color-success;
+
+  font-size: vars.$font-size-xs;
+  font-weight: 700;
+
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+&__status-dot {
+  width: 6px;
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: vars.$radius-round;
+
+  background: currentColor;
+}
+
+/* COMPRA ANULADA */
+
+&__status--cancelled {
+  background: vars.$color-danger-light;
+  color: vars.$color-danger;
+}
+
 
   /* =========================================================
      ACCIONES
@@ -347,20 +568,28 @@
   &__row-actions {
     display: flex;
     align-items: center;
+
     gap: vars.$spacing-xs;
+
     white-space: nowrap;
   }
 
   &__row-button {
     min-height: 32px;
+
     padding: 0 vars.$spacing-sm;
+
     border: 1px solid vars.$color-border;
     border-radius: vars.$radius-sm;
+
     background: vars.$color-surface;
     color: vars.$color-text-primary;
+
     font-size: vars.$font-size-sm;
     font-weight: 600;
+
     cursor: pointer;
+
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -386,10 +615,12 @@
   &__state {
     min-height: 260px;
     padding: vars.$spacing-2xl;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     text-align: center;
   }
 
@@ -397,7 +628,9 @@
     mat-icon {
       width: 44px;
       height: 44px;
+
       margin-bottom: vars.$spacing-md;
+
       color: vars.$color-text-muted;
       font-size: 44px;
     }
@@ -409,7 +642,9 @@
 
     p {
       margin-top: vars.$spacing-xs;
+
       color: vars.$color-text-secondary;
+
       font-size: vars.$font-size-md;
     }
   }
@@ -418,47 +653,62 @@
     color: vars.$color-danger;
     font-weight: 600;
   }
-}
 
-.clear_filter {
-  background: vars.$color-surface !important;
-  color: vars.$color-primary-dark !important;
-  font-size: vars.$font-size-sm !important;
-  border-radius: vars.$radius-md !important;
-  font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
+  /* =========================================================
+     PAGINADOR
+     ========================================================= */
 
-  &:hover {
-    border-color: vars.$color-primary !important;
+  &__paginator {
+    background: vars.$color-surface !important;
+  }
+
+  .mat-mdc-paginator {
+    background-color: vars.$color-surface !important;
+    color: vars.$color-text-secondary !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-paginator-container {
+    min-height: 48px;
+
+    padding: 0 vars.$spacing-md;
+
+    background-color: vars.$color-surface !important;
+  }
+
+  .mat-mdc-paginator-page-size {
+    background-color: vars.$color-surface !important;
+  }
+
+  .mat-mdc-paginator-range-label {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-paginator-page-size-label {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-paginator .mat-mdc-icon-button {
     color: vars.$color-primary !important;
+    background-color: transparent !important;
+
+    &:hover {
+      color: vars.$color-primary-dark !important;
+      background-color: vars.$color-primary-light !important;
+    }
+
+    &:disabled {
+      color: vars.$color-text-disabled !important;
+      background-color: transparent !important;
+    }
   }
 }
 
-::ng-deep .mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-  padding: 10px 0;
-}
-
-::ng-deep .mat-mdc-select-panel {
-  background-color: vars.$color-surface !important;
-  box-shadow: vars.$shadow-md !important;
-  border-radius: vars.$radius-md !important;
-}
-
-::ng-deep .mat-mdc-option:hover {
-  background-color: vars.$color-primary-light !important;
-}
-
-::ng-deep .mat-mdc-select-trigger {
-  padding: 0 10px;
-}
-
-::ng-deep .mat-mdc-icon-button {
-  color: vars.$color-primary !important;
-
-  &:hover {
-    color: vars.$color-primary-dark !important;
-  }
-}
+/* =========================================================
+   PAGINADOR - FILA DE TABLA
+   ========================================================= */
 
 .paginas {
   background-color: vars.$color-surface !important;
@@ -468,26 +718,45 @@
   }
 }
 
+/* =========================================================
+   ANIMACIÓN
+   ========================================================= */
+
 @keyframes purchases-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 1100px) {
+
   .purchases {
+
     &__filters {
       flex-wrap: wrap;
     }
 
-    &__field,
-    &__field-search {
+    &__field {
       width: 45% !important;
+    }
+
+    &__panel-header {
+      flex-wrap: wrap;
+    }
+
+    &__field-search {
+      width: 60% !important;
+      margin-left: 0;
     }
   }
 }
 
 @media (max-width: 768px) {
+
   .purchases {
     padding: vars.$spacing-lg;
 
@@ -509,15 +778,23 @@
       align-items: stretch;
     }
 
-    &__field,
-    &__field-search {
+    &__field {
       width: 100% !important;
-      padding: 0;
+      padding: 0 !important;
     }
 
     &__panel-header {
       align-items: flex-start;
       flex-direction: column;
+    }
+
+    &__field-search {
+      width: 100% !important;
+      margin-left: 0;
+    }
+
+    &__count {
+      align-self: flex-start;
     }
   }
 }

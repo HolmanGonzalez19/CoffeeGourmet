@@ -1,16 +1,20 @@
 <section class="login">
   <div class="login__card">
-    <button class="login__close" type="button" aria-label="Cerrar" [disabled]="loading" (click)="cerrar()">×</button>
+    <button class="login__close" type="button" aria-label="Cerrar" [disabled]="loading" (click)="cerrar()">
+      ×
+    </button>
 
     <div class="login__brand">
       <div class="login__brand-icon">
-        <img src="/assets/images/LogoCoffeeGourmet.png" />
+        <img src="/assets/images/LogoCoffeeGourmet.png" alt="Coffee Gourmet">
       </div>
+
       <span>COFFEE GOURMET</span>
     </div>
 
     <header class="login__header">
       <h1>Acceso administrativo</h1>
+
       <p>
         Por seguridad, ingresa tus credenciales
         para acceder al panel administrativo.
@@ -18,59 +22,42 @@
     </header>
 
     <form class="login__form" (ngSubmit)="login()">
+
       <mat-form-field class="login__field">
         <mat-label>Usuario</mat-label>
-        <input
-          matInput
-          type="text"
-          name="usuario"
-          [(ngModel)]="usuario"
-          autocomplete="username"
-          [disabled]="loading"
+
+        <input matInput type="text" name="usuario" [(ngModel)]="usuario" autocomplete="username" [disabled]="loading"
           autofocus>
       </mat-form-field>
 
       <mat-form-field class="login__field">
         <mat-label>Contraseña</mat-label>
-        <input
-          matInput
-          [type]="hidePassword ? 'password' : 'text'"
-          name="password"
-          [(ngModel)]="password"
-          autocomplete="current-password"
-          [disabled]="loading">
 
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
+        <input matInput [type]="hidePassword ? 'password' : 'text'" name="password" [(ngModel)]="password"
+          autocomplete="current-password" [disabled]="loading">
+
+        <button mat-icon-button matSuffix type="button"
           [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
-          (click)="hidePassword = !hidePassword"
-          [disabled]="loading">
-          <mat-icon>{{ hidePassword ? 'lock' : 'lock_open_right' }}</mat-icon>
+          (click)="hidePassword = !hidePassword" [disabled]="loading">
+          <mat-icon>
+            {{ hidePassword ? 'lock' : 'lock_open_right' }}
+          </mat-icon>
         </button>
       </mat-form-field>
 
-      <button
-        class="login__submit"
-        mat-flat-button
-        type="submit"
-        [disabled]="loading">
+      <button class="login__submit" mat-flat-button type="submit" [disabled]="loading">
         {{ loading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
       </button>
 
-      <button
-        class="login__cancel"
-        mat-button
-        type="button"
-        [disabled]="loading"
-        (click)="cancelar()">
+      <button class="login__cancel" mat-button type="button" [disabled]="loading" (click)="cancelar()">
         Cancelar
       </button>
+
     </form>
 
     <footer class="login__footer">
       <span>Coffee Gourmet · Acceso seguro</span>
     </footer>
+
   </div>
 </section>

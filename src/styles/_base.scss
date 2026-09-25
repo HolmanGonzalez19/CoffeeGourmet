@@ -1,16 +1,39 @@
 @use './variables' as vars;
 
+// ============================================================
+// BASE / RESET
+// ============================================================
+
 html,
 body {
-  font-family: vars.$font-family-base !important;
-  font-size: vars.$font-size-md;
-  line-height: 1.5;
-  font-weight: 400;
-  background: vars.$color-background;
-  color: vars.$color-text-primary;
+  height: 100%;
   margin: 0;
   padding: 0;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-md;
+  font-weight: vars.$font-weight-regular;
+  line-height: 1.5;
+
+  background: vars.$color-background;
+  color: vars.$color-text-primary;
 }
+
+
+// ============================================================
+// BOX MODEL
+// ============================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+// ============================================================
+// FORM ELEMENTS
+// ============================================================
 
 button,
 input,
@@ -18,6 +41,11 @@ select,
 textarea {
   font: inherit;
 }
+
+
+// ============================================================
+// HEADINGS / TEXT
+// ============================================================
 
 h1,
 h2,
@@ -27,4 +55,67 @@ h5,
 h6,
 p {
   margin: 0;
+}
+
+
+// ============================================================
+// BUTTON
+// ============================================================
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+// ============================================================
+// LINKS
+// ============================================================
+
+a {
+  color: vars.$color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+// ============================================================
+// INPUT - MICROSOFT EDGE
+// ============================================================
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+
+// ============================================================
+// SCROLLBAR
+// ============================================================
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color:
+    vars.$color-primary
+    vars.$color-surface-secondary;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: vars.$color-surface-secondary;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: vars.$color-primary;
+  border-radius: vars.$radius-md;
 }

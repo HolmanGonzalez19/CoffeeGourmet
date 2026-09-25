@@ -45,6 +45,7 @@ export class CreateProductComponent implements OnInit{
     guardandoProducto : boolean = false;
     codigoBarrasHabilitado : boolean = false;
     codigoBarrasError = false;
+    precioCompraError = false;
     mostrartoggle: boolean = true;
     loading : boolean = false;
     categorias: Categories[] = [];
@@ -130,6 +131,7 @@ export class CreateProductComponent implements OnInit{
         }
 
         if (this.modoEdicion) {
+            this.precioCompraError = (this.productoForm.precioCompra === null || this.productoForm.precioCompra === undefined);
             if ( (this.productoForm.precioCompra === null || this.productoForm.precioCompra === undefined) ||
                  ( this.productoForm.precioVenta === null || this.productoForm.precioVenta === undefined )
             ) {
@@ -141,6 +143,8 @@ export class CreateProductComponent implements OnInit{
             }else if (this.productoForm.precioVenta <= 0) {
                 this.notificationService.warning('El precio de venta debe ser mayor que cero.');
                 return;
+            }else{
+                this.precioCompraError=false;
             }
         }
 

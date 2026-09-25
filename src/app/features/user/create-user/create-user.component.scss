@@ -4,9 +4,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 32px;
+  gap: vars.$spacing-lg;
+  padding: vars.$spacing-2xl;
   font-family: vars.$font-family-base;
+  color: vars.$color-text-primary;
 }
 
 /* ============================================================
@@ -17,28 +18,35 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid #eee;
+
+  gap: vars.$spacing-lg;
+  padding-bottom: vars.$spacing-lg;
+
+  border-bottom: 1px solid vars.$color-border-light;
 }
 
 .users-dialog__heading {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: vars.$spacing-xs;
 
   h2 {
     margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    color: #242424;
+
+    font-size: vars.$font-size-xl;
+    font-weight: 700;
+    line-height: 1.2;
+
+    color: vars.$color-text-primary;
   }
 
   p {
     margin: 0;
-    font-size: 13px;
+
+    font-size: vars.$font-size-sm;
     line-height: 1.5;
-    color: #666;
+
+    color: vars.$color-text-secondary;
   }
 }
 
@@ -48,30 +56,45 @@
 
 .users-dialog__close {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  border-radius: 50%;
+
+  border: 1px solid transparent;
+  border-radius: vars.$radius-round;
+
   background: transparent;
-  color: #999;
+  color: vars.$color-text-muted;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    border-color 0.2s ease;
 
   mat-icon {
     width: 20px;
     height: 20px;
+
+    margin: 0;
+
     font-size: 20px;
     line-height: 20px;
   }
 
   &:hover {
-    background: #f2f2f2;
-    color: #333;
+    background: vars.$color-surface-secondary;
+
+    border-color: vars.$color-border-light;
+
+    color: vars.$color-text-primary;
   }
 }
 
@@ -80,53 +103,147 @@
    ============================================================ */
 
 .users-dialog__content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-xl;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xl;
 }
 
 .users-dialog__fields {
+  width: 100%;
 
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); // dos columnas
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
   gap: vars.$spacing-lg vars.$spacing-xl;
+
+  padding: vars.$spacing-xl;
+
   border: 1px solid vars.$color-border-light;
   border-radius: vars.$radius-lg;
+
   background: vars.$color-surface;
+
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  padding: vars.$spacing-xl;
 }
 
+/* ============================================================
+   ANGULAR MATERIAL
+   ============================================================ */
 
-/* =========================================================
-     ANGULAR MATERIAL - INPUTS / SELECTS
-     ========================================================= */
+.users-dialog {
 
-.mat-mdc-form-field {
-width: 100%;
-}
+  .mat-mdc-form-field {
+    width: 100%;
+    margin: 0;
+  }
 
-.mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-padding: 10px 0;
-}
+  .mat-mdc-form-field-appearance-outline {
+    --mdc-outlined-text-field-container-height: 48px;
+  }
 
-.mat-mdc-text-field-wrapper {
-background-color: vars.$color-surface;
-}
+  .mat-mdc-text-field-wrapper {
+    background-color: vars.$color-surface;
+  }
 
-.mat-mdc-form-field-infix {
-min-height: 44px;
-}
+  .mat-mdc-form-field-infix {
+    min-height: 44px;
+  }
 
-.mat-mdc-select-panel {
-background-color: vars.$color-surface !important;
-box-shadow: vars.$shadow-md !important;
-border-radius: vars.$radius-md !important;
-}
+  .mat-mdc-input-element,
+  .mat-mdc-select-value {
+    color: vars.$color-text-primary !important;
+  }
 
-.mat-mdc-option:hover {
-background-color: vars.$color-primary-light !important;
+  .mat-mdc-floating-label {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-form-field.mat-focused {
+
+    .mat-mdc-floating-label {
+      color: vars.$color-primary !important;
+    }
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: vars.$color-border !important;
+  }
+
+  .mat-mdc-form-field.mat-focused {
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: vars.$color-primary !important;
+    }
+  }
+
+  .mat-mdc-select {
+    width: 100%;
+  }
+
+  .mat-mdc-select-trigger {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .mat-mdc-select-arrow {
+    color: vars.$color-text-secondary !important;
+  }
+
+  .mat-mdc-select-panel {
+    background-color: vars.$color-surface !important;
+
+    box-shadow: vars.$shadow-md !important;
+
+    border-radius: vars.$radius-md !important;
+  }
+
+  .mat-mdc-option {
+    color: vars.$color-text-primary !important;
+  }
+
+  .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+    background-color: vars.$color-primary-light !important;
+  }
+
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background-color: vars.$color-primary-light !important;
+  }
+
+  .mat-mdc-option.mdc-list-item--selected
+  .mdc-list-item__primary-text {
+    color: vars.$color-primary-dark !important;
+    font-weight: 600;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .mat-mdc-icon-button {
+    color: vars.$color-primary !important;
+
+    &:hover {
+      color: vars.$color-primary-dark !important;
+    }
+  }
+
+  .mat-mdc-form-field-hint-wrapper {
+    color: vars.$color-text-muted;
+  }
+
+  .mat-mdc-form-field-hint {
+    color: vars.$color-text-muted !important;
+    font-size: vars.$font-size-xs;
+  }
 }
 
 /* ============================================================
@@ -135,11 +252,13 @@ background-color: vars.$color-primary-light !important;
 
 .users-dialog__field {
   width: 100%;
+  min-width: 0;
 
   &:has(input:disabled),
   &:has(textarea:disabled),
   &:has(mat-select[aria-disabled="true"]) {
     cursor: not-allowed;
+
     color: vars.$color-text-secondary;
 
     * {
@@ -148,9 +267,11 @@ background-color: vars.$color-primary-light !important;
   }
 }
 
-.campoObligatorio{
-  color: vars.$color-danger-2;
+.campoObligatorio {
   margin-top: 2px;
+
+  color: vars.$color-danger-2;
+
   font-size: vars.$font-size-md;
 }
 
@@ -162,33 +283,49 @@ background-color: vars.$color-primary-light !important;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  padding-top: 18px;
-  border-top: 1px solid #eee;
+
+  gap: vars.$spacing-sm;
+
+  padding-top: vars.$spacing-lg;
+
+  border-top: 1px solid vars.$color-border-light;
 }
 
 .users-dialog__button {
-  min-height: 40px;
-  padding: 0 18px;
-  border-radius: 8px;
-  border: none;
+  min-height: vars.$button-height-md;
+
+  padding: 0 vars.$spacing-lg;
+
+  border-radius: vars.$radius-md;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+
+  gap: vars.$spacing-sm;
+
+  border: 1px solid transparent;
+
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-semibold;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s ease,
+    border-color 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease;
 
   mat-icon {
     width: 18px;
     height: 18px;
+
+    margin: 0;
+
     font-size: 18px;
+    line-height: 18px;
   }
 
   &:disabled {
@@ -198,21 +335,32 @@ background-color: vars.$color-primary-light !important;
 }
 
 .users-dialog__button--secondary {
-  background: #f5f5f5;
-  color: #555;
+  border-color: vars.$color-border;
+
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-secondary;
 
   &:hover:not(:disabled) {
-    background: #e9e9e9;
-    color: #333;
+    background: vars.$color-surface-secondary;
+
+    border-color: vars.$color-border;
+
+    color: vars.$color-text-primary;
   }
 }
 
 .users-dialog__button--primary {
+  border-color: vars.$color-primary;
+
   background: vars.$color-primary;
-  color: #fff;
+
+  color: vars.$color-surface;
 
   &:hover:not(:disabled) {
     background: vars.$color-primary-dark;
+
+    border-color: vars.$color-primary-dark;
   }
 }
 
@@ -225,18 +373,16 @@ background-color: vars.$color-primary-light !important;
   .users-dialog {
     min-width: auto;
     max-width: 100%;
-    padding: 24px;
+
+    padding: vars.$spacing-xl;
   }
 
   .users-dialog__fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: vars.$spacing-lg vars.$spacing-xl; 
-    border: 1px solid vars.$color-border-light;
-    border-radius: vars.$radius-lg;
-    background: vars.$color-surface;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    padding: vars.$spacing-xl;
+    grid-template-columns: 1fr;
+
+    gap: vars.$spacing-lg;
+
+    padding: vars.$spacing-lg;
   }
 
   .users-dialog__actions {

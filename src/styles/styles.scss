@@ -1,65 +1,80 @@
 // ============================================================
-// Coffee Gourmet - Estilos globales
+// DESIGN SYSTEM - GLOBAL STYLES
 // ============================================================
 
-// 1. Variables
-@use './variables' as vars;
-
-// 2. Reset y estilos base
 @use './base';
-
-// 3. Tipografía global
 @use './typography';
-
-// 4. Utilidades
 @use './utilities';
-
-// 5. Tema Angular Material + Coffee Gourmet
 @use './theme';
 
-// ============================================================
-// Estilos globales adicionales
-// ============================================================
+// =========================================================
+//   NOTIFICACIONES GLOBALES PERSONALIZADAS
+//   ========================================================= 
 
-// Tipografía global
-html,
-body {
-  font-family: vars.$font-family-base;
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: 400;
-  background: vars.$color-background;
-  color: vars.$color-text-primary;
-  margin: 0;
-  padding: 0;
+.snackbar-success > div {
+  background-color: rgba(46, 125, 50, 0.8) !important;
+  color: #fff !important;
+  font-weight: 600;
 }
 
-// Links
-a {
-  color: vars.$color-primary;
-  text-decoration: none;
+.snackbar-error > div {
+  background-color: rgba(198, 40, 40, 0.8) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
 
-  &:hover {
-    text-decoration: underline;
+.snackbar-warning > div {
+  background-color: rgba(255, 152, 0, 0.8) !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.snackbar-info > div {
+  background-color: rgba(21, 101, 192, 0.8) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.mat-mdc-snackbar-surface{
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  margin-top: 8px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// Scrollbar personalizado (opcional)
-* {
-  scrollbar-width: thin;
-  scrollbar-color: vars.$color-primary vars.$color-surface-secondary;
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.mat-mdc-snack-bar-container {
+  padding-right: 15px !important;
 }
 
-::-webkit-scrollbar-track {
-  background: vars.$color-surface-secondary;
-}
+.mat-mdc-snack-bar-action {
+  position: absolute !important;
+  top: 4px !important;
+  right: 0px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #b71c1c;
+  cursor: pointer !important;
+  transition: color 0.2s ease !important;
 
-::-webkit-scrollbar-thumb {
-  background-color: vars.$color-primary;
-  border-radius: vars.$radius-md;
+  &:hover {
+    --mat-button-text-state-layer-color: none !important;
+  }
 }

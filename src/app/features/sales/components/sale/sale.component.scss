@@ -1,368 +1,977 @@
 @use '../../../../../styles/variables' as vars;
 
-/* ============================================================
-   CONTENEDOR PRINCIPAL
-   ============================================================ */
+
+// ============================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================
+
 .sales {
   min-height: 100%;
+
   padding: vars.$spacing-2xl;
-  background: vars.$color-background;
+
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-xl;
+
+  background: vars.$color-background;
+  color: vars.$color-text-primary;
+
+  font-family: vars.$font-family-base;
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
+
+// ============================================================
+// HEADER
+// ============================================================
 
 .sales__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
   gap: vars.$spacing-lg;
+
   padding: vars.$spacing-lg vars.$spacing-xl;
+
+  border: 1px solid vars.$color-border-light;
   border-radius: vars.$radius-lg;
-  background: vars.$color-surface-secondary;
+
+  background: vars.$color-surface;
+
   box-shadow: vars.$shadow-sm;
 }
+
 
 .sales__eyebrow {
   display: block;
+
   margin-bottom: vars.$spacing-xs;
+
   font-size: vars.$font-size-xs;
-  font-weight: 700;
-  letter-spacing: 1.2px;
+  font-weight: 750;
+
+  letter-spacing: 1px;
   text-transform: uppercase;
+
   color: vars.$color-text-muted;
 }
 
+
 .sales__header h1 {
   margin: 0;
+
   font-size: vars.$font-size-xl;
-  font-weight: 700;
+  line-height: 1.2;
+
+  font-weight: 750;
+
   color: vars.$color-text-primary;
 }
 
+
 .sales__header p {
-  margin: vars.$spacing-xs 0 0;
+  margin: 4px 0 0;
+
   font-size: vars.$font-size-sm;
+  line-height: 1.4;
+
   color: vars.$color-text-secondary;
 }
 
-/* ============================================================
-   CONTENIDO
-   ============================================================ */
+
+// ============================================================
+// CONTENIDO
+// ============================================================
 
 .sales__content {
   width: 100%;
+
   display: flex;
   flex-direction: column;
+
   gap: vars.$spacing-xl;
 }
 
-/* ============================================================
-   FILTROS
-   ============================================================ */
+
+// ============================================================
+// FILTROS
+// ============================================================
 
 .sales__filters {
-  border: 1px solid vars.$color-border-light;
-  border-radius: vars.$radius-lg;
-  background: vars.$color-surface;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   padding: vars.$spacing-xl;
-}
 
-.sales__filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: vars.$spacing-md;
-}
-
-.sales__field {
-  gap: 4px;
-  padding: 0px 20px;
-  width: 33%;
-}
-
-.sales__filters-actions {
-  display: flex;
-  gap: vars.$spacing-md;
-  justify-content: flex-end;
-
-  .sales__button--primary {
-    background: vars.$color-primary;
-    color: vars.$color-surface;
-    font-weight: 600;
-    border-radius: vars.$radius-md;
-    padding: 10px 18px;
-    transition: background 0.15s ease;
-
-    &:hover {
-      background: vars.$color-primary-dark;
-    }
-  }
-
-  .sales__button {
-    background: vars.$color-surface-secondary;
-    color: vars.$color-text-secondary;
-    border-radius: vars.$radius-md;
-    padding: 10px 18px;
-    border: 1px solid vars.$color-border-light;
-
-    &:hover {
-      background: vars.$color-surface;
-      color: vars.$color-primary;
-    }
-  }
-}
-
-/* ============================================================
-   PANEL DE VENTAS
-   ============================================================ */
-
-.sales__panel {
-  overflow: hidden;
-  background: vars.$color-surface;
   border: 1px solid vars.$color-border;
-  border-radius: vars.$radius-xl;
+  border-radius: vars.$radius-lg;
+
+  background: vars.$color-surface;
+
   box-shadow: vars.$shadow-sm;
 }
 
+
+.sales__filters > div:not(.sales__filters-actions) {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: vars.$spacing-md;
+
+  margin-bottom: vars.$spacing-md;
+}
+
+
+.sales__field {
+  width: 100%;
+
+  margin: 0;
+}
+
+
+// ============================================================
+// CAMPOS ANGULAR MATERIAL
+// ============================================================
+
+/* ============================================================
+   INPUTS / SELECTS
+   ============================================================ */
+
+.sales__field {
+  width: 100%;
+  margin: 0;
+}
+
+/* Altura y separación correcta del campo */
+.sales__field.mat-mdc-form-field {
+  --mdc-outlined-text-field-container-height: 48px;
+}
+
+/* Label */
+.sales__field .mat-mdc-floating-label {
+  color: vars.$color-text-secondary !important;
+}
+
+/* Label cuando está enfocado o flotando */
+.sales__field
+.mat-mdc-form-field.mat-focused
+.mat-mdc-floating-label,
+.sales__field.mat-focused .mat-mdc-floating-label {
+  color: vars.$color-primary !important;
+}
+
+/* Texto seleccionado / escrito */
+.sales__field .mat-mdc-select-value,
+.sales__field input {
+  color: vars.$color-text-primary !important;
+}
+
+/* Flecha del select */
+.sales__field .mat-mdc-select-arrow {
+  color: vars.$color-text-secondary !important;
+}
+
+/* Borde normal */
+.sales__field
+.mdc-notched-outline__leading,
+.sales__field
+.mdc-notched-outline__notch,
+.sales__field
+.mdc-notched-outline__trailing {
+  border-color: vars.$color-border !important;
+}
+
+/* Borde al hacer focus */
+.sales__field.mat-focused
+.mdc-notched-outline__leading,
+.sales__field.mat-focused
+.mdc-notched-outline__notch,
+.sales__field.mat-focused
+.mdc-notched-outline__trailing {
+  border-color: vars.$color-primary !important;
+}
+
+/* Panel desplegable */
+.mat-mdc-select-panel {
+  background-color: vars.$color-surface !important;
+  box-shadow: vars.$shadow-md !important;
+  border-radius: vars.$radius-md !important;
+  padding: 4px 0 !important;
+}
+
+/* Opciones */
+.mat-mdc-option {
+  color: vars.$color-text-primary !important;
+}
+
+/* Hover de opción */
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: vars.$color-primary-light !important;
+}
+
+/* Opción seleccionada */
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: vars.$color-primary-light !important;
+}
+
+/* Opción seleccionada + hover */
+.mat-mdc-option.mdc-list-item--selected:hover:not(.mdc-list-item--disabled) {
+  background-color: vars.$color-primary-light !important;
+}
+
+/* Texto de la opción seleccionada */
+.mat-mdc-option.mdc-list-item--selected
+.mdc-list-item__primary-text {
+  color: vars.$color-primary-dark !important;
+  font-weight: 600;
+}
+
+
+
+// ============================================================
+// ACCIONES DE FILTROS
+// ============================================================
+
+.sales__filters-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: vars.$spacing-md;
+
+  padding-top: vars.$spacing-sm;
+}
+
+
+// ============================================================
+// BOTÓN BUSCAR
+// ============================================================
+
+.search-sales {
+  min-height: vars.$button-height-md;
+
+  padding: 6px 16px !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid vars.$color-primary-hover !important;
+  border-radius: vars.$radius-md !important;
+
+  background-color: vars.$color-primary-hover !important;
+  background-image: none !important;
+
+  color: vars.$color-surface !important;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-sm !important;
+  font-weight: vars.$font-weight-semibold;
+
+  box-shadow: none !important;
+
+  transition:
+    background-color .15s ease,
+    box-shadow .15s ease;
+}
+
+
+.search-sales mat-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
+
+  color: vars.$color-surface !important;
+}
+
+
+.search-sales:hover:not(:disabled) {
+  background-color: vars.$color-primary !important;
+  border-color: vars.$color-primary !important;
+
+  box-shadow:
+    0 2px 6px rgba(70, 48, 38, .12) !important;
+}
+
+
+.search-sales:focus,
+.search-sales:focus-visible {
+  background-color: vars.$color-primary-hover !important;
+  color: vars.$color-surface !important;
+
+  outline: none;
+
+  box-shadow:
+    0 0 0 2px rgba(245, 138, 31, .18) !important;
+}
+
+
+// ============================================================
+// BOTÓN LIMPIAR
+// ============================================================
+
+.clear_filter {
+  min-height: vars.$button-height-md;
+
+  padding: 6px 16px !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid vars.$color-border !important;
+  border-radius: vars.$radius-md !important;
+
+  background-color: vars.$color-surface !important;
+  background-image: none !important;
+
+  color: vars.$color-text-secondary !important;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-sm !important;
+  font-weight: vars.$font-weight-semibold;
+
+  box-shadow: none !important;
+
+  transition:
+    background-color .15s ease,
+    border-color .15s ease,
+    color .15s ease;
+}
+
+
+.clear_filter mat-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
+
+  color: vars.$color-text-secondary !important;
+}
+
+
+.clear_filter:hover:not(:disabled) {
+  background-color: vars.$color-surface-secondary !important;
+
+  border-color: vars.$color-primary !important;
+
+  color: vars.$color-primary !important;
+}
+
+
+.clear_filter:hover:not(:disabled) mat-icon {
+  color: vars.$color-primary !important;
+}
+
+
+// ============================================================
+// PANEL DE VENTAS
+// ============================================================
+
+.sales__panel {
+  overflow: hidden;
+
+  background: vars.$color-surface;
+
+  border: 1px solid vars.$color-border;
+
+  border-radius: vars.$radius-lg;
+
+  box-shadow: vars.$shadow-sm;
+}
+
+
 .sales__panel-header {
+  min-height: 70px;
+
+  padding: vars.$spacing-lg vars.$spacing-xl;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: vars.$spacing-lg;
-  padding: vars.$spacing-xl;
 
-  h2 {
-    font-size: vars.$font-size-xl;
-    font-weight: 700;
-  }
-
-  p {
-    margin-top: vars.$spacing-xs;
-    color: vars.$color-text-secondary;
-    font-size: vars.$font-size-md;
-  }
+  border-bottom: 1px solid vars.$color-border-light;
 }
 
-.sales__count {
-  padding: vars.$spacing-sm vars.$spacing-md;
-  border-radius: vars.$radius-md;
-  background: vars.$color-primary-light;
-  color: vars.$color-primary-dark;
+
+.sales__panel-header h2 {
+  margin: 0;
+
+  font-size: vars.$font-size-lg;
+  line-height: 1.2;
+
+  font-weight: vars.$font-weight-bold;
+
+  color: vars.$color-text-primary;
+}
+
+
+.sales__panel-header p {
+  margin: 4px 0 0;
+
   font-size: vars.$font-size-sm;
-  font-weight: 700;
+
+  color: vars.$color-text-secondary;
+}
+
+
+// ============================================================
+// CONTADOR
+// ============================================================
+
+.sales__count {
+  flex-shrink: 0;
+
+  padding: 5px 10px;
+
+  border-radius: vars.$radius-md;
+
+  background: vars.$color-primary-light;
+
+  color: vars.$color-primary-hover;
+
+  font-size: vars.$font-size-xs;
+  font-weight: vars.$font-weight-bold;
+
   white-space: nowrap;
 }
 
-/* ============================================================
-   TABLA
-   ============================================================ */
+
+// ============================================================
+// WRAPPER TABLA
+// ============================================================
+
+.sales__table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: auto;
+
+  max-height: 600px;
+}
+
+
+// ============================================================
+// TABLA
+// ============================================================
 
 .sales__table {
   width: 100%;
-  border-collapse: collapse;
+
   min-width: 850px;
+
+  border-collapse: collapse;
 }
+
 
 .sales__table thead {
   background: vars.$color-surface-secondary;
 }
 
+
 .sales__table th {
-  padding: 14px 18px;
-  border-bottom: 1px solid vars.$color-border-light;
+  padding: 11px 16px;
+
+  border-bottom: 1px solid vars.$color-border;
+
   text-align: left;
+
   font-size: vars.$font-size-xs;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: vars.$font-weight-bold;
+
+  letter-spacing: .4px;
   text-transform: uppercase;
+
+  color: vars.$color-text-muted;
+
+  white-space: nowrap;
+}
+
+
+.sales__table td {
+  padding: 13px 16px;
+
+  border-bottom: 1px solid vars.$color-border-light;
+
+  font-size: vars.$font-size-sm;
+
+  color: vars.$color-text-primary;
+
+  white-space: nowrap;
+}
+
+
+.sales__table tbody tr {
+  transition:
+    background-color .15s ease;
+}
+
+
+.sales__table tbody tr:hover {
+  background: #fffaf7;
+}
+
+
+.sales__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+// ============================================================
+// PAGINACIÓN SUPERIOR
+// ============================================================
+
+.sales__table thead tr.paginas {
+  background: vars.$color-surface !important;
+}
+
+
+.sales__table thead tr.paginas td {
+  padding: 7px 16px;
+
+  border-bottom: 1px solid vars.$color-border-light;
+
+  background: vars.$color-surface !important;
+
+  font-size: vars.$font-size-xs;
+
   color: vars.$color-text-muted;
 }
 
-.sales__table td {
-  padding: 16px 18px;
-  border-bottom: 1px solid vars.$color-border-light;
-  font-size: vars.$font-size-sm;
-  color: vars.$color-text-primary;
+
+.sales__paginator {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.sales__table tbody tr:hover {
-  background: vars.$color-surface-secondary;
+
+.sales__paginator .mat-mdc-paginator {
+  min-height: 40px;
+
+  background: transparent !important;
+
+  color: vars.$color-text-secondary;
 }
 
-/* ============================================================
-   ESTADOS
-   ============================================================ */
+
+.sales__paginator .mat-mdc-paginator-container {
+  min-height: 40px;
+
+  padding: 0;
+}
+
+
+.sales__paginator .mat-mdc-icon-button {
+  color: vars.$color-primary !important;
+}
+
+
+.sales__paginator .mat-mdc-icon-button:hover:not(:disabled) {
+  color: vars.$color-primary-hover !important;
+}
+
+
+// ============================================================
+// ESTADOS
+// ============================================================
+
 .sales__status {
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
-  padding: 6px 10px;
+
+  min-width: 70px;
+
+  padding: 4px 8px;
+
   border-radius: vars.$radius-xl;
+
   font-size: vars.$font-size-xs;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+  font-weight: vars.$font-weight-bold;
+
+  letter-spacing: .2px;
 }
+
 
 .sales__status--registered {
   background: vars.$color-success-light;
+
   color: vars.$color-success;
 }
 
+
 .sales__status--cancelled {
   background: vars.$color-danger-light;
-  color: vars.$color-danger-2;
+
+  color: vars.$color-danger-hover;
 }
 
-/* ============================================================
-   VACÍO / ERROR / CARGANDO
-   ============================================================ */
 
-.sales__empty,
-.sales__error,
+// ============================================================
+// LOADING
+// ============================================================
+
 .sales__loading {
+  min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: vars.$spacing-md;
+
+  padding: vars.$spacing-xl;
+
+  border: 1px solid vars.$color-border-light;
+  border-radius: vars.$radius-lg;
+
+  background: vars.$color-surface;
+
+  color: vars.$color-text-secondary;
+
+  text-align: center;
+
+  font-size: vars.$font-size-sm;
+}
+
+
+.sales__spinner {
+  width: 20px;
+  height: 20px;
+
+  border: 2px solid vars.$color-primary-light;
+  border-top-color: vars.$color-primary;
+
+  border-radius: 50%;
+
+  animation: sales-spin .8s linear infinite;
+}
+
+
+@keyframes sales-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+// ============================================================
+// ERROR
+// ============================================================
+
+.sales__error {
+  min-height: 100px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: vars.$spacing-md;
+
+  gap: vars.$spacing-sm;
+
   padding: vars.$spacing-xl;
-  border: 1px solid vars.$color-border-light;
+
+  border: 1px solid vars.$color-danger-light;
   border-radius: vars.$radius-lg;
-  background: vars.$color-surface;
-  color: vars.$color-text-secondary;
+
+  background: vars.$color-danger-light;
+
+  color: vars.$color-danger-hover;
+
+  font-size: vars.$font-size-sm;
+
   text-align: center;
 }
 
-.sales__empty-icon {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
+
+.sales__error mat-icon {
+  color: vars.$color-danger;
+}
+
+
+// ============================================================
+// VACÍO
+// ============================================================
+
+.sales__empty {
+  min-height: 220px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: vars.$spacing-sm;
+
+  padding: vars.$spacing-xl;
+
+  background: vars.$color-surface;
+
+  color: vars.$color-text-secondary;
+
+  text-align: center;
+}
+
+
+.sales__empty mat-icon {
+  width: 38px;
+  height: 38px;
+
+  margin-bottom: vars.$spacing-xs;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border-radius: vars.$radius-round;
-  background: vars.$color-surface-secondary;
+
+  background: vars.$color-secondary-light;
+
+  color: vars.$color-text-coffee;
+
+  font-size: 20px;
+}
+
+
+.sales__empty h3 {
+  margin: 0;
+
+  font-size: vars.$font-size-md;
+  font-weight: vars.$font-weight-bold;
+
+  color: vars.$color-text-primary;
+}
+
+
+.sales__empty p {
+  margin: 0;
+
+  font-size: vars.$font-size-sm;
+
   color: vars.$color-text-muted;
-  font-size: vars.$font-size-lg;
-  font-weight: 600;
 }
 
-.clear_filter{
-  background: vars.$color-surface !important;
-  color: vars.$color-primary-dark !important;
-  font-size: vars.$font-size-sm !important;
-  border-radius: vars.$radius-md !important;
-  font-weight: 600 !important;
-  border: 1px solid vars.$color-text-primary;
-  &:hover {
-    border: 1px solid vars.$color-primary !important;
-    color: vars.$color-primary !important;
-  }
-}
 
-.search-sales {
-  background-color: vars.$color-primary-dark !important;
-  color: vars.$color-surface !important;
-  border: 1px solid vars.$color-primary-dark !important;
-  border-radius: vars.$radius-sm !important;
-  font-size: vars.$font-size-sm !important;
-  font-weight: 600 !important;
-  transition: background-color 0.2s ease;
+// ============================================================
+// SELECT / DATEPICKER
+// ============================================================
 
-  &:hover {
-    background-color: vars.$color-primary !important;
-  }
-}
-
-.mat-mdc-icon-button {
-  color: vars.$color-primary !important;
-
-  &:hover {
-    color: vars.$color-primary-dark !important;
-  }
-}
-
-/* ============================================================
-   INPUTS
-   ============================================================ */
-
-.mat-mdc-form-field-appearance-outline .mat-form-field-flex {
-  padding: 10px 0px;
-}
-
-.mat-mdc-select-panel {
+.sales .mat-mdc-select-panel {
   background-color: vars.$color-surface !important;
-  box-shadow: vars.$shadow-md !important;
+
   border-radius: vars.$radius-md !important;
+
+  box-shadow: vars.$shadow-md !important;
 }
 
-.mat-mdc-option:hover {
+
+.sales .mat-mdc-option:hover {
   background-color: vars.$color-primary-light !important;
 }
 
-/* ============================================================
-   AJUSTE VISUAL PARA DATEPICKER
-   ============================================================ */
 
-.mat-datepicker-content {
-  background-color: vars.$color-surface !important;
-  box-shadow: vars.$shadow-md !important;
-  border-radius: vars.$radius-md !important;
+.sales .mat-mdc-option.mdc-list-item--selected {
+  background-color: vars.$color-primary-light !important;
 }
 
-.mat-calendar-body-selected {
+
+.sales .mat-datepicker-content {
+  background-color: vars.$color-surface !important;
+
+  border-radius: vars.$radius-md !important;
+
+  box-shadow: vars.$shadow-md !important;
+}
+
+
+.sales .mat-calendar-body-selected {
   background-color: vars.$color-primary !important;
+
   color: vars.$color-surface !important;
 }
 
-/* ============================================================
-   PAGINADOR
-   ============================================================ */
 
-.mat-mdc-paginator{  
-  background-color: vars.$color-surface !important;
-  border-top: 0px !important;
-  &:hover {
-    background-color: vars.$color-surface !important;
-    border-top: 0px !important;
+.sales .mat-calendar-body-cell:hover
+.mat-calendar-body-cell-content {
+  background-color: vars.$color-primary-light !important;
+}
+
+
+// ============================================================
+// ICON BUTTONS
+// ============================================================
+
+.sales .mat-mdc-icon-button {
+  color: vars.$color-primary !important;
+}
+
+
+.sales .mat-mdc-icon-button:hover:not(:disabled) {
+  color: vars.$color-primary-hover !important;
+}
+
+// ============================================================
+// ANULAR VENTA
+// ============================================================
+
+.button-warning {
+  min-height: vars.$button-height-md;
+
+  padding: 0 vars.$spacing-lg;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: vars.$spacing-sm;
+
+  border: 1px solid vars.$color-warning;
+
+  border-radius: vars.$radius-md;
+
+  background: vars.$color-warning-light;
+
+  color: vars.$color-warning;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-semibold;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    background: vars.$color-warning;
+
+    border-color: vars.$color-warning;
+
+    color: vars.$color-surface;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 
-.paginas{  
-  background-color: vars.$color-surface !important;
-  &:hover {
-    background-color: vars.$color-surface !important;
+
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 1000px) {
+
+  .sales__filters > div:not(.sales__filters-actions) {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
+
 }
 
-.mat-mdc-select-trigger{
-  padding: 0px 10px;
-}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
 
 @media (max-width: 768px) {
+
   .sales {
+    padding: vars.$spacing-lg;
+
+    gap: vars.$spacing-lg;
+  }
+
+
+  .sales__header {
+    padding: vars.$spacing-lg;
+
+    flex-direction: column;
+  }
+
+
+  .sales__filters {
     padding: vars.$spacing-lg;
   }
 
-  .sales__header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
-  .sales__filters-grid {
+  .sales__filters > div:not(.sales__filters-actions) {
     grid-template-columns: 1fr;
   }
 
-  .sales__panel-header {
+
+  .sales__filters-actions {
     flex-direction: column;
+
+    align-items: stretch;
+  }
+
+
+  .search-sales,
+  .clear_filter {
+    width: 100%;
+  }
+
+
+  .sales__panel-header {
     align-items: flex-start;
+
+    flex-direction: column;
+
     gap: vars.$spacing-sm;
   }
+
+
+  .sales__count {
+    align-self: flex-start;
+  }
+
+
+  .sales__table-wrapper {
+    max-height: 550px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .sales {
+    padding: vars.$spacing-md;
+  }
+
+
+  .sales__header h1 {
+    font-size: vars.$font-size-lg;
+  }
+
+
+  .sales__header p {
+    font-size: vars.$font-size-xs;
+  }
+
+
+  .sales__panel-header {
+    padding: vars.$spacing-lg;
+  }
+
 }

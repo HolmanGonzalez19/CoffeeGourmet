@@ -33,6 +33,7 @@ import {
   CashMovementType,
   CreateCashMovementRequest
 } from '../../../../core/models/cash-movement.model';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -45,7 +46,8 @@ import {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
 
   templateUrl:

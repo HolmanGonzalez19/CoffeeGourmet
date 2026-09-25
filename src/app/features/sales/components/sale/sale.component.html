@@ -110,7 +110,7 @@
                   Página {{ paginaActual + 1 }} de {{ totalPaginas }}
                 </span>
               </td>
-              <td colspan="6">
+              <td colspan="7">
                 <div class="sales__paginator">
                   <mat-paginator
                     [length]="totalRegistros"
@@ -131,13 +131,14 @@
               <th>Productos</th>
               <th>Total</th>
               <th>Estado</th>
+              <th>Accion</th>
             </tr>
           </thead>
           <tbody>
             @for (venta of ventas; track venta.id) {
               <tr>
                 <td>
-                  #{{ venta.id }}
+                  # {{ venta.id }}
                 </td>
                 <td>
                   {{ venta.fechaHora | date:'dd/MM/yyyy HH:mm' }}
@@ -161,6 +162,16 @@
                     [class.sales__status--cancelled]="venta.estado === 'ANULADA'">
                     {{ venta.estado }}
                   </span>
+                </td>
+                <td>
+                  <button *ngIf="venta.estado === 'REGISTRADA'"
+                    type="button"
+                    class="button-warning"                    
+                    (click)="anularVenta(venta)">
+                    <mat-icon>block</mat-icon>
+                    Anular
+                  </button>
+
                 </td>
               </tr>
             }

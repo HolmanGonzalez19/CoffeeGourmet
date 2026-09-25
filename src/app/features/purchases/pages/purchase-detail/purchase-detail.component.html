@@ -1,8 +1,16 @@
 <section class="purchase-detail">
 
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+
   <header class="purchase-detail__header">
 
-    <div>
+    <div class="purchase-detail__heading">
+
+      <span class="purchase-detail__eyebrow">
+        ADMINISTRACIÓN
+      </span>
 
       <h1>
         Detalle de compra
@@ -16,9 +24,14 @@
 
 
     <button
+      mat-stroked-button
       type="button"
-      class="btn-secondary"
+      class="purchase-detail__button purchase-detail__button--secondary"
       (click)="volver()">
+
+      <mat-icon>
+        arrow_back
+      </mat-icon>
 
       Volver
 
@@ -27,77 +40,169 @@
   </header>
 
 
-  <div
+  <!-- ==========================================================
+       LOADING
+       ========================================================== -->
+
+  <section
     *ngIf="loading"
-    class="loading">
+    class="purchase-detail__loading">
 
-    Cargando compra...
+    <div class="purchase-detail__spinner"></div>
 
-  </div>
+    <span>
+      Cargando compra...
+    </span>
+
+  </section>
 
 
-  <div
+  <!-- ==========================================================
+       ERROR
+       ========================================================== -->
+
+  <section
     *ngIf="errorMessage"
-    class="message message--error">
+    class="purchase-detail__error">
 
-    {{ errorMessage }}
+    <mat-icon>
+      error_outline
+    </mat-icon>
 
-  </div>
+    <span>
+      {{ errorMessage }}
+    </span>
 
+  </section>
+
+
+  <!-- ==========================================================
+       CONTENIDO
+       ========================================================== -->
 
   <ng-container *ngIf="compra">
 
 
-    <section class="card">
+    <!-- ========================================================
+         INFORMACIÓN DE COMPRA
+         ======================================================== -->
 
-      <div class="purchase-info">
+    <section class="purchase-detail__card">
 
-        <div>
-          <span> Código </span>
-          <strong>
-            {{ compra.codigoCompra }}
-          </strong>
-        </div>
-
+      <div class="purchase-detail__section-header">
 
         <div>
-          <span> Estado </span>
-          <strong>
-            {{ obtenerTextoEstado(compra.estado) }}
-          </strong>
-        </div>
 
+          <h2>
+            Información de la compra
+          </h2>
 
-        <div>
-          <span> Proveedor </span>
-          <strong>
-            {{ compra.proveedorNombre }}
-          </strong>
-        </div>
+          <p>
+            Información general y estado de la compra.
+          </p>
 
-
-        <div>
-          <span> Usuario </span>
-          <strong>
-            {{ compra.usuarioNombre }}
-          </strong>
-        </div>
-
-        <div>
-          <span> Fecha </span>
-          <strong>
-            {{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}
-          </strong>
         </div>
 
       </div>
 
 
+      <div class="purchase-detail__info-grid">
+
+
+        <!-- CÓDIGO -->
+
+        <div class="purchase-detail__info-item">
+
+          <span class="purchase-detail__info-label">
+            Código
+          </span>
+
+          <strong class="purchase-detail__info-value">
+            {{ compra.codigoCompra }}
+          </strong>
+
+        </div>
+
+
+        <!-- ESTADO -->
+
+        <div class="purchase-detail__info-item">
+
+          <span class="purchase-detail__info-label">
+            Estado
+          </span>
+
+          <span
+            class="purchase-detail__status"
+            [class.purchase-detail__status--cancelled]="
+              compra.estado === 'ANULADA'
+            ">
+
+            <span class="purchase-detail__status-dot"></span>
+
+            {{ obtenerTextoEstado(compra.estado) }}
+
+          </span>
+
+        </div>
+
+
+        <!-- PROVEEDOR -->
+
+        <div class="purchase-detail__info-item">
+
+          <span class="purchase-detail__info-label">
+            Proveedor
+          </span>
+
+          <strong class="purchase-detail__info-value">
+            {{ compra.proveedorNombre }}
+          </strong>
+
+        </div>
+
+
+        <!-- USUARIO -->
+
+        <div class="purchase-detail__info-item">
+
+          <span class="purchase-detail__info-label">
+            Usuario
+          </span>
+
+          <strong class="purchase-detail__info-value">
+            {{ compra.usuarioNombre }}
+          </strong>
+
+        </div>
+
+
+        <!-- FECHA -->
+
+        <div class="purchase-detail__info-item">
+
+          <span class="purchase-detail__info-label">
+            Fecha
+          </span>
+
+          <strong class="purchase-detail__info-value">
+            {{ compra.fecha | date:'dd/MM/yyyy HH:mm' }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- ======================================================
+           OBSERVACIÓN
+           ====================================================== -->
+
       <div
         *ngIf="compra.observacion"
-        class="observation">
+        class="purchase-detail__observation">
 
-        <span>
+        <span class="purchase-detail__info-label">
           Observación
         </span>
 
@@ -110,16 +215,42 @@
     </section>
 
 
-    <section class="card">
+    <!-- ========================================================
+         PRODUCTOS
+         ======================================================== -->
 
-      <h2>
-        Productos
-      </h2>
+    <section class="purchase-detail__card">
+
+      <div class="purchase-detail__section-header">
+
+        <div>
+
+          <h2>
+            Productos
+          </h2>
+
+          <p>
+            Productos incluidos en la compra.
+          </p>
+
+        </div>
+
+        <span class="purchase-detail__count">
+
+          {{ compra.detalles.length }} productos
+
+        </span>
+
+      </div>
 
 
-      <div class="table-container">
+      <!-- ======================================================
+           TABLA
+           ====================================================== -->
 
-        <table>
+      <div class="purchase-detail__table-wrapper">
+
+        <table class="purchase-detail__table">
 
           <thead>
 
@@ -152,19 +283,48 @@
               *ngFor="let detalle of compra.detalles">
 
               <td>
-                {{ detalle.productoNombre }}
+
+                <div class="purchase-detail__product">
+
+                  <strong>
+                    {{ detalle.productoNombre }}
+                  </strong>
+
+                </div>
+
               </td>
 
-              <td>
-                {{ detalle.cantidad }}
-              </td>
 
               <td>
-                {{ detalle.precioCompra | currency:'COP':'symbol':'1.0-0' }}
+
+                <span class="purchase-detail__quantity">
+                  {{ detalle.cantidad }}
+                </span>
+
               </td>
 
+
               <td>
-                {{ detalle.subtotal | currency:'COP':'symbol':'1.0-0' }}
+
+                <span class="purchase-detail__price">
+
+                  {{ detalle.precioCompra
+                    | currency:'COP':'symbol':'1.0-0' }}
+
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="purchase-detail__price purchase-detail__price--subtotal">
+
+                  {{ detalle.subtotal
+                    | currency:'COP':'symbol':'1.0-0' }}
+
+                </span>
+
               </td>
 
             </tr>
@@ -176,7 +336,11 @@
       </div>
 
 
-      <div class="total">
+      <!-- ======================================================
+           TOTAL
+           ====================================================== -->
+
+      <div class="purchase-detail__total">
 
         <span>
           Total compra
@@ -191,28 +355,32 @@
     </section>
 
 
-    <section class="card audit">
+    <!-- ========================================================
+         AUDITORÍA
+         ======================================================== -->
 
-      <div>
+    <section class="purchase-detail__card purchase-detail__audit">
 
-        <span>
+      <div class="purchase-detail__audit-item">
+
+        <span class="purchase-detail__info-label">
           Fecha de creación
         </span>
 
-        <strong>
+        <strong class="purchase-detail__info-value">
           {{ compra.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}
         </strong>
 
       </div>
 
 
-      <div>
+      <div class="purchase-detail__audit-item">
 
-        <span>
+        <span class="purchase-detail__info-label">
           Última actualización
         </span>
 
-        <strong>
+        <strong class="purchase-detail__info-value">
           {{ compra.fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}
         </strong>
 

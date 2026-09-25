@@ -1,7 +1,9 @@
 <div class="open-cash-register-dialog">
   <div class="dialog-header">
     <div class="dialog-icon">
-      <span class="material-symbols-outlined">payments</span>
+      <div mat-card-avatar class="card__icon">
+        <mat-icon>point_of_sale</mat-icon>
+      </div>
     </div>
     <h2>Abrir caja</h2>
   </div>
@@ -52,14 +54,14 @@
   }
 
   <mat-dialog-actions align="end" class="dialog-actions">
-    <button mat-button type="button" class="cancel" (click)="cancelar()">
+    <button mat-button type="button" class="product-dialog__button product-dialog__button--secondary" (click)="cancelar()">
       Cancelar
     </button>
 
     <button
       mat-flat-button
       type="button"
-      class="confirm"
+      class="button-red-light button-red-light--primary"
       [disabled]="!montoInicial || montoInicial <= 0"
       (click)="confirmar()"
     >
