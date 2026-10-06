@@ -34,7 +34,7 @@ export const noActiveSessionGuard:
   ) {
 
     return router.createUrlTree([
-      '/dashboard'
+      '/admin/dashboard'
     ]);
 
   }

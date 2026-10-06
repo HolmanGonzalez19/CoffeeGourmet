@@ -1,0 +1,347 @@
+@use '../../../../../../styles/variables' as vars;
+
+
+// ============================================================
+// CONTENEDOR PRINCIPAL
+// ============================================================
+
+.print-dialog {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xl;
+
+  padding: vars.$spacing-2xl;
+
+  box-sizing: border-box;
+
+  font-family: vars.$font-family-base;
+}
+
+
+// ============================================================
+// HEADER
+// ============================================================
+
+.print-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: vars.$spacing-lg;
+
+  padding-bottom: vars.$spacing-lg;
+
+  border-bottom: 1px solid vars.$color-border-light;
+}
+
+
+.print-dialog__heading {
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xs;
+}
+
+
+.print-dialog__eyebrow {
+  font-size: vars.$font-size-xs;
+  font-weight: vars.$font-weight-bold;
+
+  letter-spacing: .8px;
+
+  color: vars.$color-primary-hover;
+}
+
+
+.print-dialog__heading h2 {
+  margin: 0;
+
+  font-size: vars.$font-size-xl;
+  font-weight: vars.$font-weight-bold;
+  line-height: 1.3;
+
+  color: vars.$color-text-primary;
+}
+
+
+.print-dialog__heading p {
+  max-width: 500px;
+
+  margin: 0;
+
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+
+  color: vars.$color-text-secondary;
+}
+
+
+// ============================================================
+// BOTÓN CERRAR
+// ============================================================
+
+.print-dialog__close {
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: vars.$radius-round;
+
+  background: transparent;
+
+  color: vars.$color-text-muted;
+
+  cursor: pointer;
+
+  transition:
+    background-color .15s ease,
+    color .15s ease;
+}
+
+
+.print-dialog__close mat-icon {
+  width: 20px;
+  height: 20px;
+
+  font-size: 20px;
+  line-height: 20px;
+}
+
+
+.print-dialog__close:hover {
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-primary;
+}
+
+
+// ============================================================
+// CONTENIDO
+// ============================================================
+
+.print-dialog__content {
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+
+// ============================================================
+// MENSAJE
+// ============================================================
+
+.print-dialog__message {
+  display: flex;
+  align-items: center;
+
+  gap: vars.$spacing-lg;
+
+  padding: vars.$spacing-xl;
+
+  border: 1px solid vars.$color-border-light;
+  border-radius: vars.$radius-lg;
+
+  background: vars.$color-surface;
+
+  box-shadow: vars.$shadow-sm;
+}
+
+
+// ============================================================
+// ICONO
+// ============================================================
+
+.print-dialog__icon {
+  flex-shrink: 0;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: vars.$radius-round;
+
+  background: vars.$color-primary-light;
+
+  color: vars.$color-primary;
+}
+
+
+.print-dialog__icon mat-icon {
+  width: 28px;
+  height: 28px;
+
+  font-size: 28px;
+}
+
+
+// ============================================================
+// TEXTO
+// ============================================================
+
+.print-dialog__message-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: vars.$spacing-xs;
+}
+
+
+.print-dialog__message-content strong {
+  font-size: vars.$font-size-md;
+  font-weight: vars.$font-weight-semibold;
+
+  color: vars.$color-text-primary;
+}
+
+
+.print-dialog__message-content span {
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+
+  color: vars.$color-text-secondary;
+}
+
+
+.print-dialog__message-content b {
+  font-weight: vars.$font-weight-semibold;
+
+  color: vars.$color-text-primary;
+}
+
+
+// ============================================================
+// ACCIONES
+// ============================================================
+
+.print-dialog__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: vars.$spacing-2xl;
+
+  padding-top: vars.$spacing-lg;
+
+  border-top: 1px solid vars.$color-border-light;
+}
+
+
+// ============================================================
+// BOTONES
+// ============================================================
+
+.print-dialog__button {
+  min-height: vars.$button-height-md;
+
+  padding: 0 vars.$spacing-lg;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 0;
+  border-radius: vars.$radius-md;
+
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-semibold;
+
+  cursor: pointer;
+
+  transition:
+    background-color .15s ease,
+    color .15s ease,
+    box-shadow .15s ease;
+}
+
+
+.print-dialog__button mat-icon {
+  width: 18px;
+  height: 18px;
+
+  font-size: 18px;
+}
+
+
+// ============================================================
+// SECUNDARIO
+// ============================================================
+
+.print-dialog__button--secondary {
+  background: vars.$color-surface-secondary;
+
+  color: vars.$color-text-secondary;
+}
+
+
+.print-dialog__button--secondary:hover {
+  background: vars.$color-border;
+
+  color: vars.$color-text-primary;
+}
+
+
+// ============================================================
+// PRIMARIO
+// ============================================================
+
+.print-dialog__button--primary {
+  background: vars.$color-primary;
+
+  color: vars.$color-surface;
+}
+
+
+.print-dialog__button--primary:hover {
+  background: vars.$color-primary-hover;
+}
+
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 600px) {
+
+  .print-dialog {
+    padding: vars.$spacing-xl;
+  }
+
+
+  .print-dialog__message {
+    align-items: flex-start;
+
+    padding: vars.$spacing-lg;
+  }
+
+
+  .print-dialog__actions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+
+    gap: vars.$spacing-md;
+  }
+
+
+  .print-dialog__button {
+    width: 100%;
+  }
+
+}

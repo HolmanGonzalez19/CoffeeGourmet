@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, ViewChild } from "@angular/core";
 import { FormsModule, NgModel } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -39,6 +39,12 @@ export class CreateUsersComponent implements OnInit{
     private readonly rolesService = inject(RolesService);
     private readonly data = inject<UsersAdmin | null>(MAT_DIALOG_DATA);
 
+    @ViewChild('nombre') nombreControl!: NgModel;
+    @ViewChild('usuario') usuarioControl!: NgModel;
+    @ViewChild('rol') rolControl!: NgModel;
+    @ViewChild('password') passwordControl!: NgModel;
+    @ViewChild('pin') pinControl!: NgModel;
+    
     guardandoUsuario : boolean = false;
     modoEdicion : boolean = false;
     loading : boolean = false;
@@ -51,6 +57,7 @@ export class CreateUsersComponent implements OnInit{
             pin: '',
             rol: null
         };
+    
 
     ngOnInit(): void {
         this.modoEdicion = !!this.data;
@@ -110,6 +117,13 @@ export class CreateUsersComponent implements OnInit{
 
         const password = this.userForm.password?.trim() ?? '';
         const pin = this.userForm.pin?.trim() ?? '';
+        const usuarioValue = usuario.value?.trim() ?? '';
+
+        if (usuarioValue.length < 4) {
+        this.notificationService.error('El usuario debe tener mínimo 4 caracteres.');
+        usuario.control.setErrors({ minlength: true });
+        return;
+    }
 
         // ============================================================
         // CREDENCIALES
@@ -168,6 +182,7 @@ export class CreateUsersComponent implements OnInit{
                 next: () => {
                     this.guardandoUsuario = false;
                     this.notificationService.success('Usuario Guardado Exitosamente.');
+                    this.limpiarDatos();
                 },
                  error: error => {
                     this.guardandoUsuario = false;
@@ -201,5 +216,21 @@ export class CreateUsersComponent implements OnInit{
             pin: this.userForm.pin?.trim() || null,
             rolId: this.userForm.rol
         };
+    }
+
+    limpiarDatos(){
+        this.userForm = {
+            nombre: '',
+            usuario: '',
+            password: '',
+            pin: '',
+            rol: null
+        };
+
+        this.nombreControl?.reset('');
+        this.usuarioControl?.reset('');
+        this.rolControl?.reset(null);
+        this.passwordControl?.reset('');
+        this.pinControl?.reset('');
     }
 }

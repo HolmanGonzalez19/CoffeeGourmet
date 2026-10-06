@@ -87,6 +87,46 @@
           Campo Obligatorio
         </mat-error>
       </mat-form-field>
+      <mat-form-field
+  class="product-dialog__field"
+  *ngIf="modoEdicion">
+
+  <mat-label>Imagen del producto</mat-label>
+
+  <input
+    matInput
+    [value]="imagenSeleccionada?.name || (imagenActual ? 'Imagen actual' : 'Sin imagen')"
+    readonly
+    (click)="imagenInput.click()">
+
+  <button
+    mat-icon-button
+    matSuffix
+    type="button"
+    (click)="imagenInput.click()">
+
+    <mat-icon>upload</mat-icon>
+
+  </button>
+
+  <input
+    #imagenInput
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    hidden
+    (change)="onImagenSeleccionada($event)">
+
+  <mat-hint *ngIf="imagenError">
+    {{ imagenError }}
+  </mat-hint>
+
+</mat-form-field>
+
+<img
+  *ngIf="imagenPreview || imagenActual"
+  class="product-dialog__image-preview"
+  [src]="imagenPreview || obtenerUrlImagen(imagenActual!)"
+  alt="Imagen del producto">
       <mat-form-field class="product-dialog__field product-dialog__field--wide">
         <mat-label> Descripción </mat-label>
         <textarea matInput id="productoDescripcion" maxlength="255" rows="3"

@@ -74,7 +74,7 @@ export class OperatorStateService {
     );
 
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       this.operatorStorageKey,
       JSON.stringify(session)
     );
@@ -93,7 +93,7 @@ export class OperatorStateService {
     );
 
 
-    localStorage.removeItem(
+    sessionStorage.removeItem(
       this.operatorStorageKey
     );
 
@@ -101,14 +101,14 @@ export class OperatorStateService {
 
 
   // ============================================================
-  // CARGAR OPERADOR DESDE LOCALSTORAGE
+  // CARGAR OPERADOR DESDE sessionStorage
   // ============================================================
 
   private loadOperator():
     OperatorSession | null {
 
     const storedOperator =
-      localStorage.getItem(
+      sessionStorage.getItem(
         this.operatorStorageKey
       );
 
@@ -128,7 +128,7 @@ export class OperatorStateService {
 
     } catch {
 
-      localStorage.removeItem(
+      sessionStorage.removeItem(
         this.operatorStorageKey
       );
 

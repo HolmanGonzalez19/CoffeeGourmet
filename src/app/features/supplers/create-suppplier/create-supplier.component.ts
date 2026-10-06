@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, HostListener, inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, inject, OnInit, ViewChild } from "@angular/core";
 import { FormsModule, NgModel } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -36,6 +36,8 @@ export class CreateSupplierComponent implements OnInit{
     private readonly notificationService = inject(NotificationService);
     private readonly data = inject<GetSuppliers | null>(MAT_DIALOG_DATA);
 
+    @ViewChild('nombre') nombreControl!: NgModel;
+
     modoEdicion : boolean = false;
     guardandoSuppliers : boolean = false;
     errorMessage: string = '';
@@ -64,16 +66,28 @@ export class CreateSupplierComponent implements OnInit{
         this.dialogRef.close(true);
     }
 
-    validarProveedor(nombre: NgModel): void {
+    validarProveedor(nombre: NgModel, correo: NgModel): void {
 
         // ==========================================================
         // VALIDACIONES
         // ==========================================================
 
         nombre.control.markAsTouched();
+        const correoValue = correo.value?.trim() ?? '';
+
+        if (correoValue) {
+            correo.control.markAsTouched();
+        }
 
         if (nombre.invalid) {
             this.notificationService.error('Diligencia los campos obligatorios.');
+            return;
+        }
+        
+        if (correoValue && !this.esCorreoValido(correoValue)) {
+            this.notificationService.error(
+                'Ingresa un correo electrónico válido.'
+            );
             return;
         }
 
@@ -88,6 +102,7 @@ export class CreateSupplierComponent implements OnInit{
                 next: () => {
                     this.guardandoSuppliers = false;
                     this.notificationService.success('Proveedor Guardado Exitosamente.');
+                    this.limpiarDatos();
                 },
                 error: error => {
                     this.guardandoSuppliers = false;
@@ -146,4 +161,24 @@ export class CreateSupplierComponent implements OnInit{
             activo: this.data?.activo
         };
     }
+
+    limpiarDatos(){
+        this.suppliersForm  = {
+            nombre: null,
+            contacto:  null,
+            telefono:  null,
+            correo:  null,
+            direccion:  null,
+            observacion:  null,
+            activo: true
+        };
+
+        this.nombreControl?.reset('');
+    }
+    
+    private esCorreoValido(correo: string): boolean {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(correo);
+    }
+
 }

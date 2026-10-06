@@ -41,9 +41,12 @@
       </mat-form-field>
       <mat-form-field class="suppliers-dialog__field">
         <mat-label> Correo </mat-label>
-        <input matInput id="suppleiersCorreo" type="text" maxlength="150"
+        <input matInput id="suppleiersCorreo" type="email" maxlength="150"
           [(ngModel)]="suppliersForm.correo" placeholder="Correo del Proveedor"
           name="correo" #correo="ngModel">
+          <mat-error *ngIf="correo.invalid && correo.touched && correo.value">
+            Ingresa un correo electrónico válido.
+          </mat-error>
       </mat-form-field>
       <mat-form-field class="suppliers-dialog__field">
         <mat-label> Dirección </mat-label>
@@ -70,7 +73,7 @@
     <button
       type="button"
       class="suppliers-dialog__button suppliers-dialog__button--primary"
-      (click)="validarProveedor(nombre)"
+      (click)="validarProveedor(nombre, correo)"
       [disabled]="guardandoSuppliers">
       <mat-icon>
         {{ guardandoSuppliers ? 'hourglass_empty' : 'save' }}

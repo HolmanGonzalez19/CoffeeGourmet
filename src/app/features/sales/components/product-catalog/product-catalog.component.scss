@@ -128,6 +128,26 @@
     }
   }
 
+  &__image {
+    height: 120px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: vars.$color-surface-secondary;
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    span {
+      color: vars.$color-text-muted;
+      font-size: 32px;
+      font-weight: 700;
+    }
+  }
+
   .product-catalog__price {
     display: block;
     margin-top: 4px;

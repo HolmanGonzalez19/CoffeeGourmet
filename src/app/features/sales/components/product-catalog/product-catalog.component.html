@@ -35,16 +35,18 @@
         class="product-catalog__card"
         (click)="selectProduct(product)"
       >
-
           <div class="product-catalog__image">
-
-            <span>
-              {{ product.nombre.charAt(0) }}
-            </span>
-
+            @if (product.imagen) {
+              <img
+                [src]="obtenerUrlImagen(product.imagen)"
+                [alt]="product.nombre"
+              >
+            } @else {
+              <span>
+                {{ product.nombre.charAt(0) }}
+              </span>
+            }
           </div>
-
-
           <div class="product-catalog__information">
 
             <small>

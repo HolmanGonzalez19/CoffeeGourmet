@@ -17,7 +17,6 @@ import { ProductCatalogComponent } from '../../components/product-catalog/produc
 import { LoginComponent } from '../../../auth/pages/login/login.component';
 import { OperatorSelectionComponent } from '../../../operator/pages/operator-selection/operator-selection.component';
 
-import { Product } from '../../../../core/models/product.model';
 import { PaymentMethod } from '../../../../core/models/payment-method.model';
 import { CreateSaleRequest, SaleResponse } from '../../../../core/models/sale.model';
 
@@ -26,12 +25,13 @@ import { OperatorStateService, OperatorSession } from '../../../../core/services
 import { PaymentMethodService } from '../../../../core/services/payment-method.service';
 import { SaleService } from '../../../../core/services/sale.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { SaleItemPos, VentaPos } from '../../../../core/models/pos.model';
+import { ProductPos, SaleItemPos, VentaPos } from '../../../../core/models/pos.model';
 import { ProductService } from '../../../../core/services/product.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { SaleReceiptComponent } from '../sale-receipt/sale-receipt.component';
 import { PrintService } from '../../../../core/services/print.service';
+import { ConfirmPrintDialogComponent  } from './confirm-sale/confirm-print-dialog.component';
 
 
 @Component({
@@ -81,7 +81,7 @@ export class PosComponent implements OnDestroy, OnInit {
   cashRegisterStatus: 'ABIERTA' | 'CERRADA' = 'CERRADA';
   cashRegisterLoading = false;
   mostrarBotonAdministrador: boolean = true;
-  selectedProduct: Product | null = null;
+  selectedProduct: ProductPos | null = null;
   priceLoading = false;
   priceError = '';
   escaneoAgregaVenta = false;
@@ -104,7 +104,7 @@ export class PosComponent implements OnDestroy, OnInit {
   constructor() {}
 
   verificarToken() {
-    const token = localStorage.getItem('coffeeGourmetOperator');
+    const token = sessionStorage.getItem('coffeeGourmetOperator');
     this.mostrarBotonAdministrador = !token;
   }
 
@@ -130,7 +130,7 @@ export class PosComponent implements OnDestroy, OnInit {
     return this.subtotalVenta;
   }
 
-  onProductSelected(product: Product): void {
+  onProductSelected(product: ProductPos): void {
     if (!this.operadorActivo || !this.cajaAbierta) {
       this.selectedProduct = product;
       return;
@@ -273,7 +273,7 @@ export class PosComponent implements OnDestroy, OnInit {
           this.onSaleCreated(response);
           this.notificationService.success( 'Venta registrada correctamente.' );
          this.changeDetectorRef.detectChanges();
-         this.imprimirTicket(response);
+         this.confirmarImpresionTicket(response)
         },
         error: error => {
           const message = error?.error?.message ??
@@ -547,8 +547,27 @@ export class PosComponent implements OnDestroy, OnInit {
     clearInterval(this.timeInterval);
   }
 
-private imprimirTicket(sale: SaleResponse): void {
-  this.printService.print(sale.id).subscribe({
+  confirmarImpresionTicket(sale: SaleResponse){
+    const dialogRef = this.dialog.open(
+      ConfirmPrintDialogComponent,
+      {
+        width: '390px',
+        maxWidth: 'calc(100vw - 32px)',
+        disableClose: true,
+        autoFocus: false,
+        panelClass: 'coffee-gourmet-login-dialog'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.imprimirTicket(sale);
+      }
+    });
+  }
+
+  private imprimirTicket(sale: SaleResponse): void {
+    this.printService.print(sale.id).subscribe({
       next: () => {
         console.log('[POS] Ticket enviado a impresora');
       },

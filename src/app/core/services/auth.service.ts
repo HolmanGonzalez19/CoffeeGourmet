@@ -78,12 +78,12 @@ export class AuthService {
     response: AuthenticationResponse
   ): void {
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       this.tokenKey,
       response.token
     );
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       this.userKey,
       JSON.stringify(response)
     );
@@ -97,7 +97,7 @@ export class AuthService {
 
   getToken(): string | null {
 
-    return localStorage.getItem(
+    return sessionStorage.getItem(
       this.tokenKey
     );
 
@@ -112,7 +112,7 @@ export class AuthService {
     AuthenticationResponse | null {
 
     const user =
-      localStorage.getItem(
+      sessionStorage.getItem(
         this.userKey
       );
 
@@ -168,11 +168,11 @@ export class AuthService {
 
   private clearSession(): void {
 
-    localStorage.removeItem(
+    sessionStorage.removeItem(
       this.tokenKey
     );
 
-    localStorage.removeItem(
+    sessionStorage.removeItem(
       this.userKey
     );
 

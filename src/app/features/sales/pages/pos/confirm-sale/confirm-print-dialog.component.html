@@ -1,0 +1,104 @@
+<section class="print-dialog">
+
+  <!-- ======================================================= -->
+  <!-- HEADER -->
+  <!-- ======================================================= -->
+
+  <header class="print-dialog__header">
+
+    <div class="print-dialog__heading">
+
+      <span class="print-dialog__eyebrow">
+        VENTA REGISTRADA
+      </span>
+
+      <h2>
+        ¿Desea imprimir el recibo de compra?
+      </h2>
+
+      <p>
+        La venta fue registrada correctamente.
+        Puede imprimir el recibo si lo requiere.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="print-dialog__close"
+      aria-label="Cerrar"
+      (click)="cancelar()">
+
+      <mat-icon>
+        close
+      </mat-icon>
+
+    </button>
+
+  </header>
+
+
+  <!-- ======================================================= -->
+  <!-- CONTENIDO -->
+  <!-- ======================================================= -->
+
+  <div class="print-dialog__content">
+
+    <div class="print-dialog__message">
+
+      <div class="print-dialog__icon">
+
+        <mat-icon>
+          receipt_long
+        </mat-icon>
+
+      </div>
+
+      <div class="print-dialog__message-content">
+
+        <strong>
+          Recibo disponible
+        </strong>
+
+        <span>
+          Seleccione <b>Imprimir recibo</b> para enviarlo a la impresora.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ======================================================= -->
+  <!-- ACCIONES -->
+  <!-- ======================================================= -->
+
+  <footer class="print-dialog__actions">
+
+    <button
+      type="button"
+      class="print-dialog__button print-dialog__button--secondary"
+      (click)="cancelar()">
+
+      No imprimir
+
+    </button>
+
+    <button
+      type="button"
+      class="print-dialog__button print-dialog__button--primary"
+      (click)="imprimir()">
+
+      <mat-icon>
+        print
+      </mat-icon>
+
+      Imprimir recibo
+
+    </button>
+
+  </footer>
+
+</section>

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, HostListener, inject, OnInit } from "@angular/core";
+import { Component, HostListener, inject, OnInit, ViewChild } from "@angular/core";
 import { FormsModule, NgModel } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -39,6 +39,14 @@ export class CreateProductComponent implements OnInit{
     private readonly notificationService = inject(NotificationService);
     private readonly data = inject<Product | null>(MAT_DIALOG_DATA);
 
+    @ViewChild('nombre') nombreControl!: NgModel;
+    @ViewChild('cate') categoriaIdControl!: NgModel;
+    @ViewChild('tip') tipoProductoControl!: NgModel;
+    @ViewChild('codigoBarr') codigoBarrasControl!: NgModel;
+    @ViewChild('stockMin') stockMinimoControl!: NgModel;
+    @ViewChild('compra') precioCompraControl!: NgModel;
+    @ViewChild('venta') precioVentaControl!: NgModel;
+
     private scannerBuffer = '';
     private scannerLastKeyTime = 0;
     modoEdicion : boolean = false;
@@ -50,6 +58,10 @@ export class CreateProductComponent implements OnInit{
     loading : boolean = false;
     categorias: Categories[] = [];
     tiposProducto:  ProductTypes[] = [];
+    imagenSeleccionada: File | null = null;
+    imagenPreview: string | null = null;
+    imagenActual: string | null = null;
+    imagenError = '';
     productoForm : ProductForm = {
         nombre: '',
         categoriaId: null,
@@ -159,6 +171,7 @@ export class CreateProductComponent implements OnInit{
                 next: () => {
                     this.guardandoProducto = false;
                     this.notificationService.success('Producto Guardado Exitosamente.');
+                    this.limpiarDatos();
                 },
                 error: (error: unknown) => {
                     this.guardandoProducto = false;
@@ -169,17 +182,36 @@ export class CreateProductComponent implements OnInit{
 
     private guardarEdicion(): void {
         this.guardandoProducto = true;
-        const request: UpdateProductRequest =  this.llenarDatos();
+        const request: UpdateProductRequest = this.llenarDatos();
         this.productService.update(this.data!.id, request).subscribe({
-                next: () => {
+            next: () => {
+                if (!this.imagenSeleccionada) {
                     this.guardandoProducto = false;
-                    this.notificationService.success('Producto Actualizado Exitosamente.');
-                },
-                error: (error: unknown) => {
-                    this.notificationService.error('No fue posible actualizar el producto.');
-                    this.guardandoProducto = false;
+                    this.notificationService.success( 'Producto Actualizado Exitosamente.' );
+                    this.dialogRef.close(true);
+                    return;
                 }
-            });
+
+                this.productService.uploadProductImage(
+                    this.data!.id,
+                    this.imagenSeleccionada
+                ).subscribe({
+                    next: () => {
+                        this.guardandoProducto = false;
+                        this.notificationService.success( 'Producto Actualizado Exitosamente.' );
+                        this.dialogRef.close(true);
+                    },
+                    error: () => {
+                        this.guardandoProducto = false;
+                        this.notificationService.error( 'El producto se actualizó, pero no fue posible guardar la imagen.' );
+                    }
+                });
+            },
+            error: () => {
+                this.guardandoProducto = false;
+                this.notificationService.error( 'No fue posible actualizar el producto.' );
+            }
+        });
     }
 
     llenarDatos(){
@@ -222,6 +254,7 @@ export class CreateProductComponent implements OnInit{
             precioCompra: this.data.precioCompra,
             precioVenta: this.data.precioVenta
         };
+        this.imagenActual = this.data.imagen;
 
         this.codigoBarrasHabilitado = false;
     }
@@ -275,5 +308,72 @@ export class CreateProductComponent implements OnInit{
         if (event.key.length === 1) {
             this.scannerBuffer += event.key;
         }
+    }
+
+    limpiarDatos(){
+        this.productoForm = {
+            nombre: '',
+            categoriaId: null,
+            tipoProducto: null,
+            codigoBarras: null,
+            stockMinimo: null,
+            descripcion: null,
+            precioCompra: null,
+            precioVenta: null
+        };
+
+        this.nombreControl?.reset('');
+        this.categoriaIdControl?.reset(null);
+        this.tipoProductoControl?.reset(null);
+        this.codigoBarrasControl?.reset(null);
+        this.stockMinimoControl?.reset(null);
+        this.precioCompraControl?.reset(null);
+        this.precioVentaControl?.reset(null);
+    }
+
+    obtenerUrlImagen(imagen: string): string {
+        return `/api/products/images/${encodeURIComponent(imagen)}`;
+    }
+
+    onImagenSeleccionada(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        this.imagenError = '';
+
+        if (!input.files || input.files.length === 0) {
+            this.imagenSeleccionada = null;
+            return;
+        }
+
+        const file = input.files[0];
+        const tiposPermitidos = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+        const maximoBytes = 5 * 1024 * 1024;
+
+        if (!tiposPermitidos.includes(file.type)) {
+            this.imagenSeleccionada = null;
+            input.value = '';
+            this.imagenError =
+                'El formato de imagen no es válido. Use JPG, PNG o WEBP.';
+            return;
+        }
+        
+        if (file.size > maximoBytes) {
+            this.imagenSeleccionada = null;
+            input.value = '';
+            this.imagenError =
+                'La imagen no puede superar los 5 MB.';
+            return;
+        }
+
+        this.imagenSeleccionada = file;
+
+        if (this.imagenPreview) {
+            URL.revokeObjectURL(this.imagenPreview);
+        }
+
+        this.imagenPreview = URL.createObjectURL(file);
     }
 }

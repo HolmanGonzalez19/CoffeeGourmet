@@ -11,8 +11,8 @@ import {
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { Product } from '../../../../core/models/product.model';
 import { ProductService } from '../../../../core/services/product.service';
+import { ProductPos } from '../../../../core/models/pos.model';
 
 @Component({
   selector: 'app-product-catalog',
@@ -40,12 +40,12 @@ export class ProductCatalogComponent implements OnInit {
 
   @Output()
   productSelected =
-    new EventEmitter<Product>();
+    new EventEmitter<ProductPos>();
 
 
-  products: Product[] = [];
+  products: ProductPos[] = [];
 
-  filteredProducts: Product[] = [];
+  filteredProducts: ProductPos[] = [];
 
   searchTerm = '';
 
@@ -77,7 +77,7 @@ export class ProductCatalogComponent implements OnInit {
 
 
     this.productService
-      .getProducts()
+      .getProductsForPos()
       .subscribe({
 
         next: products => {
@@ -182,7 +182,7 @@ this.errorMessage = '';
   // ============================================================
 
   selectProduct(
-    product: Product
+    product: ProductPos
   ): void {
 
     console.log(
@@ -201,7 +201,7 @@ this.errorMessage = '';
   // SCANEAR PRODUCTO
   // ============================================================
 
-showScannedProduct(product: Product): void {
+showScannedProduct(product: ProductPos): void {
   this.searchTerm = product.codigoBarras ?? '';
   this.filteredProducts = [product];
   this.errorMessage = '';
@@ -209,61 +209,8 @@ showScannedProduct(product: Product): void {
   this.changeDetectorRef.markForCheck();
 }
 
-/*onBarcodeScan(event: Event): void {
-  const input = event.target as HTMLInputElement;
-
-  const codigoBarras = input.value.trim();
-
-  if (!codigoBarras) {
-    return;
-  }
-
-  this.productService
-    .getProductByBarcode(codigoBarras)
-    .subscribe({
-      next: product => {
-
-        if (!product.activo) {
-          this.errorMessage =
-            'El producto asociado al código de barras está inactivo.';
-
-          this.changeDetectorRef.markForCheck();
-          return;
-        }
-
-        // Mantener el código escaneado en el buscador
-        this.searchTerm =
-          product.codigoBarras ?? '';
-
-        // Mostrar únicamente el producto encontrado
-        this.filteredProducts = [product];
-
-        // Limpiar cualquier mensaje anterior
-        this.errorMessage = '';
-
-        // Enviar el producto al POS
-        this.productSelected.emit(product);
-
-        this.changeDetectorRef.markForCheck();
-      },
-
-      error: error => {
-
-        console.error(
-          '[ProductCatalog] Producto no encontrado por código de barras:',
-          error
-        );
-
-        this.errorMessage =
-          'No existe un producto asociado a este código de barras.';
-
-        // No modificar filteredProducts aquí.
-        // El mensaje se mantiene hasta que el usuario
-        // borre o cambie la búsqueda.
-
-        this.changeDetectorRef.markForCheck();
-      }
-    });
-}*/
+obtenerUrlImagen(imagen: string): string {
+  return `/api/products/images/${encodeURIComponent(imagen)}`;
+}
 
 }

@@ -13,6 +13,7 @@ export interface Product {
   activo: boolean;
   fechaCreacion: string;
   fechaActualizacion: string;
+  imagen: string | null;
 }
 
 export interface ProductTypes{

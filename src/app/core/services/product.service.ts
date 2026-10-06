@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { CreateProductRequest, Product, ProductTypes, UpdateProductRequest } from '../models/product.model';
+import { ProductPos } from '../models/pos.model';
 
 
 @Injectable({
@@ -83,25 +84,44 @@ export class ProductService {
   }
 
   update(id: number, request: UpdateProductRequest
-): Observable<Product> {
+  ): Observable<Product> {
 
-  return this.http.put<Product>(
-    `${this.endpoint}/${id}`,
-    request
-  );
+    return this.http.put<Product>(
+      `${this.endpoint}/${id}`,
+      request
+    );
 
+  }
+
+  getProductByBarcode(codigoBarras: string): Observable<Product> {
+    return this.http.get<Product>(
+      `${this.endpoint}/barcode/${encodeURIComponent(codigoBarras)}`
+    );
+  }
+
+  getProductTypes(): Observable<ProductTypes[]> {
+    return this.http.get<ProductTypes[]>(
+      `${this.endpoint}/product-types`
+    );
+  }
+
+  uploadProductImage(
+    id: number,
+    file: File
+  ): Observable<Product> {
+
+    const formData = new FormData();
+
+    formData.append('file', file);
+
+    return this.http.post<Product>(
+      `${this.endpoint}/${id}/image`,
+      formData
+    );
+
+  }
+
+  getProductsForPos(): Observable<ProductPos[]> {
+  return this.http.get<ProductPos[]>(`${this.endpoint}/pos`);
 }
-
-getProductByBarcode(codigoBarras: string): Observable<Product> {
-  return this.http.get<Product>(
-    `${this.endpoint}/barcode/${encodeURIComponent(codigoBarras)}`
-  );
-}
-
-getProductTypes(): Observable<ProductTypes[]> {
-  return this.http.get<ProductTypes[]>(
-    `${this.endpoint}/product-types`
-  );
-}
-
 }
