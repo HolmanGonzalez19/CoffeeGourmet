@@ -115,12 +115,21 @@
                   {{ item.codigo }} · {{ item.precioUnitario | currency:'COP':'symbol-narrow':'1.0-0' }}
                 </small>
               </div>
-              <div class="pos__sale-item-controls">
-                <button mat-button type="button" (click)="disminuirCantidad(item)"> − </button>
-                <input type="number" min="1" max="99999" maxlength="5" [value]="item.cantidad" (change)="
-                  cambiarCantidad( item, $any($event.target).value )" />
-                <button mat-button type="button" (click)="aumentarCantidad(item)"> + </button>
-              </div>
+              @if (item.precioVariable) {
+                <div class="pos__sale-item-controls pos__sale-item-controls--variable-price">
+                  <input type="number" min="0" step="1" placeholder="0"
+                  aria-label="Importe total de productos varios"
+                  [ngModel]="item.precioUnitario || null"
+                  (ngModelChange)="cambiarPrecioVariable(item, $event)" />
+                </div>
+              } @else {
+                <div class="pos__sale-item-controls">
+                  <button mat-button type="button" (click)="disminuirCantidad(item)" > − </button>
+                  <input type="number" min="1" max="99999" [value]="item.cantidad"
+                    (change)="cambiarCantidad(item, $any($event.target).value)" />
+                  <button mat-button type="button" (click)="aumentarCantidad(item)" > + </button>
+                </div>
+              }
               <div class="pos__sale-item-subtotal">
                 {{ item.subtotal | currency:'COP':'symbol-narrow':'1.0-0' }}
               </div>
@@ -182,7 +191,7 @@
           <!-- ================================================= -->
 
           <button  matButton="outlined" class="pos__charge-button" 
-            [disabled]=" !operadorActivo || !cajaAbierta || !ventaActiva || !selectedPaymentMethod "
+            [disabled]=" !operadorActivo || !cajaAbierta || !ventaActiva || !selectedPaymentMethod || hayPreciosVariablesInvalidos"
             (click)="cobrar()">
             COBRAR
           </button>

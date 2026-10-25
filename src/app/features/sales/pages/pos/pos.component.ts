@@ -130,53 +130,75 @@ export class PosComponent implements OnDestroy, OnInit {
     return this.subtotalVenta;
   }
 
-  onProductSelected(product: ProductPos): void {
-    if (!this.operadorActivo || !this.cajaAbierta) {
-      this.selectedProduct = product;
-      return;
-    }
+  get hayPreciosVariablesInvalidos(): boolean {
+  return this.venta.items.some(item =>
+    item.precioVariable &&
+    (
+      !Number.isFinite(item.precioUnitario) ||
+      item.precioUnitario <= 0
+    )
+  );
+}
 
-    if ( product.precioVenta === null || product.precioVenta === undefined ) {
+  onProductSelected(product: ProductPos): void {
+  if (!this.operadorActivo || !this.cajaAbierta) {
+    this.selectedProduct = product;
+    return;
+  }
+
+  const precioVariable = product.precioVariable === true;
+  let precioVenta = 0;
+
+  // Validar el precio únicamente para productos normales.
+  if (!precioVariable) {
+    if (
+      product.precioVenta === null ||
+      product.precioVenta === undefined
+    ) {
       this.selectedProduct = product;
       this.priceError = 'El producto no tiene un precio de venta vigente.';
       this.changeDetectorRef.markForCheck();
       return;
     }
 
-    const precioVenta = Number(product.precioVenta);
+    precioVenta = Number(product.precioVenta);
 
-    if (!Number.isFinite(precioVenta) || precioVenta < 0) {
+    if (!Number.isFinite(precioVenta) || precioVenta <= 0) {
       this.selectedProduct = product;
       this.priceError = 'El producto tiene un precio de venta inválido.';
       this.changeDetectorRef.markForCheck();
       return;
     }
+  }
 
-    this.selectedProduct = product;
-    this.priceLoading = false;
-    this.priceError = '';
+  this.selectedProduct = product;
+  this.priceLoading = false;
+  this.priceError = '';
 
-    const existingItem = this.venta.items.find(
-      item => item.productoId === product.id
-    );
+  const existingItem = this.venta.items.find(
+    item => item.productoId === product.id
+  );
 
-    if (existingItem) {
+  if (existingItem) {
+    if (!existingItem.precioVariable) {
       existingItem.cantidad += 1;
       existingItem.subtotal =
         existingItem.cantidad * existingItem.precioUnitario;
-    } else {
-      this.venta.items.push({
-        productoId: product.id,
-        codigo: product.codigo,
-        nombre: product.nombre,
-        cantidad: 1,
-        precioUnitario: precioVenta,
-        subtotal: precioVenta
-      });
     }
-
-    this.actualizarVenta();
+  } else {
+    this.venta.items.push({
+      productoId: product.id,
+      codigo: product.codigo,
+      nombre: product.nombre,
+      cantidad: 1,
+      precioUnitario: precioVariable ? 0 : precioVenta,
+      subtotal: precioVariable ? 0 : precioVenta,
+      precioVariable
+    });
   }
+
+  this.actualizarVenta();
+}
 
   iniciarOperador(): void {
     const dialogRef = this.dialog.open(
@@ -261,7 +283,10 @@ export class PosComponent implements OnDestroy, OnInit {
       observacion: 'Venta POS',
       detalles: this.venta.items.map(item => ({
         productoId: item.productoId,
-        cantidad: item.cantidad
+        cantidad: item.precioVariable ? 1 : item.cantidad,
+        ...(item.precioVariable
+          ? { precioUnitario: item.precioUnitario }
+          : {})
       }))
     };
 
@@ -507,21 +532,34 @@ export class PosComponent implements OnDestroy, OnInit {
             return;
           }
 
+          const productPos: ProductPos = {
+          id: product.id,
+          codigo: product.codigo,
+          codigoBarras: product.codigoBarras,
+          nombre: product.nombre,
+          categoriaId: product.categoriaId,
+          categoriaNombre: product.categoriaNombre,
+          tipoProducto: product.tipoProducto,
+          precioVenta: product.precioVenta,
+          imagen: product.imagen,
+          precioVariable: product.precioVariable
+        };
+
           if (!this.operadorActivo) {
-            this.productCatalog.showScannedProduct(product);
-            this.selectedProduct = product;
+            this.productCatalog.showScannedProduct(productPos);
+            this.selectedProduct = productPos;
             this.changeDetectorRef.markForCheck();
             return;
           }
 
           if (!this.escaneoAgregaVenta) {
-            this.productCatalog.showScannedProduct(product);
-            this.selectedProduct = product;
+            this.productCatalog.showScannedProduct(productPos);
+            this.selectedProduct = productPos;
             this.changeDetectorRef.markForCheck();
             return;
           }
 
-          this.onProductSelected(product);
+          this.onProductSelected(productPos);
         },
 
         error: error => {
@@ -579,6 +617,27 @@ export class PosComponent implements OnDestroy, OnInit {
         this.notificationService.warning( 'La venta fue registrada, pero no se pudo imprimir el recibo.' );
       }
     });
+  }
+
+  cambiarPrecioVariable(
+    item: SaleItemPos,
+    valor: number | string
+  ): void {
+    if (!this.operadorActivo || !item.precioVariable) {
+      return;
+    }
+
+    const precio = Number(valor);
+
+    item.cantidad = 1;
+    item.precioUnitario =
+      valor === '' || !Number.isFinite(precio) || precio < 0
+        ? 0
+        : precio;
+
+    item.subtotal = item.precioUnitario;
+
+    this.actualizarVenta();
   }
 
 }

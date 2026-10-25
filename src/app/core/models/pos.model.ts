@@ -5,6 +5,7 @@ export interface SaleItemPos {
   cantidad: number;
   precioUnitario: number;
   subtotal: number;
+  precioVariable: boolean;
 }
 
 export interface VentaPos {
@@ -21,4 +22,5 @@ export interface ProductPos {
   tipoProducto: string;
   precioVenta: number | null;
   imagen: string | null;
+  precioVariable: boolean;
 }

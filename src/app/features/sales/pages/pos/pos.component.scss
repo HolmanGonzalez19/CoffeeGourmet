@@ -692,6 +692,15 @@ span {
 
 }
 
+ &__sale-item-controls--variable-price{
+    margin-right: 0;
+    justify-content: center;
+
+    input {
+      width: 71% !important;
+    }
+ }
+
 // ==========================================================
 // SUBTOTAL
 // ==========================================================

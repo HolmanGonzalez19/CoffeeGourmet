@@ -1,6 +1,7 @@
 export interface CreateSaleDetailRequest {
   productoId: number;
   cantidad: number;
+  precioUnitario?: number;
 }
 
 export interface CreateSaleRequest {

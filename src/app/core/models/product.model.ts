@@ -14,6 +14,7 @@ export interface Product {
   fechaCreacion: string;
   fechaActualizacion: string;
   imagen: string | null;
+  precioVariable: boolean;
 }
 
 export interface ProductTypes{
